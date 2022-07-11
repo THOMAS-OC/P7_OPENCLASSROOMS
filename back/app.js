@@ -8,6 +8,7 @@ const commentController = require("./controllers/commentController")
 const userController = require("./controllers/userController")
 const multer = require("multer")
 const upload = multer({dest: 'images/'})
+const bcrypt = require("bcrypt")
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -18,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to API groupomania" });
 });
+
+// CREATE USER
+app.post('/api/user/add', userController.createUser)
 
 // READ USER DATA
 app.get('/api/user/:id', userController.readUser)
