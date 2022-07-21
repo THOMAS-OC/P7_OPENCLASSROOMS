@@ -1,6 +1,5 @@
 const connection = require("../db")
 
-
 // READ ALL POSTS
 const readAllPosts = (req, res) => {
     connection.query(
@@ -13,7 +12,6 @@ const readAllPosts = (req, res) => {
 }
 
 // READ ONE POST
-
 const readOnePost = (req, res) => {
     let idArticle = req.params.id
     connection.query(
@@ -26,7 +24,6 @@ const readOnePost = (req, res) => {
 }
 
 // CREATE POST
-
 const createPost = (req, res) => {
     console.log(req.file);
     let idUser = req.params.userId
@@ -42,6 +39,11 @@ const createPost = (req, res) => {
     );
 }
 
+// CREATE POST
+const updatePost = (req, res) => {
+    res.json({message : "Mise à jour du post"})
+}
+
 // DELETE POST
 const deletePost = (req, res) => {
     let idPost = req.params.idPost
@@ -55,8 +57,9 @@ const deletePost = (req, res) => {
 }
 
 module.exports = { 
+    createPost,
     readAllPosts,
     readOnePost,
-    createPost,
+    updatePost,
     deletePost
 }

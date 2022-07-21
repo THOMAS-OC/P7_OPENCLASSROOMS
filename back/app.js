@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const dotenv = require("dotenv")
 dotenv.config()
 const connection = require("./db.js")
-const postController = require("./controllers/postController")
-const commentController = require("./controllers/commentController")
-const userController = require("./controllers/userController")
+
 const multer = require("multer")
 const upload = multer({dest: 'images/'})
 const bcrypt = require("bcrypt")
@@ -19,6 +18,21 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to API groupomania" });
 });
+
+// IMPORT ROUTEUR
+const postRoute = require('./routes/postRoute');
+const loginRoute = require('./routes/loginRoute');
+const commentRoute = require('./routes/commentRoute')
+const userRoute = require('./routes/userRoute')
+
+// Middleware route post
+  app.use('/api/post', postRoute)
+// Middleware route login
+  app.use('/api/auth', loginRoute)
+// Middleware route comment
+  app.use('/api/comment', commentRoute)
+// Middleware route comment
+  app.use('/api/user', userRoute)
 
 // CREATE USER
 app.post('/api/user/add', userController.createUser)
@@ -42,24 +56,11 @@ app.post("/api/article/:userId", upload.single('nameImage'), postController.crea
 app.delete("/api/article/:idPost", postController.deletePost);
 
 // CREAT COMMENT
-app.post("/api/article/comment/:idPost/:userId", (req, res) => {
-    let idPost = req.params.idPost
-    let idUser = req.params.userId
-    let content = req.body.content
-
-    connection.query(
-        `INSERT INTO commentaires (ID, content, post_id, user_id) VALUES (NULL, "${content}", ${idPost}, ${idUser})`,
-        function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(err);
-            res.json(results)
-        }
-    );
-});
-
+app.post("/api/article/comment/:idPost/:userId", commentController.createComment);
 
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(3000, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
