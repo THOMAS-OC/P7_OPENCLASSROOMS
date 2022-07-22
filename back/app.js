@@ -34,30 +34,6 @@ const userRoute = require('./routes/userRoute')
 // Middleware route comment
   app.use('/api/user', userRoute)
 
-// CREATE USER
-app.post('/api/user/add', userController.createUser)
-
-// READ USER DATA
-app.get('/api/user/:id', userController.readUser)
-
-// DELETE USER
-app.delete('/api/user/:id', userController.deleteUser)
-
-// READ ALL POSTS
-app.get("/api/articles", postController.readAllPosts )
-
-// READE ONE POST
-app.get("/api/article/:id", postController.readOnePost);
-
-// CREAT POST
-app.post("/api/article/:userId", upload.single('nameImage'), postController.createPost);
-
-// DELETE POST
-app.delete("/api/article/:idPost", postController.deletePost);
-
-// CREAT COMMENT
-app.post("/api/article/comment/:idPost/:userId", commentController.createComment);
-
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,28 +1,5 @@
 const connection = require("../db")
 
-// READ ALL POSTS
-const readAllPosts = (req, res) => {
-    connection.query(
-        `SELECT * FROM posts`,
-        function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
-        }
-    );
-}
-
-// READ ONE POST
-const readOnePost = (req, res) => {
-    let idArticle = req.params.id
-    connection.query(
-        `SELECT * FROM posts WHERE id = ${idArticle}`,
-        function(err, results, fields) {
-            console.log(results[0]); // results contains rows returned by server
-            res.json(results[0])
-        }
-    );
-}
-
 // CREATE POST
 const createPost = (req, res) => {
     console.log(req.file);
@@ -39,7 +16,30 @@ const createPost = (req, res) => {
     );
 }
 
-// CREATE POST
+// READ ALL POSTS
+const readAllPosts = (req, res) => {
+    connection.query(
+        `SELECT * FROM posts`,
+        function(err, results, fields) {
+            console.log(results); // results contains rows returned by server
+            res.json(results)
+        }
+    );
+}
+
+// READ ONE POST
+const readOnePost = (req, res) => {
+    let idPost = req.params.id
+    connection.query(
+        `SELECT * FROM posts WHERE id = ${idPost}`,
+        function(err, results, fields) {
+            console.log(results[0]); // results contains rows returned by server
+            res.json(results[0])
+        }
+    );
+}
+
+// UPDATE POST
 const updatePost = (req, res) => {
     res.json({message : "Mise à jour du post"})
 }

@@ -2,9 +2,6 @@ const connection = require("../db")
 const bcrypt = require("bcrypt")
 
 const createUser = (req, res) =>{
-    let nom = req.body.nom
-    let prenom = req.body.prenom
-    let age = req.body.age
     let email = req.body.email
     let password = req.body.password
 
@@ -25,7 +22,7 @@ const createUser = (req, res) =>{
                 .then(hash => {
                     console.log(hash);
                     connection.query(
-                        `INSERT INTO users (email, password, nom, prenom, age, ID) VALUES ('${email}', '${hash}', '${nom}', '${prenom}', '${age}', NULL)`,
+                        `INSERT INTO users (email, password, ID) VALUES ('${email}', '${hash}', NULL)`,
                         function(err, results, fields) {
                             console.log(results);
                             res.json({message : "Utilisateur crée"})
@@ -41,7 +38,7 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
-
+    res.json({message : "Utilisateur connecté"})
 }
 
 module.exports = { 
