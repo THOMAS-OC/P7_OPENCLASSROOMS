@@ -3,15 +3,15 @@ const router = express.Router()
 const controller = require('../controllers/commentController')
 
 // CREATE : testé et ok
-router.post('/create/:postId/:userId', controller.createComment)
+router.post('/:postId/:userId', controller.createComment)
 
 // READ : testé et ok
-router.get('/read/:postId', controller.readComment)
+router.get('/:postId', controller.readComment)
 
 // UPDATE : testé et ok
-router.put('/update/:commentId', controller.updateComment)
+router.put('/:commentId', controller.updateComment)
 
 // DELETE : testé et ok
-router.delete('/delete/:commentId', controller.deleteComment)
+router.delete('/:commentId', controller.deleteComment)
 
 module.exports = router;

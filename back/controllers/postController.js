@@ -21,17 +21,37 @@ const addLike = (req, res) => {
     let userId = req.body.userId
     let postId = req.body.postId
     let valueLike = req.body.value
+
     connection.query(
-        `INSERT INTO likes (post_id, user_id, ID, VALUE) VALUES (${postId}, ${userId}, NULL, ${valueLike});`,
+        `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
         function(err, results, fields) {
-            if (valueLike == 1){
-                res.status(200).json({message : "Like"})
+            if(results[0]){
+                res.status(409).json({message: "Like existant"})
             }
             else {
-                res.status(200).json({message : "Dislike"})
+                connection.query(
+                    `INSERT INTO likes (post_id, user_id, ID, VALUE) VALUES (${postId}, ${userId}, NULL, ${valueLike});`,
+                    function(err, results, fields) {
+                        if (err) {
+                            res.json(err)
+                        }
+
+                        else {
+                            if (valueLike == 1){
+                                res.status(200).json({message : "Like"})
+                            }
+                            else {
+                                res.status(200).json({message : "Dislike"})
+                            }
+                        }
+
+                    }
+                );
             }
         }
     );
+
+
 }
 
 
@@ -39,7 +59,7 @@ const addLike = (req, res) => {
 // READ ALL POSTS : testé et ok
 const readAllPosts = (req, res) => {
     connection.query(
-        `SELECT * FROM posts`,
+        `SELECT posts.ID, date, picture, content, comment FROM posts JOIN commentaires ON posts.ID = commentaires.post_id`,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
             res.json(results)
@@ -51,10 +71,10 @@ const readAllPosts = (req, res) => {
 const readOnePost = (req, res) => {
     let postId = req.params.postId
     connection.query(
-        `SELECT * FROM posts WHERE id = ${postId}`,
+        `SELECT posts.ID, date, picture, content, comment FROM posts JOIN commentaires ON posts.ID = commentaires.post_id WHERE posts.ID = ${postId}`,
         function(err, results, fields) {
-            console.log(results[0]); // results contains rows returned by server
-            res.json(results[0])
+            console.log(results); // results contains rows returned by server
+            res.json(results)
         }
     );
 }

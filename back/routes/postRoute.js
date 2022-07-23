@@ -9,10 +9,10 @@ router.post('/', controller.createPost)
 // SYSTEME DE LIKE
 
 // Ajout d'un like ou d'un dislike : testé et ok
-router.post('/addLike', controller.addLike)
+router.post('/addlike', controller.addLike)
 
 // Suppression d'un like ou d'un dislike : testé et ok
-router.delete('/deleteLike', controller.deleteLike) 
+router.delete('/deletelike', controller.deleteLike) 
 
 // READ : testé et ok
 router.get('/', controller.readAllPosts)

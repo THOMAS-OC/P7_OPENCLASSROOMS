@@ -2,10 +2,13 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/userController')
 
-// READ
+// READ INFORMATIONS : testé et ok
 router.get('/', controller.readUser)
 
-// DELETE
+// READ INFORMATIONS : testé et ok
+router.put('/', controller.updateUser)
+
+// DELETE USER : testé et ok
 router.delete('/', controller.deleteUser)
 
 
