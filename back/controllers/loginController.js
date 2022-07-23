@@ -13,7 +13,7 @@ const createUser = (req, res) =>{
             if (results[0]){
                 userExist = true
                 console.log("Utilisateur existant");
-                res.json({message: "Utilisateur déjà existant"})
+                res.json(userExist)
             }
             else {
                 console.log("Utilisateur inexistant");
@@ -38,7 +38,14 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
-    res.json({message : "Utilisateur connecté"})
+
+    connection.query(
+        `SELECT * FROM users WHERE email = "${req.body.email}"`,
+        function(err, results, fields) {
+            console.log(results);
+        }
+    );
+
 }
 
 module.exports = { 
