@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/userController')
 
-// CREATE
-router.post('/create', controller.readUser)
+// READ
+router.get('/', controller.readUser)
 
 // DELETE
-router.delete('/read', controller.deleteUser)
+router.delete('/', controller.deleteUser)
 
 
 module.exports = router;

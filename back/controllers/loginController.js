@@ -1,6 +1,7 @@
 const connection = require("../db")
 const bcrypt = require("bcrypt")
 
+// CREATE : testé et ok
 const createUser = (req, res) =>{
     let email = req.body.email
     let password = req.body.password
@@ -11,13 +12,11 @@ const createUser = (req, res) =>{
         `SELECT ID FROM users WHERE email = '${email}'`,
         function(err, results, fields) {
             if (results[0]){
-                userExist = true
                 console.log("Utilisateur existant");
-                res.json(userExist)
+                res.json({userExist : true})
             }
             else {
                 console.log("Utilisateur inexistant");
-                userExist = false
                 bcrypt.hash(password, 5)
                 .then(hash => {
                     console.log(hash);
@@ -25,7 +24,7 @@ const createUser = (req, res) =>{
                         `INSERT INTO users (email, password, ID) VALUES ('${email}', '${hash}', NULL)`,
                         function(err, results, fields) {
                             console.log(results);
-                            res.json({message : "Utilisateur crée"})
+                            res.json({userCreate : True})
                         }
                     )
                 })

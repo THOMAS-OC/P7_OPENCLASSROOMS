@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/loginController')
 
-// CREATE
+// CREATE ACCOUNT testé et ok
 router.post('/signUp', controller.createUser)
 
 // READ
