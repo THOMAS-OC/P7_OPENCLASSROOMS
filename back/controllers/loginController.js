@@ -42,7 +42,24 @@ const loginUser = (req, res) => {
     connection.query(
         `SELECT * FROM users WHERE email = "${req.body.email}"`,
         function(err, results, fields) {
-            console.log(results);
+            if(results[0]) {
+                const userInDb = results[0]
+                console.log("Utilisateur trouvé !");
+                bcrypt.compare(req.body.password, userInDb.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
+                    }
+                    res.status(200).json({
+                        message : "Utilisateur connecté"
+                    });
+                })
+
+                
+            }
+            else {
+                res.status(401).json({message: "Utilisateur introuvable"})
+            }
         }
     );
 
