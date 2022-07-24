@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 
 // CREATE : testé et ok
 const createUser = (req, res) =>{
+    console.log(req.body);
     let email = req.body.email
     let password = req.body.password
     let name = req.body.name

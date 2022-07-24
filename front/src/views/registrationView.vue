@@ -1,16 +1,25 @@
 <template>
   <div class="TheConnection">
+
+    <nav>
+
+      <router-link to="/connect">Connexion</router-link>
+      <router-link to="/register">Inscription</router-link>
+      
+    </nav>
+
     <h1>S'inscrire sur groupomania</h1>
     <form v-on:submit.prevent="connect">
 
         <div>
-            <input type="text" placeholder="Votre prénom" id="firstname">
+            <input type="text" placeholder="Votre Nom" id="name" v-model="name">
+            <input type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
             <input placeholder="Email" type="email" name="" id="email" v-model="email">
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
         
         </div>
             
-        <input type="submit" value="Se connecter">
+        <input type="submit" value="S'inscrire">
 
     </form>
   </div>
@@ -25,42 +34,82 @@ export default {
     return {
         email : "",
         password : "",
+        name : "",
+        firstname : ""
     }
   },
 
   props: {
     msg: String
   },
+
   methods:{
 
     connect(){
 
-      this.$http.post("http://localhost:3000/api/auth/login", {
+      this.$http.post("http://localhost:3000/api/auth/signup", {
+          email : this.email,
           password : this.password,
-          email : this.email
+          name: this.name,
+          firstname : this.firstname
       })
       .then(response => {
         console.log("okay");
-          console.log(response);
-      })
-      .catch(error => {
-        if(error.response.data.message == "Utilisateur introuvable"){
-          alert("redirection page d'inscription")
+        if(response.data.userExist){
+            alert("Vous êtes déjà inscrit sur groupomania.fr, redirection vers la page de connexion")
+            this.$router.push("connect")
         }
         else {
-          alert("Votre mot de passe est incorrecte")
+            this.$router.push("home")
         }
+
+      })
+      .catch(error => {
+        console.log(error);
       })
 
     }
 
   }
+
 }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  nav{
+    display: flex;
+    margin: 0px auto;
+    width: 1000px;
+    background-color: rgba(76, 76, 76, 0.603);
+    border: 2px solid white;
+    font-size: 50px;
+    border-radius: 15px;
+    color: white;
+    justify-content: space-around;
+    height: 100px;
+    align-items: center;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    height: 100%;
+    line-height: 100px;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  nav a:hover{
+    background-color: rgba(255, 255, 255, 0.31);
+  }
+
+  .router-link-active{
+    background-color: rgba(255, 255, 255, 0.31);
+  }
 
  form{
     background-image: url("../assets/logo.png");
