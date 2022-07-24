@@ -10,7 +10,10 @@
 export default {
   name: 'HomeView',
   components: {
-  }
+  },
+  created: function () {
+    document.title = "Forum / GROUPOMANIA"
+  },
 }
 </script>
 

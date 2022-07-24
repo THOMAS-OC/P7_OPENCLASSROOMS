@@ -42,6 +42,10 @@ export default {
   props: {
     msg: String
   },
+    
+  created: function () {
+    document.title = "Inscription / GROUPOMANIA"
+  },
 
   methods:{
 

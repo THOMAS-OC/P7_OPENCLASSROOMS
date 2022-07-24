@@ -37,6 +37,11 @@ export default {
   props: {
     msg: String
   },
+
+  created: function () {
+    document.title = "Connexion / GROUPOMANIA"
+  },
+
   methods:{
 
     connect(){

@@ -39,6 +39,10 @@ export default {
     }
   },
 
+  created: function () {
+    document.title = "Mon profil / GROUPOMANIA"
+  },
+
   mounted(){
     this.$http.post("http://localhost:3000/api/user", {
         userId : 7
