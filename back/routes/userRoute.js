@@ -3,7 +3,7 @@ const router = express.Router()
 const controller = require('../controllers/userController')
 
 // READ INFORMATIONS : testé et ok
-router.get('/', controller.readUser)
+router.post('/', controller.readUser)
 
 // READ INFORMATIONS : testé et ok
 router.put('/', controller.updateUser)

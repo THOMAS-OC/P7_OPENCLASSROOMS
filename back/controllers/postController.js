@@ -56,22 +56,43 @@ const addLike = (req, res) => {
 
 
 
-// READ ALL POSTS : testé et ok
+// READ ALL POSTS : METHODE 1
 const readAllPosts = (req, res) => {
+    let bddFront = []
+    let listUsersLiked = []
+    let listUsersDislked = []
+
+    let idsPosts = []
     connection.query(
-        `SELECT posts.ID, date, picture, content, comment FROM posts JOIN commentaires ON posts.ID = commentaires.post_id`,
+        // ETAPE 1 RECUPERATION DES IDS
+        `SELECT ID, date, picture, content FROM posts`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
+            for (let details of results) {
+                idsPosts.push(details.ID);
+                const obj = {
+                    id: details.ID,
+                    date: details.date,
+                    picture : details.picture,
+                    content : details.content
+                };
+                bddFront.push(obj)
+            }
+            console.log(bddFront);
+            console.log(idsPosts); // results contains rows returned by server
+            // ETAPE 2 RECUPERATION DES LIKES ET DISLIKES
+
+
         }
     );
+    console.log("test");
+    res.json("test")
 }
 
-// READ ONE POST : testé et ok
+// READ ALL POST METHOD 2
 const readOnePost = (req, res) => {
     let postId = req.params.postId
     connection.query(
-        `SELECT posts.ID, date, picture, content, comment FROM posts JOIN commentaires ON posts.ID = commentaires.post_id WHERE posts.ID = ${postId}`,
+        `SELECT posts.ID, date, picture, content, name, firstname, comment FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN users ON posts.user_id = users.ID `,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
             res.json(results)

@@ -3,9 +3,10 @@ const bcrypt = require("bcrypt")
 
 // READ INFORMATIONS : testé et ok
 const readUser = (req, res) => {
+    console.log("tset");
     let userId = req.body.userId
     connection.query(
-        `SELECT email, password FROM users WHERE id = ${userId}`,
+        `SELECT email, name, firstname FROM users WHERE id = ${userId}`,
         function(err, results, fields) {
             console.log(results[0]); // results contains rows returned by server
             res.json(results[0])
@@ -22,7 +23,7 @@ const updateUser = (req, res) => {
         connection.query(
             `UPDATE users SET email = "${newEmail}", password = "${newPassword}" WHERE users.ID = ${userId}`,
             function(err, results, fields) {
-                res.json({message : "Email et mot de passe mis à jour"})
+                res.json({message : "Votre email et votre mot de passe ont bien été mis à jour"})
             }
         );
     }
@@ -32,7 +33,7 @@ const updateUser = (req, res) => {
         connection.query(
             `UPDATE users SET email = "${newEmail}" WHERE users.ID = ${userId}`,
             function(err, results, fields) {
-                res.json({message : "Email mis à jour"})
+                res.json({message : "Votre email a bien été mis à jour"})
             }
         );
     }
@@ -42,7 +43,7 @@ const updateUser = (req, res) => {
         connection.query(
             `UPDATE users SET password = "${newPassword}" WHERE users.ID = ${userId}`,
             function(err, results, fields) {
-                res.json({message : "Mot de passe mis à jour"})
+                res.json({message : "Votre mot de passe a bien été mis à jour"})
             }
         );
     }
