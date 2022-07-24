@@ -1,6 +1,6 @@
 <template>
   <div class="connect">
-    <h1>Bienvenu sur la page de connexion</h1>
+    <h1>S'AUTHENTIFIER</h1>
     <the-connection></the-connection>
   </div>
 </template>

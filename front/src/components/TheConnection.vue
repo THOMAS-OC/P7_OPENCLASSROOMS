@@ -1,15 +1,15 @@
 <template>
   <div class="TheConnection">
-    <form action="">
+    <form v-on:submit.prevent="connect">
 
-            <div>
-                <input placeholder="Email" type="email" name="" id="email">
+        <div>
 
-                <input placeholder="Password" type="email" name="" id="password">
-            </div>
-            <a href="home.html">
-                <input type="submit" value="Se connecter">
-            </a>
+            <input placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input placeholder="Password" type="email" name="" id="password" v-model="password">
+        
+        </div>
+            
+        <input type="submit" value="Se connecter">
 
     </form>
   </div>
@@ -19,11 +19,38 @@
 
 export default {
   name: 'TheConnection',
+
+  data(){
+    return {
+        email : "",
+        password : "",
+    }
+  },
+
   props: {
     msg: String
+  },
+  methods:{
+
+    connect(){
+
+      this.$http.post("http://localhost:3000/api/user", {
+          userId : 7
+      })
+      .then(response => {
+          console.log(response.data);
+          this.email = response.data.email
+          this.name = response.data.name
+          this.firstname = response.data.firstname
+          console.log(this.name);
+      })
+      .catch(error => console.log(error))
+
+    }
+
+
   }
 }
-
 
 </script>
 
