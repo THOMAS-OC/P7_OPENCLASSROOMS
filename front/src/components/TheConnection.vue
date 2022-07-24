@@ -5,7 +5,7 @@
         <div>
 
             <input placeholder="Email" type="email" name="" id="email" v-model="email">
-            <input placeholder="Password" type="email" name="" id="password" v-model="password">
+            <input placeholder="Password" type="password" name="" id="password" v-model="password">
         
         </div>
             
@@ -34,20 +34,16 @@ export default {
 
     connect(){
 
-      this.$http.post("http://localhost:3000/api/user", {
-          userId : 7
+      this.$http.post("http://localhost:3000/api/auth/login", {
+          password : this.password,
+          email : this.email
       })
       .then(response => {
           console.log(response.data);
-          this.email = response.data.email
-          this.name = response.data.name
-          this.firstname = response.data.firstname
-          console.log(this.name);
       })
       .catch(error => console.log(error))
 
     }
-
 
   }
 }

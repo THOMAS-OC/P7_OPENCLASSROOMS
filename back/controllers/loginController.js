@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt")
 const createUser = (req, res) =>{
     let email = req.body.email
     let password = req.body.password
+    let name = req.body.name
+    let firstname = req.body.firstname
 
     let userExist = false
 
@@ -21,10 +23,13 @@ const createUser = (req, res) =>{
                 .then(hash => {
                     console.log(hash);
                     connection.query(
-                        `INSERT INTO users (email, password, ID) VALUES ('${email}', '${hash}', NULL)`,
+                        `INSERT INTO users (name, firstname, email, password, ID) VALUES ('${name}', '${firstname}', '${email}', '${hash}', NULL)`,
                         function(err, results, fields) {
+                            if (err){
+                                console.log(err);
+                            }
                             console.log(results);
-                            res.json({userCreate : True})
+                            res.json({userCreate : true})
                         }
                     )
                 })
@@ -37,7 +42,7 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
-
+    console.log("test");
     connection.query(
         `SELECT * FROM users WHERE email = "${req.body.email}"`,
         function(err, results, fields) {
