@@ -42,7 +42,6 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
-    console.log("test");
     connection.query(
         `SELECT * FROM users WHERE email = "${req.body.email}"`,
         function(err, results, fields) {
@@ -53,7 +52,7 @@ const loginUser = (req, res) => {
                     if (!valid) {
                         return res.status(401).json({message: 'Paire login/mot de passe incorrecte'});
                     }
-                    res.status(200).json({message : "Utilisateur connecté"});
+                    res.status(200).json({message : "connected"});
                 })
 
                 

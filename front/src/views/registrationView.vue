@@ -1,9 +1,10 @@
 <template>
   <div class="TheConnection">
+    <h1>S'inscrire sur groupomania</h1>
     <form v-on:submit.prevent="connect">
 
         <div>
-
+            <input type="text" placeholder="Votre prénom" id="firstname">
             <input placeholder="Email" type="email" name="" id="email" v-model="email">
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
         
@@ -39,9 +40,17 @@ export default {
           email : this.email
       })
       .then(response => {
-          console.log(response.data);
+        console.log("okay");
+          console.log(response);
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        if(error.response.data.message == "Utilisateur introuvable"){
+          alert("redirection page d'inscription")
+        }
+        else {
+          alert("Votre mot de passe est incorrecte")
+        }
+      })
 
     }
 
