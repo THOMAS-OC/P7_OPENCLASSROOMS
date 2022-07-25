@@ -8,17 +8,19 @@
 
     <h2>{{ name }} {{ firstname }}</h2>
 
-    <form action="">
+    <form v-on:submit.prevent="updateUser">
         
-    <div>
-        <label for="email">Email</label>
-        <input v-on:keyup="watchEmail" type="email" name="email" id="email" v-model="email">
-    </div>
-    <div>
-        <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
-        <input v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
-    </div>
+        <div>
+            <label for="email">Email</label>
+            <input v-on:keyup="watchEmail" type="email" name="email" id="email" v-model="email">
+        </div>
+        <div>
+            <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
+            <input v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
+        </div>
+
         <input type="submit" v-bind:value="action">
+
     </form>
 
   </div>
@@ -35,7 +37,8 @@ export default {
         name : "",
         firstname : "",
         password : "",
-        action : "Modifier mon email"
+        action : "Modifier mon email",
+        authorization : false
     }
   },
 
@@ -65,22 +68,26 @@ export default {
         if (this.email.trim() && this.password.trim()){
             this.action = "Modifier mon email et mon mot de passe"
             document.querySelector("input[type='submit'").className = "submit-on"
+            this.authorization = true
 
         }
 
         else if (this.password.trim()){
             this.action = "Modifier mon mot de passe"
             document.querySelector("input[type='submit'").className = "submit-on"
+            this.authorization = true
         }
 
         else if (this.email.trim()){
             this.action = "Modifier mon email"
             document.querySelector("input[type='submit'").className = "submit-on"
+            this.authorization = true
         }
 
         else if (!this.email && !this.password){
             this.action = "Modification impossible"
             document.querySelector("input[type='submit'").className = "submit-off"
+            this.authorization = false
         }
 
     },
@@ -91,6 +98,7 @@ export default {
         console.log(passwordAnalyze);
         if (this.password.match(passwordRegex)){
             this.actionType()
+            this.authorization = true
             document.querySelector("input[type='password'").className = "valid"
         }
         else if (!this.password){
@@ -99,18 +107,21 @@ export default {
         else {
             this.actionType()
             this.action = "Modification impossible"
+            this.authorization = false
             document.querySelector("input[type='password'").className = "invalid"
             document.querySelector("input[type='submit'").className = "submit-off"
             document.querySelector("input[type='submit'").setAttribute("disabled")
         }
 
     },
+
     watchEmail(){
         console.log(this.email);
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (this.email.match(emailRegex)){
             this.actionType()
+            this.authorization = true
             document.querySelector("input[type='email'").className = "valid"
         }
         else if (!this.email){
@@ -118,12 +129,32 @@ export default {
         }
         else {
             this.actionType()
+            this.authorization = false
             this.action = "Modification impossible"
             document.querySelector("input[type='email'").className = "invalid"
             document.querySelector("input[type='submit'").className = "submit-off"
             document.querySelector("input[type='submit'").setAttribute("disabled")
         }
     },
+
+    updateUser(){
+        if (this.authorization){
+            this.$http.put("http://localhost:3000/api/user", {
+                newEmail : this.email,
+                newPassword : this.password,
+                userId : 12
+            })
+            .then(response => {
+                alert(response.data.message);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
+        else {
+            alert("Champs mal renseignés")
+        }
+    }
 
   }
 
