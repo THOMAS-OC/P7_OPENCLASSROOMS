@@ -45,7 +45,7 @@ export default {
 
   mounted(){
     this.$http.post("http://localhost:3000/api/user", {
-        userId : 7
+        userId : 12
     })
     .then(response => {
         console.log(response.data);

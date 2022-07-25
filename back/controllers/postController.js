@@ -59,18 +59,16 @@ const addLike = (req, res) => {
 // READ ALL POSTS : METHODE 1
 const readAllPosts = (req, res) => {
     let bddFront = []
-    let listUsersLiked = []
-    let listUsersDislked = []
-
     let idsPosts = []
     connection.query(
         // ETAPE 1 RECUPERATION DES IDS
-        `SELECT ID, date, picture, content FROM posts`,
+        `SELECT ID, user_id, date, picture, content FROM posts`,
         function(err, results, fields) {
             for (let details of results) {
                 idsPosts.push(details.ID);
                 const obj = {
                     id: details.ID,
+                    user_id : details.user_id,
                     date: details.date,
                     picture : details.picture,
                     content : details.content
@@ -78,14 +76,12 @@ const readAllPosts = (req, res) => {
                 bddFront.push(obj)
             }
             console.log(bddFront);
-            console.log(idsPosts); // results contains rows returned by server
+            console.log(idsPosts); 
+            res.json(bddFront)
+            // results contains rows returned by server
             // ETAPE 2 RECUPERATION DES LIKES ET DISLIKES
-
-
         }
     );
-    console.log("test");
-    res.json("test")
 }
 
 // READ ALL POST METHOD 2
