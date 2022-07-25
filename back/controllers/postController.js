@@ -62,12 +62,14 @@ const readAllPosts = (req, res) => {
     let idsPosts = []
     connection.query(
         // ETAPE 1 RECUPERATION DES IDS
-        `SELECT ID, user_id, date, picture, content FROM posts`,
+        `SELECT posts.ID, posts.user_id, date, picture, content, name, firstname FROM posts JOIN users ON posts.user_id = users.ID`,
         function(err, results, fields) {
+            console.log(results);
             for (let details of results) {
                 idsPosts.push(details.ID);
                 const obj = {
                     id: details.ID,
+                    name: details.name + " " + details.firstname,
                     user_id : details.user_id,
                     date: details.date,
                     picture : details.picture,

@@ -3,7 +3,7 @@
     <h1>Bienvenu sur le forum de Groupomania</h1>
 
     <article v-for="post in posts" :key="post.id">
-      <the-post :authorPost="post.id" :contentPost="post.content" :datePost="post.date"></the-post>
+      <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date"></the-post>
     </article>
 
   </div>
