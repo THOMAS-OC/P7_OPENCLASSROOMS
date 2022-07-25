@@ -30,12 +30,16 @@ export default {
   mounted() { 
 
     console.log('Je suis monté sur le DOM!')
+    let idsArticles = document.querySelectorAll(".id")
+    idsArticles.forEach(article => {
+      console.log(article.innerText);
+    })
     this.$http.get("http://localhost:3000/api/comment/" + document.querySelector(".id").innerText)
     .then(response => {
 
-      console.log(response["data"]);
+
       for (let comment of response["data"]){
-        console.log(comment.comment);
+
         let newComment = document.createElement("p")
         newComment.innerText = comment.comment
         document.querySelector("section").appendChild(newComment)

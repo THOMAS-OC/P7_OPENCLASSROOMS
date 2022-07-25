@@ -15,7 +15,7 @@
         <input v-on:keyup="watchEmail" type="email" name="email" id="email" v-model="email">
     </div>
     <div>
-        <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un caractère spécial sont requis pour ce champs </span> </label>
+        <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
         <input v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
     </div>
         <input type="submit" v-bind:value="action">
@@ -39,6 +39,7 @@ export default {
     }
   },
 
+  // Modification de balise title  
   created: function () {
     document.title = "Mon profil / GROUPOMANIA"
   },
@@ -60,34 +61,68 @@ export default {
   methods:{
 
     actionType(){
+
         if (this.email.trim() && this.password.trim()){
             this.action = "Modifier mon email et mon mot de passe"
+            document.querySelector("input[type='submit'").className = "submit-on"
+
         }
+
         else if (this.password.trim()){
             this.action = "Modifier mon mot de passe"
+            document.querySelector("input[type='submit'").className = "submit-on"
         }
+
         else if (this.email.trim()){
             this.action = "Modifier mon email"
+            document.querySelector("input[type='submit'").className = "submit-on"
         }
+
+        else if (!this.email && !this.password){
+            this.action = "Modification impossible"
+            document.querySelector("input[type='submit'").className = "submit-off"
+        }
+
     },
 
     watchPassword(){
         let passwordAnalyze = this.password.split("")
+        let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
         console.log(passwordAnalyze);
-        if (passwordAnalyze.length > 7){
+        if (this.password.match(passwordRegex)){
             this.actionType()
             document.querySelector("input[type='password'").className = "valid"
+        }
+        else if (!this.password){
+            this.actionType()
         }
         else {
             this.actionType()
             this.action = "Modification impossible"
             document.querySelector("input[type='password'").className = "invalid"
+            document.querySelector("input[type='submit'").className = "submit-off"
+            document.querySelector("input[type='submit'").setAttribute("disabled")
         }
 
     },
     watchEmail(){
         console.log(this.email);
-        this.actionType()
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if (this.email.match(emailRegex)){
+            this.actionType()
+            document.querySelector("input[type='email'").className = "valid"
+        }
+        else if (!this.email){
+            this.actionType()
+        }
+        else {
+            this.actionType()
+            this.action = "Modification impossible"
+            document.querySelector("input[type='email'").className = "invalid"
+            document.querySelector("input[type='submit'").className = "submit-off"
+            document.querySelector("input[type='submit'").setAttribute("disabled")
+        }
     },
 
   }
@@ -169,7 +204,9 @@ export default {
     }
 
     input[type="submit"]{
-        cursor: pointer;
+        font-weight: bold;
+        font-style: italic;
+        font-size: 20px;
     }
 
     span{
@@ -184,5 +221,15 @@ export default {
     /* champs non valide */
     .invalid{
         border-color: red;
+    }
+    /* submit valid */
+    .submit-on{
+        cursor: pointer;
+        background-color: rgb(93, 255, 93);
+    }
+    /* submit no valid */
+    .submit-off {
+        cursor: not-allowed;
+        background-color: rgb(255, 141, 141);
     }
 </style>
