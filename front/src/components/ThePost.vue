@@ -4,6 +4,12 @@
       <h2>{{authorPost}}</h2>
       <p>{{contentPost}}</p>
       <small>{{datePost}}</small>
+      <small class="id">{{postId}} </small>
+      <button v-on:click="readComments()">READ</button>
+      <section>
+
+
+      </section>
     </article>
   </div>
 </template>
@@ -12,9 +18,33 @@
 export default {
   name: 'ThePost',
 
-  props: ["datePost", "authorPost", "contentPost", "picturePost"],
+  data(){
+    return {
+      commentaires : [],
+    }
+  },
 
-  
+  props: ["datePost", "authorPost", "contentPost", "picturePost", "postId"],
+
+
+  mounted() { 
+
+    console.log('Je suis monté sur le DOM!')
+    this.$http.get("http://localhost:3000/api/comment/" + document.querySelector(".id").innerText)
+    .then(response => {
+
+      console.log(response["data"]);
+      for (let comment of response["data"]){
+        console.log(comment.comment);
+        let newComment = document.createElement("p")
+        newComment.innerText = comment.comment
+        document.querySelector("section").appendChild(newComment)
+      }
+    })
+    .catch(error => console.log(error))
+    
+  },
+
 }
 </script>
 
@@ -27,6 +57,11 @@ export default {
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
+  }
+
+  article section{
+    border-top: 2px solid red;
+    height: 100px;
   }
 
 </style>

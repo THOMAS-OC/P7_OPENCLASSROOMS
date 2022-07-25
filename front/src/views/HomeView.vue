@@ -4,7 +4,7 @@
 
     <article v-for="post in posts" :key="post.id">
 
-      <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date"></the-post>
+      <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date" :postId="post.id"></the-post>
       <button v-on:click="deletePost(post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
 
     </article>
@@ -33,7 +33,6 @@ export default {
     this.$http.get("http://localhost:3000/api/post")
     .then(response => {
         this.posts = response.data
-        console.log(this.posts);
     })
     .catch(error => console.log(error))
   },
@@ -65,13 +64,13 @@ export default {
 
 <style scoped>
 
+  h2{
+    color: red;
+  }
 
-h2{
-  color: red;
-}
+  button{
+    top: 0;
+    left: 0;
+  }
 
-button{
-  top: 0;
-  left: 0;
-}
 </style>
