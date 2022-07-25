@@ -12,7 +12,8 @@
 export default {
   name: 'ThePost',
 
-  props: ["datePost", "authorPost", "contentPost", "picturePost"]
+  props: ["datePost", "authorPost", "contentPost", "picturePost"],
+
   
 }
 </script>
@@ -20,12 +21,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   article{
+    position: relative;
     margin: 50px auto;
     height: 200px;
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
-
   }
 
 </style>
