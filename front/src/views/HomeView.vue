@@ -2,10 +2,14 @@
   <div class="home">
     <h1>Bienvenu sur le forum de Groupomania</h1>
 
-    <div class="createPost">
+    <div class="btnCreatePost">
       <div></div>
       <div></div>
     </div>
+
+    <!-- <form class="createPost" createPost>
+      <input type="text">
+    </form> -->
 
     <article v-for="post in posts" :key="post.id">
 
@@ -78,41 +82,53 @@ export default {
     left: 0;
   }
 
-  .createPost{
+  /* BOUTTON CREATION DE POSTE */
+
+  .btnCreatePost{
     cursor: pointer;
     margin: 50px auto;
     width: 250px;
     height: 250px;
     border-radius: 50%;
     border: 3px solid #FD2D01;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.601);
     position: relative;
     transition-duration: 0.5s;
   }
 
-  .createPost:hover{
+  .btnCreatePost:hover{
     transform: scale(1.1);
     box-shadow: 0px 0px 30px #FD2D01;
   }
 
-  .createPost:hover div{
-    background-color:#4E5166;
-  }
-
-  .createPost div{
+  .btnCreatePost div{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, 50%) scale(0.8);
-    width: 100px;
-    height: 8px;
-    background-color:#7e7f8a;
+    width: 200px;
+    height: 12px;
+    background-color:#ffffff;
     transition-duration: 1s;
-    border-radius: 5px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px #494949;
   }
 
-  .createPost div:nth-child(2){
+  .btnCreatePost div:nth-child(2){
     transform: translate(-50%, 50%) rotate(90deg) scale(0.8);
   }
+
+  /* FIN BOUTTON CREATION DE POSTE */
+
+  /* FORMULAIRE CREATION DE POSTE */
+
+  .createPost{
+    width: 80vw;
+    height: 500px;
+    background-color: #fff;
+    margin: 50px auto;
+  }
+
+  /* FIN FORMULAIRE CREATION DE POSTE */
 
 </style>
