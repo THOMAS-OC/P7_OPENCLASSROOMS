@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <!-- Affiche conditionnel de la navbar si page connexion ou inscription active -->
-    <nav v-if="this.$router.history.current.name == 'connect' || this.$router.history.current.name == 'register' ">
-
-      <router-link to="/connect">Connexion</router-link>
-      <router-link to="/register">Inscription</router-link>
+    <!-- Affiche conditionnel de la nav de connexion si page connexion ou inscription active -->
+    <template v-if="this.$router.history.current.name == 'connect' || this.$router.history.current.name == 'register' ">
       
-    </nav>
+      <nav-connect> </nav-connect>
+
+    </template>
+
     <transition>
       <router-view/>
     </transition>
   </div>
 </template>
+
+<script>
+import NavConnect from './components/NavConnect'
+
+export default ({
+  components: {
+    NavConnect
+  },
+})
+</script>
+
 
 <style>
 /* nav connexion et inscription */
@@ -44,11 +55,11 @@
     background-color: rgba(255, 255, 255, 0.31);
   }
 
+  .router-link-active{
+      background-color: rgba(255, 255, 255, 0.31);
+  }
 /* FIN nav connexion et inscription */
 
-.router-link-active{
-    background-color: rgba(255, 255, 255, 0.31);
-}
 .v-enter{
   opacity: 0;
   transform: translate(-100vw);
