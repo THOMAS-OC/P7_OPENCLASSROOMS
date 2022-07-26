@@ -8,7 +8,6 @@
       <button v-on:click="readComments()">READ</button>
       <section>
 
-
       </section>
     </article>
   </div>
@@ -21,6 +20,7 @@ export default {
   data(){
     return {
       commentaires : [],
+      test : [1,2,3]
     }
   },
 
@@ -29,15 +29,8 @@ export default {
 
   mounted() { 
 
-    console.log('Je suis monté sur le DOM!')
-    let idsArticles = document.querySelectorAll(".id")
-    idsArticles.forEach(article => {
-      console.log(article.innerText);
-    })
     this.$http.get("http://localhost:3000/api/comment/" + document.querySelector(".id").innerText)
     .then(response => {
-
-
       for (let comment of response["data"]){
 
         let newComment = document.createElement("p")

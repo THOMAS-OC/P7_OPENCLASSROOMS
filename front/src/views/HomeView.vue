@@ -7,9 +7,14 @@
       <div></div>
     </div>
 
-    <!-- <form class="createPost" createPost>
-      <input type="text">
-    </form> -->
+    <form class="createPost" createPost>
+      <input placeholder="Titre" type="text">
+      <textarea placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
+      <input type="file" name="" id="">
+      <input type="submit" value="Poster">
+      <!-- Bouton d'affichage -->
+      <button>X</button>
+    </form>
 
     <article class="post" v-for="post in posts" :key="post.id">
 
@@ -79,10 +84,6 @@ export default {
     color: red;
   }
 
-  button{
-    top: 0;
-    left: 0;
-  }
 
   /* BOUTTON CREATION DE POSTE */
 
@@ -125,10 +126,37 @@ export default {
   /* FORMULAIRE CREATION DE POSTE */
 
   .createPost{
-    width: 80vw;
+    width: 500px;
     height: 500px;
     background-color: #fff;
     margin: 50px auto;
+    border-radius: 15px;
+    border: 2px solid#FD2D01;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 20px;
+    position: relative;
+  }
+
+  .createPost button{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #FD2D01;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  textarea{
+    height: 80%;
+    width: 100%;
   }
 
   /* FIN FORMULAIRE CREATION DE POSTE */
