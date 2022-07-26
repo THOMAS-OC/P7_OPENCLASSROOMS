@@ -6,9 +6,7 @@
       <small>{{datePost}}</small>
       <small class="id">{{postId}} </small>
       <button v-on:click="readComments()">READ</button>
-      <section>
 
-      </section>
     </article>
   </div>
 </template>

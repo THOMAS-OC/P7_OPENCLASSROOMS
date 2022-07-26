@@ -7,21 +7,25 @@
       <div></div>
     </div>
 
-    <form class="createPost formInvisible">
-      <input placeholder="Titre" type="text">
-      <textarea placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
+    <form v-on:submit.prevent="createPost" class="createPost formInvisible">
+      <input required v-model="title" placeholder="Titre" type="text">
+      <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
       <input type="file" name="" id="">
       <input type="submit" value="Poster">
       <!-- Bouton d'affichage -->
-      <button v-on:click="hideForm">X</button>
+      <button v-on:click.prevent="hideForm">X</button>
     </form>
 
-    <article class="post" v-for="post in posts" :key="post.id">
+    <section>
 
-      <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date" :postId="post.id"></the-post>
-      <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
+      <article class="post" v-for="post in posts" :key="post.id">
 
-    </article>
+        <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date" :postId="post.id"></the-post>
+        <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
+
+      </article>
+
+    </section>
 
   </div>
 </template>
@@ -35,6 +39,8 @@ export default {
   data(){
     return {
       posts : [],
+      title : "",
+      content : ""
     }
   },
 
@@ -60,6 +66,25 @@ export default {
       return window.localStorage.getItem("id")
     },
 
+    createPost(){
+      console.log(this.title, this.content);
+      // REQUETE POST
+      this.$http.post("http://localhost:3000/api/post/", {
+        title : this.title,
+        content : this.content
+      })
+      .then(response => {
+        console.log(response);
+        alert("Votre post a bien été ajouté !")
+      })
+      .catch(error => console.log(error))
+
+      // RESET ET DISPARITION
+      this.title = ""
+      this.content = ""
+      window.setTimeout(this.hideForm, 500)
+    },
+
     deletePost($event, postId){
       alert(postId)
       console.log($event.target.parentNode);
@@ -75,10 +100,12 @@ export default {
 
     viewForm(){
       document.querySelector("form").className = "createPost formVisible"
+      document.querySelector("section").className = "section-replace"
     },
 
     hideForm(){
       document.querySelector("form").className = "createPost formInvisible"
+      document.querySelector("section").className = ""
     }
 
   }
@@ -90,6 +117,17 @@ export default {
 
   h2{
     color: red;
+  }
+
+  section {
+    height: auto;
+    transition-duration: 1s;
+    transform: translateY(-500px);
+  }
+  /* classe pour déplacer section vers le bas */
+
+  .section-replace {
+    transform: translateY(0px);
   }
 
 
@@ -172,13 +210,13 @@ export default {
 
   .formVisible{
     opacity: 1;
-    transform: scale(1);
+    transform: scaleY(1);
     transition-duration: 1s;
   }
 
   .formInvisible{
     opacity: 0;
-    transform: scale(0.2);
+    transform: scaleY(0);
     transition-duration: 1s;
   }
 

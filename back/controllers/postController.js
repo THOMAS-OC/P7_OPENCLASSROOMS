@@ -2,11 +2,11 @@ const connection = require("../db")
 
 // CREATE POST
 const createPost = (req, res) => {
-    let userId = req.params.userId
+    let userId = 12
+    let title = req.body.title
     let content = req.body.content
-    console.log(req.body.content);
     connection.query(
-        `INSERT INTO posts (date, picture, content, ID, user_id) VALUES ('2022-07-11', '/images/test.jpg', ${content}, NULL, ${userId})`,
+        `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES ('2022-07-26', '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
             console.log(err);
