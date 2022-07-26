@@ -1,9 +1,10 @@
 <template>
-  <div class="NavConnect">
+  <div class="NavUser">
 
     <nav>
-      <router-link to="/connect">Connexion</router-link>
-      <router-link to="/register">Inscription</router-link>
+      <router-link to="/">FORUM</router-link>
+      <router-link to="/profil">MON PROFIL</router-link>
+      <router-link to="/connect">OFF</router-link>
     </nav>
     
   </div>
@@ -15,7 +16,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* nav connexion et inscription */
+/* nav user */
 
   nav{
     display: flex;
@@ -48,5 +49,5 @@
   .router-link-active{
       background-color: rgba(255, 255, 255, 0.31);
   }
-/* FIN nav connexion et inscription */
+/* FIN nav user */
 </style>
