@@ -2,18 +2,18 @@
   <div class="home">
     <h1>Bienvenu sur le forum de Groupomania</h1>
 
-    <div class="btnCreatePost">
+    <div v-on:click="viewForm" class="btnCreatePost">
       <div></div>
       <div></div>
     </div>
 
-    <form class="createPost" createPost>
+    <form class="createPost formInvisible">
       <input placeholder="Titre" type="text">
       <textarea placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
       <input type="file" name="" id="">
       <input type="submit" value="Poster">
       <!-- Bouton d'affichage -->
-      <button>X</button>
+      <button v-on:click="hideForm">X</button>
     </form>
 
     <article class="post" v-for="post in posts" :key="post.id">
@@ -71,6 +71,14 @@ export default {
       })
       .catch(error => console.log(error))
 
+    },
+
+    viewForm(){
+      document.querySelector("form").className = "createPost formVisible"
+    },
+
+    hideForm(){
+      document.querySelector("form").className = "createPost formInvisible"
     }
 
   }
@@ -138,6 +146,9 @@ export default {
     justify-content: space-around;
     padding: 10px 20px;
     position: relative;
+    transition-duration: 1s;
+    opacity: 0;
+    transform: scale(0.2);
   }
 
   .createPost button{
@@ -157,6 +168,18 @@ export default {
   textarea{
     height: 80%;
     width: 100%;
+  }
+
+  .formVisible{
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: 1s;
+  }
+
+  .formInvisible{
+    opacity: 0;
+    transform: scale(0.2);
+    transition-duration: 1s;
   }
 
   /* FIN FORMULAIRE CREATION DE POSTE */
