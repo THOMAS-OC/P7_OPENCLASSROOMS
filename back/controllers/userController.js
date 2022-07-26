@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 
 // READ INFORMATIONS : testé et ok
 const readUser = (req, res) => {
-    console.log("tset");
+    console.log("test");
     let userId = req.body.userId
     connection.query(
         `SELECT email, name, firstname FROM users WHERE id = ${userId}`,

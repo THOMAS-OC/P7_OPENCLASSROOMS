@@ -11,10 +11,10 @@
       <input type="text">
     </form> -->
 
-    <article v-for="post in posts" :key="post.id">
+    <article class="post" v-for="post in posts" :key="post.id">
 
       <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date" :postId="post.id"></the-post>
-      <button v-on:click="deletePost(post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
+      <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
 
     </article>
 
@@ -55,8 +55,10 @@ export default {
       return window.localStorage.getItem("id")
     },
 
-    deletePost(postId){
+    deletePost($event, postId){
       alert(postId)
+      console.log($event.target.parentNode);
+      $event.target.parentNode.className = "post post-disparate"
       this.$http.delete("http://localhost:3000/api/post/" + postId)
       .then(response => {
         console.log(response);
@@ -130,5 +132,15 @@ export default {
   }
 
   /* FIN FORMULAIRE CREATION DE POSTE */
+
+  /* disparition d'un article */
+  .post{
+    opacity: 1;
+    transition-duration: 0.5s;
+  }
+  .post-disparate{
+    opacity: 0;
+    transform: translateY(-100px);
+  }
 
 </style>
