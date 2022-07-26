@@ -75,7 +75,7 @@ export default {
       })
       .then(response => {
         console.log(response);
-        alert("Votre post a bien été ajouté !")
+        window.location.reload()
       })
       .catch(error => console.log(error))
 

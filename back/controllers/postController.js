@@ -6,7 +6,7 @@ const createPost = (req, res) => {
     let title = req.body.title
     let content = req.body.content
     connection.query(
-        `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES ('2022-07-26', '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
+        `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
             console.log(err);
@@ -62,7 +62,7 @@ const readAllPosts = (req, res) => {
     let idsPosts = []
     connection.query(
         // ETAPE 1 RECUPERATION DES IDS
-        `SELECT posts.ID, posts.user_id, date, picture, content, name, firstname FROM posts JOIN users ON posts.user_id = users.ID`,
+        `SELECT posts.ID, posts.user_id, date, picture, content, name, firstname FROM posts JOIN users ON posts.user_id = users.ID ORDER BY date DESC`,
         function(err, results, fields) {
             console.log(results);
             for (let details of results) {
