@@ -2,9 +2,9 @@
   <div class="NavUser">
 
     <nav>
-      <router-link to="/">FORUM</router-link>
-      <router-link to="/profil">MON PROFIL</router-link>
-      <router-link to="/connect">OFF</router-link>
+      <router-link to="/home"><i class="fa-solid fa-comments"></i></router-link>
+      <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
+      <router-link to="/connect"><i class="fa-solid fa-right-from-bracket"></i></router-link>
     </nav>
     
   </div>
@@ -48,6 +48,8 @@
 
   .router-link-active{
       background-color: rgba(255, 255, 255, 0.31);
+      color: #FD2D01;
+      text-shadow: 0px 0px 10px white;
   }
 /* FIN nav user */
 </style>
