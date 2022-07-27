@@ -77,7 +77,8 @@ export default {
       // REQUETE POST
       this.$http.post("http://localhost:3000/api/post/", {
         title : this.title,
-        content : this.content
+        content : this.content,
+        userId : this.$store.state.id
       })
       .then(response => {
         console.log(response);
