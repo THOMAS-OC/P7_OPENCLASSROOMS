@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 
 // READ INFORMATIONS : testé et ok
 const readUser = (req, res) => {
-    console.log(req.headers.cookie.split("=")[1]);
+
     let userId = req.body.userId
     connection.query(
         `SELECT email, name, firstname FROM users WHERE id = ${userId}`,

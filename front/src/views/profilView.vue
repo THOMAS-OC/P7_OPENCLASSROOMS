@@ -58,7 +58,15 @@ export default {
         this.firstname = response.data.firstname
         console.log(this.name);
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+        // User not connected
+        console.log(error.response.data.userConnected)
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+    })
   },
 
   methods:{
@@ -148,7 +156,12 @@ export default {
                 alert(response.data.message);
             })
             .catch(error => {
-                console.log(error);
+                // User not connected
+                 if (error.response.data.userConnected == 'false') {
+                    alert("Veuillez vous connecter svp")
+                    this.$router.push("connect")
+                }
+                // ! User not connected
             })
         }
         else {

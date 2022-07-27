@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/commentController')
+const auth = require('../middleware/auth')
 
 // CREATE : testé et ok
 router.post('/:postId/:userId', controller.createComment)

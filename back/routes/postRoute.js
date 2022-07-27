@@ -1,27 +1,27 @@
 const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/postController')
-
+const auth = require('../middleware/auth')
 
 // CREATE
-router.post('/', controller.createPost)
+router.post('/', auth, controller.createPost)
 
 // SYSTEME DE LIKE
 
 // Ajout d'un like ou d'un dislike : testé et ok
-router.post('/addlike', controller.addLike)
+router.post('/addlike', auth, controller.addLike)
 
 // Suppression d'un like ou d'un dislike : testé et ok
-router.delete('/deletelike', controller.deleteLike) 
+router.delete('/deletelike', auth, controller.deleteLike) 
 
 // READ : testé et ok
-router.get('/', controller.readAllPosts)
-router.get('/:postId', controller.readOnePost)
+router.get('/', auth, controller.readAllPosts)
+router.get('/:postId', auth, controller.readOnePost)
 
 // UPDATE
-router.put('/', controller.updatePost)
+router.put('/', auth, controller.updatePost)
 
 // DELETE : testé et ok
-router.delete('/:postId', controller.deletePost)
+router.delete('/:postId', auth, controller.deletePost)
 
 module.exports = router;

@@ -53,7 +53,14 @@ export default {
     .then(response => {
         this.posts = response.data
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      // User not connected
+      if (error.response.data.userConnected == 'false') {
+          alert("Veuillez vous connecter svp")
+          this.$router.push("connect")
+      }
+      // ! User not connected
+    })
   },
 
   created: function () {
@@ -76,7 +83,14 @@ export default {
         console.log(response);
         window.location.reload()
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
 
       // RESET ET DISPARITION
       this.title = ""
@@ -93,7 +107,15 @@ export default {
         console.log(response);
         alert("Post supprimé !")
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        // User not connected
+        console.log(error.response.data.userConnected)
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
 
     },
 

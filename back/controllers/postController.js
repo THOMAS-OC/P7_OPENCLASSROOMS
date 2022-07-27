@@ -2,7 +2,7 @@ const connection = require("../db")
 
 // CREATE POST
 const createPost = (req, res) => {
-    let userId = 12
+    let userId = req.body.userId
     let title = req.body.title
     let content = req.body.content
     connection.query(
@@ -58,8 +58,6 @@ const addLike = (req, res) => {
 
 // READ ALL POSTS : METHODE 1
 const readAllPosts = (req, res) => {
-    console.log(process.env.KEYJWT);
-    console.log(process.env.REFRESHJWT);
 
     let bddFront = []
     let idsPosts = []

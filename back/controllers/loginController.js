@@ -61,7 +61,7 @@ const loginUser = (req, res) => {
                 };
 
                 console.log(user);
-                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '600s'})
+                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '1800s'})
                 console.log("la clef jwt ci desssous");
                 console.log(authToken);
                 res.cookie("auth", authToken)
@@ -87,7 +87,13 @@ const loginUser = (req, res) => {
 
 }
 
+const logoutUser = (req, res) => {
+    res.clearCookie("auth")
+    res.json({message : "Utilisateur déconnecté"})
+}
+
 module.exports = { 
     createUser,
-    loginUser
+    loginUser,
+    logoutUser
 }

@@ -40,7 +40,10 @@ export default {
   },
 
   created: function () {
-    document.title = "Connexion / GROUPOMANIA"
+    document.title = "Connexion / GROUPOMANIA";
+    this.$http.get("http://localhost:3000/api/auth/logout")
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
   },
 
   methods:{

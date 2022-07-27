@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/userController')
+const auth = require('../middleware/auth')
 
 // READ INFORMATIONS : testé et ok
-router.post('/', controller.readUser)
+router.post('/', auth, controller.readUser)
 
 // READ INFORMATIONS : testé et ok
-router.put('/', controller.updateUser)
+router.put('/', auth, controller.updateUser)
 
 // DELETE USER : testé et ok
-router.delete('/', controller.deleteUser)
+router.delete('/', auth, controller.deleteUser)
 
 
 module.exports = router;
