@@ -73,7 +73,7 @@ const loginUser = (req, res) => {
                         return res.status(401).json({message: 'Paire login/mot de passe incorrecte'});
                     }
                     res.cookie("auth", authToken)
-                    res.status(200).json({token : authToken});
+                    res.status(200).json({token : authToken, user:user});
                 })
 
             }

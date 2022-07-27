@@ -40,6 +40,7 @@ export default {
   },
 
   created: function () {
+    window.localStorage.clear()
     document.title = "Connexion / GROUPOMANIA";
     this.$http.get("http://localhost:3000/api/auth/logout")
     .then(res => console.log(res))
@@ -75,8 +76,9 @@ export default {
       })
 
       .then(response => {
+            console.log(response.data);
             console.log(response.data.token);
-            window.localStorage.setItem("jwt", response.data.token)
+            this.$store.commit('setUser', {id: response.data.user.id, name:response.data.user.name, firstName:response.data.user.firstname, email:response.data.user.email})
             this.$router.push("home")
       })
 

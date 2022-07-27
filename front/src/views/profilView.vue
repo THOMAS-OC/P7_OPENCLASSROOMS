@@ -6,13 +6,13 @@
         <div class="add">+</div>
     </div>
 
-    <h2>{{ name }} {{ firstname }}</h2>
+    <h2>{{ $store.state.firstName }} {{ $store.state.name }} {{ $store.state.id }}</h2>
 
     <form v-on:submit.prevent="updateUser">
         
         <div>
             <label for="email">Email</label>
-            <input v-on:keyup="watchEmail" type="email" name="email" id="email" v-model="email">
+            <input v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
         </div>
         <div>
             <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
@@ -45,35 +45,13 @@ export default {
         firstname : "",
         password : "",
         action : "Modifier mon email",
-        authorization : false
+        authorization : false,
     }
   },
 
   // Modification de balise title  
-  created: function () {
+  created: () => {
     document.title = "Mon profil / GROUPOMANIA"
-  },
-
-  mounted(){
-    this.$http.post("http://localhost:3000/api/user", {
-        userId : 15
-    },)
-    .then(response => {
-        console.log(response.data);
-        this.email = response.data.email
-        this.name = response.data.name
-        this.firstname = response.data.firstname
-        console.log(this.name);
-    })
-    .catch(error => {
-        // User not connected
-        console.log(error.response.data.userConnected)
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        // ! User not connected
-    })
   },
 
   methods:{
