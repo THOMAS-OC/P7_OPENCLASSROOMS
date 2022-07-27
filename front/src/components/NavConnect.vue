@@ -29,6 +29,7 @@
     justify-content: space-around;
     height: 100px;
     align-items: center;
+    max-width: 90vw;
   }
 
   nav a {

@@ -92,8 +92,26 @@ const logoutUser = (req, res) => {
     res.json({message : "Utilisateur déconnecté"})
 }
 
+const checkEmail = (req, res) => {
+    connection.query(
+        `SELECT * FROM users WHERE email = "${req.body.email}"`,
+        function(err, results, fields) {
+
+            if(results[0]) {
+                res.status(200).json({userExist : true})
+            }
+
+            else {
+                res.status(200).json({userExist : false})
+            }
+
+        }
+    );
+}
+
 module.exports = { 
     createUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    checkEmail
 }

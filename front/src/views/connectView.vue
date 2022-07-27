@@ -11,7 +11,7 @@
 
         <div>
 
-            <input placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
         
         </div>
@@ -47,6 +47,23 @@ export default {
   },
 
   methods:{
+
+    checkBDD(target){
+      this.$http.post("http://localhost:3000/api/auth/checkemail", {
+        email : this.email
+      })
+      .then(res => {
+        if (res.data.userExist){
+          console.log(target);
+          target.target.style.borderColor = "green"
+        }
+        else {
+          target.target.style.borderColor = "#FD2D01"
+        }
+      })
+      .catch(err => console.log(err))
+      console.log(this.email);
+    },
 
 
     connect(){
@@ -95,18 +112,15 @@ export default {
     background-position: top;
     box-shadow: 0px 0px 15px black;
     text-align: center;
-    width: 50vw;
-    height: 30vw;
+    width: 800px;
+    max-width: 90vw;
+    height: 500px;
     border-radius: 20px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     overflow: hidden;
-}
-
-form:hover input[type="submit"]{
-    transform: translateY(0%);
 }
 
 form div{
@@ -146,7 +160,6 @@ input[type="submit"]{
     font-weight: bolder;
     transition-duration: 0.5s;
     transition-property: transform;
-    transform: translateY(100%);
     background-color: white;
 }
 

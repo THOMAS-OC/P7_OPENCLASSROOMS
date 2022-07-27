@@ -9,6 +9,9 @@ router.post('/signup', controller.createUser)
 // READ
 router.post('/login', controller.loginUser)
 
+// READ
+router.post('/checkemail', controller.checkEmail)
+
 // DELETE
 router.get('/logout', controller.logoutUser)
 

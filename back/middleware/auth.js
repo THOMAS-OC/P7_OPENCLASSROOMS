@@ -3,8 +3,6 @@ const cookieParser = require('cookie-parser')
 
 module.exports = (req, res, next) => {
     const token = req.cookies.auth || false
-    console.log("TOTO MIDDLEWARE");
-    console.log(req.cookies.auth);
 
     // Présence d'un token
     if (!token) {
