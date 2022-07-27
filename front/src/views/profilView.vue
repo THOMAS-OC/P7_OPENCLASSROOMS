@@ -156,10 +156,12 @@ export default {
             this.$http.put("http://localhost:3000/api/user", {
                 newEmail : this.email,
                 newPassword : this.password,
-                userId : 15
+                userId : this.$store.state.id
             })
             .then(response => {
                 alert(response.data.message);
+                this.$store.commit('setUser', {id: this.$store.state.id, name:this.$store.state.name, firstName:this.$store.state.firstname, email:this.email})
+
             })
             .catch(error => {
                 // User not connected

@@ -35,14 +35,10 @@ export default {
     }
   },
 
-  props: {
-    msg: String
-  },
-
   created: function () {
-    window.localStorage.clear()
+    window.localStorage.clear() // Vidage de vueX
     document.title = "Connexion / GROUPOMANIA";
-    this.$http.get("http://localhost:3000/api/auth/logout")
+    this.$http.get("http://localhost:3000/api/auth/logout") // Suppression du cookie d'authentification
     .then(res => console.log(res))
     .catch(err => console.log(err))
   },
