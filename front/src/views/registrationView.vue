@@ -63,10 +63,26 @@ export default {
             alert("Vous êtes déjà inscrit sur groupomania.fr, redirection vers la page de connexion")
             this.$router.push("connect")
         }
+        // Connexion automatique
         else {
-            this.$router.push("home")
-        }
 
+            this.$http.post("http://localhost:3000/api/auth/login", {
+              password : this.password,
+              email : this.email
+            })
+
+            .then(response => {
+                console.log(response.data.token);
+                window.localStorage.setItem("jwt", response.data.token)
+                this.$router.push("home")
+            })
+
+            .catch(error => {
+              alert(error)
+            })
+            
+        }
+        // Connexion automatique
       })
       .catch(error => {
         console.log(error);
