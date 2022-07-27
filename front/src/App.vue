@@ -64,6 +64,7 @@ body {
     background-image: url("assets/background.jpg");
     background-position: center;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 #app {

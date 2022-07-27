@@ -57,9 +57,10 @@ const deleteUser = (req, res) => {
     let userId = req.body.userId
     console.log(userId);
     connection.query(
-        `DELETE FROM users WHERE users.id = ${userId}`,
+        `DELETE FROM users WHERE ID = ${userId}`,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
+            console.log(err);
             res.json({message : "User delete"})
         }
     );

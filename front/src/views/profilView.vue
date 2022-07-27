@@ -23,6 +23,13 @@
 
     </form>
 
+    <button v-on:click="viewModal" class="button-delete">Supprimer mon compte</button>
+    <div class="confirmation-delete">
+        <p>êtes-vous sûr de vouloir supprimer votre compte ? </p>
+        <button v-on:click="deleteAccount(true)" class="confirmation">Supprimer</button>
+        <button v-on:click="deleteAccount(false)" class="annulation">Annuler</button>
+    </div>
+
   </div>
 </template>
 
@@ -70,6 +77,27 @@ export default {
   },
 
   methods:{
+
+    viewModal(){
+        document.querySelector(".confirmation-delete").style.display = "block"
+    },
+
+    deleteAccount(confirm){
+        if(confirm){
+
+            this.$http.delete("http://localhost:3000/api/user", { data: { userId : 16 } })
+            .then(response => {
+                console.log(response);
+                this.$router.push('connect')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        else{
+            document.querySelector(".confirmation-delete").style.display = "none"
+        }
+    },
 
     actionType(){
 
@@ -276,4 +304,51 @@ export default {
         cursor: not-allowed;
         background-color: rgb(255, 141, 141);
     }
+
+    /* Bouton delete account */
+    .button-delete{
+        border-color: #FD2D01;
+        height: 50px;
+        width: 200px;
+        margin-bottom: 70px;
+        cursor: pointer;
+        
+    }
+
+    .confirmation-delete{
+        display: none;
+        margin: 50px auto;
+        max-width: 90vw;
+        height: 150px;
+        width: 500px;
+        border-radius: 15px;
+        border: 2px solid #FD2D01;
+        text-align: center;
+        font-size: 25px;
+        overflow: hidden;
+        line-height: 35px;
+        background-color: rgba(255, 255, 255, 0.788);
+        position: relative;
+    }
+
+    .confirmation{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50%;
+        height: 30px;
+        background-color: green;
+        cursor: pointer;
+    }
+
+    .annulation{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 50%;
+        height: 30px;
+        background-color: red;
+        cursor: pointer;
+    }
+
 </style>
