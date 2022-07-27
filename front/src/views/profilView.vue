@@ -49,8 +49,8 @@ export default {
 
   mounted(){
     this.$http.post("http://localhost:3000/api/user", {
-        userId : 12
-    })
+        userId : 15
+    },)
     .then(response => {
         console.log(response.data);
         this.email = response.data.email
@@ -142,7 +142,7 @@ export default {
             this.$http.put("http://localhost:3000/api/user", {
                 newEmail : this.email,
                 newPassword : this.password,
-                userId : 12
+                userId : 15
             })
             .then(response => {
                 alert(response.data.message);

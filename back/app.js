@@ -8,11 +8,13 @@ const connection = require("./db.js")
 const multer = require("multer")
 const upload = multer({dest: 'images/'})
 const bcrypt = require("bcrypt")
+const cookieParser = require('cookie-parser')
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
   next();
 });
 
@@ -20,7 +22,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
+// gestion des cookies
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to API groupomania" });

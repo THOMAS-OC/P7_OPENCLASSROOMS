@@ -28,7 +28,8 @@
     border-radius: 15px;
     color: white;
     justify-content: space-around;
-    height: 100px;
+    min-height: 100px;
+    max-width: 90vw;
     align-items: center;
   }
 

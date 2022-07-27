@@ -1,9 +1,10 @@
 const connection = require("../db")
 const bcrypt = require("bcrypt")
+const cookieParser = require('cookie-parser')
 
 // READ INFORMATIONS : testé et ok
 const readUser = (req, res) => {
-    console.log("test");
+    console.log(req.headers.cookie.split("=")[1]);
     let userId = req.body.userId
     connection.query(
         `SELECT email, name, firstname FROM users WHERE id = ${userId}`,

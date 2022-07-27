@@ -1,5 +1,8 @@
 const connection = require("../db")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const cookieParser = require('cookie-parser')
+
 
 // CREATE : testé et ok
 const createUser = (req, res) =>{
@@ -43,24 +46,42 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
+
     connection.query(
         `SELECT * FROM users WHERE email = "${req.body.email}"`,
         function(err, results, fields) {
+
             if(results[0]) {
+
+                const user = {
+                    id: results[0]["ID"],
+                    name: results[0]["name"],
+                    firstname: results[0]["firstname"],
+                    email: results[0]["email"],
+                };
+
+                console.log(user);
+                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '600s'})
+                console.log("la clef jwt ci desssous");
+                console.log(authToken);
+                res.cookie("auth", authToken)
+                
                 const userInDb = results[0]
                 bcrypt.compare(req.body.password, userInDb.password)
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({message: 'Paire login/mot de passe incorrecte'});
                     }
-                    res.status(200).json({message : "connected"});
+                    res.cookie("auth", authToken)
+                    res.status(200).json({token : authToken});
                 })
 
-                
             }
+
             else {
                 res.status(401).json({message: "Utilisateur introuvable"})
             }
+
         }
     );
 

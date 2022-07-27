@@ -58,6 +58,9 @@ const addLike = (req, res) => {
 
 // READ ALL POSTS : METHODE 1
 const readAllPosts = (req, res) => {
+    console.log(process.env.KEYJWT);
+    console.log(process.env.REFRESHJWT);
+
     let bddFront = []
     let idsPosts = []
     connection.query(

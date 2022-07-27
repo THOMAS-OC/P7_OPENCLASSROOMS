@@ -55,7 +55,8 @@ export default {
       })
 
       .then(response => {
-            console.log(response);
+            console.log(response.data.token);
+            window.localStorage.setItem("jwt", response.data.token)
             this.$router.push("home")
       })
 

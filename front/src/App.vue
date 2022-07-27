@@ -29,6 +29,8 @@ export default ({
     NavUser
   },
 })
+window.localStorage.setItem("id", "15")
+document.cookie="test=test2"
 </script>
 
 

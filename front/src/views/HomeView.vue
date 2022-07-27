@@ -49,7 +49,6 @@ export default {
   },
 
   mounted(){
-    window.localStorage.setItem("id","12") // Simulation d'un id d'un user connecté
     this.$http.get("http://localhost:3000/api/post")
     .then(response => {
         this.posts = response.data
