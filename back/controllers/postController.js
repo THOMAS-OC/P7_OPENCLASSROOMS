@@ -96,15 +96,14 @@ const readOnePost = (req, res) => {
         date : '',
         picture : '',
         content : '',
+        commentOnly : [], // commentaire seul sans info user
         comment : [],
-        likes : [],
-        dislikes : []
+        likes : [], // listes des identifiants utilisateurs ayant like
+        dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT posts.ID as postId, likes.ID as likeId, title, date, picture, content, comment FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id`,
+        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id`,
         function(err, results, fields) {
-            console.log(err);
-            console.log(results);
             bddFront.ID = results[0]["postId"]
             bddFront.title = results[0]["title"]
             bddFront.date = results[0]["date"]
@@ -113,17 +112,28 @@ const readOnePost = (req, res) => {
 
             // récupération des commentaires
             for (let comment of results) {
-                if (bddFront.comment.includes(comment.comment)){
-                    console.log("doublon");
+
+                if (!bddFront.commentOnly.includes(comment.comment)){
+                    bddFront.comment.push({auteur : '', commentaire : comment.comment, id : '', userId : comment.comment_user_id})
+                    bddFront.commentOnly.push(comment.comment)
                 }
-                else {
-                    bddFront.comment.push(comment.comment)
-                    console.log(comment.comment);
-                }
+
             }
 
             // Récupération des likes et dislikes
-            
+            for (let like of results){
+                if (like.value_like == 1){
+                    console.log(like);
+                    if (!bddFront.likes.includes(like.like_user_id)) {
+                        bddFront.likes.push(like.like_user_id)                   
+                    }
+                }
+                else {
+                    if (!bddFront.dislikes.includes(like.like_user_id)) {
+                        bddFront.dislikes.push(like.like_user_id)                   
+                    }
+                }
+            }
             res.json(bddFront)
         }
     );
