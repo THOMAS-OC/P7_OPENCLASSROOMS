@@ -18,9 +18,9 @@
 
     <section>
 
-      <article class="post" v-for="post in posts" :key="post.id">
+      <article class="post" v-for="post in posts" :key="post">
 
-        <the-post :authorPost="post.name" :contentPost="post.content" :datePost="post.date" :postId="post.id"></the-post>
+        <the-post :postId="post"></the-post>
         <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
 
       </article>
@@ -52,6 +52,7 @@ export default {
     this.$http.get("http://localhost:3000/api/post")
     .then(response => {
         this.posts = response.data
+        console.log(response.data);
     })
     .catch(error => {
       // User not connected

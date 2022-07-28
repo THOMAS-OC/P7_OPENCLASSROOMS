@@ -1,13 +1,12 @@
 <template>
   <div class="ThePost">
+
     <article>
-      <h2>{{authorPost}}</h2>
-      <p>{{contentPost}}</p>
-      <small>{{datePost}}</small>
-      <small class="id">{{postId}} </small>
-      <button v-on:click="readComments()">READ</button>
+
+      <h2 class="id">{{postId}} </h2>
 
     </article>
+
   </div>
 </template>
 
@@ -18,27 +17,11 @@ export default {
   data(){
     return {
       commentaires : [],
-      test : [1,2,3]
     }
   },
 
-  props: ["datePost", "authorPost", "contentPost", "picturePost", "postId"],
+  props: ["postId"],
 
-
-  mounted() { 
-
-    this.$http.get("http://localhost:3000/api/comment/" + document.querySelector(".id").innerText)
-    .then(response => {
-      for (let comment of response["data"]){
-
-        let newComment = document.createElement("p")
-        newComment.innerText = comment.comment
-        document.querySelector("section").appendChild(newComment)
-      }
-    })
-    .catch(error => console.log(error))
-    
-  },
 
 }
 </script>

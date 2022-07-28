@@ -58,33 +58,19 @@ const addLike = (req, res) => {
 
 // READ ALL POSTS : METHODE 1
 const readAllPosts = (req, res) => {
-
-    let bddFront = []
-    let idsPosts = []
+    let listIds = []
     connection.query(
-        // ETAPE 1 RECUPERATION DES IDS
-        `SELECT posts.ID, posts.user_id, date, picture, content, name, firstname FROM posts JOIN users ON posts.user_id = users.ID ORDER BY date DESC`,
+
+        `SELECT posts.ID FROM posts ORDER BY date DESC`,
         function(err, results, fields) {
-            console.log(results);
-            for (let details of results) {
-                idsPosts.push(details.ID);
-                const obj = {
-                    id: details.ID,
-                    name: details.name + " " + details.firstname,
-                    user_id : details.user_id,
-                    date: details.date,
-                    picture : details.picture,
-                    content : details.content
-                };
-                bddFront.push(obj)
+            for (let id of results){
+                listIds.push(id.ID)
             }
-            console.log(bddFront);
-            console.log(idsPosts); 
-            res.json(bddFront)
-            // results contains rows returned by server
-            // ETAPE 2 RECUPERATION DES LIKES ET DISLIKES
+            console.log(listIds);
+            res.json(listIds)
         }
     );
+
 }
 
 // READ ALL POST METHOD 2
@@ -104,6 +90,7 @@ const readOnePost = (req, res) => {
     connection.query(
         `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id`,
         function(err, results, fields) {
+            console.log(results);
             bddFront.ID = results[0]["postId"]
             bddFront.title = results[0]["title"]
             bddFront.date = results[0]["date"]
@@ -113,26 +100,36 @@ const readOnePost = (req, res) => {
             // récupération des commentaires
             for (let comment of results) {
 
-                if (!bddFront.commentOnly.includes(comment.comment)){
-                    bddFront.comment.push({auteur : '', commentaire : comment.comment, id : '', userId : comment.comment_user_id})
-                    bddFront.commentOnly.push(comment.comment)
+                if (comment.comment){
+
+
+
+                    if (!bddFront.commentOnly.includes(comment.comment)){
+                        bddFront.comment.push({auteur : '', commentaire : comment.comment, id : '', userId : comment.comment_user_id})
+                        bddFront.commentOnly.push(comment.comment)
+                    }
+
                 }
+
 
             }
 
             // Récupération des likes et dislikes
             for (let like of results){
-                if (like.value_like == 1){
-                    console.log(like);
-                    if (!bddFront.likes.includes(like.like_user_id)) {
-                        bddFront.likes.push(like.like_user_id)                   
+                if (like.value_like){
+                    if (like.value_like == 1){
+                        console.log(like);
+                        if (!bddFront.likes.includes(like.like_user_id)) {
+                            bddFront.likes.push(like.like_user_id)                   
+                        }
+                    }
+                    else {
+                        if (!bddFront.dislikes.includes(like.like_user_id)) {
+                            bddFront.dislikes.push(like.like_user_id)                   
+                        }
                     }
                 }
-                else {
-                    if (!bddFront.dislikes.includes(like.like_user_id)) {
-                        bddFront.dislikes.push(like.like_user_id)                   
-                    }
-                }
+
             }
             res.json(bddFront)
         }
