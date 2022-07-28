@@ -75,6 +75,8 @@ const readAllPosts = (req, res) => {
 
 // READ ALL POST METHOD 2
 const readOnePost = (req, res) => {
+    console.log("On est sur readOne");
+    console.log(req.params);
     let postId = req.params.postId
     let bddFront = {
         ID : "",

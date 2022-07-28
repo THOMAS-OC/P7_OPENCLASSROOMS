@@ -15,7 +15,7 @@ router.post('/addlike', auth, controller.addLike)
 router.delete('/deletelike', auth, controller.deleteLike) 
 
 // READ : testé et ok
-router.get('/', auth, controller.readAllPosts)
+router.get('/', controller.readAllPosts)
 router.get('/:postId', controller.readOnePost)
 
 // UPDATE

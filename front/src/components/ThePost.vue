@@ -46,9 +46,11 @@ export default {
   methods:{
 
     like(){
-
+      // add like
       if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
+          // FRONT
           this.likes.push(this.$store.state.id)
+          // BACK
           this.$http.post("http://localhost:3000/api/post/addlike", {
             userId : this.$store.state.id,
             postId : this.ID,
@@ -69,24 +71,66 @@ export default {
             // ! User not connected
           })
       }
+
       else {
+        // delete like
+          // front
           let myIndex = this.likes.indexOf(this.$store.state.id);
           if (myIndex !== -1) {
               this.likes.splice(myIndex, 1);
           }
+          // back
+          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            else {
+              console.log(error);
+            }
+            // ! User not connected
+          })
       }
 
     },
 
     dislike(){
 
-      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
-          this.dislikes.push(this.$store.state.id)
+      if (this.likes.includes(this.$store.state.id)){
+          let myIndex = this.likes.indexOf(this.$store.state.id);
+          if (myIndex !== -1) {
+              this.dislikes.splice(myIndex, 1);
+          }
+          // back
+          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            else {
+              console.log(error);
+            }
+            // ! User not connected
+          })
+      }
 
+      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
+          console.log("On ajoute un dislike");
+          this.dislikes.push(this.$store.state.id)
           this.$http.post("http://localhost:3000/api/post/addlike", {
             userId : this.$store.state.id,
             postId : this.ID,
-            valueLike : -1
+            value : '-1'
           })
           .then(response => {
             console.log(response);
@@ -104,36 +148,36 @@ export default {
           })
       }
       else {
-
+          console.log("On supprime un dislike");
           let myIndex = this.dislikes.indexOf(this.$store.state.id);
           if (myIndex !== -1) {
               this.dislikes.splice(myIndex, 1);
           }
 
-      }
+          // back
+          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
+          .then(response => {
+              console.log(response);
+          })
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            else {
+              console.log(error);
+            }
+            // ! User not connected
+          })
 
+        }
 
-      this.$http.get("http://localhost:3000/api/post/deletelike")
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        // User not connected
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        else {
-          console.log(error);
-        }
-        // ! User not connected
-      })
 
     }
   },
 
   mounted() {
-      console.log("test");
       console.log(this.postId); // !!!!!!!!!!
 
       this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
