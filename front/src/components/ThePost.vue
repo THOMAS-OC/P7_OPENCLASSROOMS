@@ -15,7 +15,7 @@
       <button><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
     </footer>
 
-    <button v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
+    <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
 
   </article>
 
@@ -44,6 +44,25 @@ export default {
   props: ["postId"],
 
   methods:{
+
+    deletePost($event){
+      console.log($event.target.parentNode);
+      $event.target.parentNode.className = "ThePost post-disparate"
+      this.$http.delete("http://localhost:3000/api/post/" + this.postId)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        // User not connected
+        console.log(error.response.data.userConnected)
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
+
+    },
 
     like(){
       // add like
@@ -101,30 +120,8 @@ export default {
 
     dislike(){
 
-      if (this.likes.includes(this.$store.state.id)){
-          let myIndex = this.likes.indexOf(this.$store.state.id);
-          if (myIndex !== -1) {
-              this.dislikes.splice(myIndex, 1);
-          }
-          // back
-          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            // User not connected
-            if (error.response.data.userConnected == 'false') {
-                alert("Veuillez vous connecter svp")
-                this.$router.push("connect")
-            }
-            else {
-              console.log(error);
-            }
-            // ! User not connected
-          })
-      }
-
       if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
+
           console.log("On ajoute un dislike");
           this.dislikes.push(this.$store.state.id)
           this.$http.post("http://localhost:3000/api/post/addlike", {
@@ -146,7 +143,9 @@ export default {
             }
             // ! User not connected
           })
+
       }
+
       else {
           console.log("On supprime un dislike");
           let myIndex = this.dislikes.indexOf(this.$store.state.id);
@@ -221,6 +220,7 @@ export default {
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
+    overflow: hidden;
   }
 
   article section{
@@ -252,13 +252,29 @@ export default {
     font-size: 30px;
   }
 
+  /* bouton delete-post */
+  .delete-post{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    border: 2px solid #FD2D01;
+    color: white;
+    text-shadow: 0px 0px 3px black;
+  }
   /* disparition d'un article */
-  .post{
+  .ThePost{
     opacity: 1;
     transition-duration: 0.5s;
   }
   .post-disparate{
     opacity: 0;
+    transition-duration: 0.5s;
+    display: none;
     transform: translateY(-100px);
   }
 

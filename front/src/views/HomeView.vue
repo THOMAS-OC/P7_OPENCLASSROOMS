@@ -21,7 +21,6 @@
       <article class="post" v-for="post in posts" :key="post">
 
         <the-post :class='post' :postId="post"></the-post>
-        <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
 
       </article>
 
@@ -100,26 +99,6 @@ export default {
       window.setTimeout(this.hideForm, 500)
     },
 
-    deletePost($event, postId){
-      alert(postId)
-      console.log($event.target.parentNode);
-      $event.target.parentNode.className = "post post-disparate"
-      this.$http.delete("http://localhost:3000/api/post/" + postId)
-      .then(response => {
-        console.log(response);
-        alert("Post supprimé !")
-      })
-      .catch(error => {
-        // User not connected
-        console.log(error.response.data.userConnected)
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        // ! User not connected
-      })
-
-    },
 
     viewForm(){
       document.querySelector("form").className = "createPost formVisible"
@@ -244,15 +223,5 @@ export default {
   }
 
   /* FIN FORMULAIRE CREATION DE POSTE */
-
-  /* disparition d'un article */
-  .post{
-    opacity: 1;
-    transition-duration: 0.5s;
-  }
-  .post-disparate{
-    opacity: 0;
-    transform: translateY(-100px);
-  }
 
 </style>
