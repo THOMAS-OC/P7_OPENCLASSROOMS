@@ -21,7 +21,7 @@ const addLike = (req, res) => {
     let userId = req.body.userId
     let postId = req.body.postId
     let valueLike = req.body.value
-
+    console.log(req.body);
     connection.query(
         `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
         function(err, results, fields) {
@@ -30,13 +30,13 @@ const addLike = (req, res) => {
             }
             else {
                 connection.query(
-                    `INSERT INTO likes (post_id, user_id, ID, VALUE) VALUES (${postId}, ${userId}, NULL, ${valueLike});`,
+                    `INSERT INTO likes (post_id, user_id, VALUE) VALUES (${postId}, ${userId}, ${valueLike});`,
                     function(err, results, fields) {
                         if (err) {
                             res.json(err)
                         }
 
-                        else {
+                        else {  
                             if (valueLike == 1){
                                 res.status(200).json({message : "Like"})
                             }

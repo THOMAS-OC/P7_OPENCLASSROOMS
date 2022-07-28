@@ -25,7 +25,7 @@
 export default {
   name: 'ThePost',
 
-  // http://localhost:3000/api/post/:postId
+
 
   data(){
     return {
@@ -44,33 +44,91 @@ export default {
   props: ["postId"],
 
   methods:{
+
     like(){
-      // GESTION FRONT END ET VARIABLE like
+
       if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
-        this.likes.push(this.$store.state.id)
+          this.likes.push(this.$store.state.id)
+          this.$http.post("http://localhost:3000/api/post/addlike", {
+            userId : this.$store.state.id,
+            postId : this.ID,
+            value : "1"
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            else {
+              console.log(error);
+            }
+            // ! User not connected
+          })
       }
       else {
-        let myIndex = this.likes.indexOf(this.$store.state.id);
-        if (myIndex !== -1) {
-            this.likes.splice(myIndex, 1);
-        }
+          let myIndex = this.likes.indexOf(this.$store.state.id);
+          if (myIndex !== -1) {
+              this.likes.splice(myIndex, 1);
+          }
       }
-      // GESTION FRONT END ET VARIABLE like
+
     },
 
     dislike(){
-      // GESTION FRONT END ET VARIABLE dislike
+
       if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
-        this.dislikes.push(this.$store.state.id)
+          this.dislikes.push(this.$store.state.id)
+
+          this.$http.post("http://localhost:3000/api/post/addlike", {
+            userId : this.$store.state.id,
+            postId : this.ID,
+            valueLike : -1
+          })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            else {
+              console.log(error);
+            }
+            // ! User not connected
+          })
       }
       else {
-        let myIndex = this.dislikes.indexOf(this.$store.state.id);
-        if (myIndex !== -1) {
-            this.dislikes.splice(myIndex, 1);
-        }
+
+          let myIndex = this.dislikes.indexOf(this.$store.state.id);
+          if (myIndex !== -1) {
+              this.dislikes.splice(myIndex, 1);
+          }
 
       }
-      // GESTION FRONT END ET VARIABLE dislike
+
+
+      this.$http.get("http://localhost:3000/api/post/deletelike")
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        else {
+          console.log(error);
+        }
+        // ! User not connected
+      })
+
     }
   },
 
