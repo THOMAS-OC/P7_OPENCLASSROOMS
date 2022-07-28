@@ -78,6 +78,7 @@ const readOnePost = (req, res) => {
     let postId = req.params.postId
     let bddFront = {
         ID : "",
+        userIdCreated : "",
         title : '',
         date : '',
         picture : '',
@@ -88,11 +89,12 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
+        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
         function(err, results, fields) {
             console.log(err);
             console.log(results);
             bddFront.ID = results[0]["postId"]
+            bddFront.userIdCreated = results[0]["user_id"]
             bddFront.title = results[0]["title"]
             bddFront.date = results[0]["date"]
             bddFront.picture = results[0]["picture"]

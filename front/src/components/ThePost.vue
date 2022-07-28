@@ -10,8 +10,12 @@
     </main>
     
     <footer>
-      <p>like : {{ likes.length }} / dislikes : {{ dislikes.length }}</p>
+      <button><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
+      <button><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
+      <button><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
     </footer>
+
+    <button v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
 
   </article>
 
@@ -26,6 +30,7 @@ export default {
   data(){
     return {
       ID : "",
+      userIdCreated : "",
       title : '',
       date : '',
       picture : '',
@@ -46,6 +51,7 @@ export default {
       .then(response => {
         console.log(response.data);
         this.ID = response.data.ID,
+        this.userIdCreated = response.data.userIdCreated
         this.title = response.data.title
         this.date = response.data.date
         this.picture = response.data.picture || ""
@@ -87,6 +93,30 @@ export default {
   article section{
     border-top: 2px solid red;
     height: 100px;
+  }
+
+  article footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    border-top: 2px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+
+  i{
+    margin-right: 10px;
+  }
+
+  article footer button{
+    height: 100%;
+    width: 33.3%;
+    cursor: pointer;
+    font-size: 30px;
   }
 
   /* disparition d'un article */
