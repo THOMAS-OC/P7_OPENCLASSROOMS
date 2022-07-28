@@ -61,7 +61,7 @@ const loginUser = (req, res) => {
                 };
 
                 console.log(user);
-                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '1800s'})
+                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '5400s'})
                 console.log("la clef jwt ci desssous");
                 console.log(authToken);
                 res.cookie("auth", authToken)

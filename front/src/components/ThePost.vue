@@ -1,8 +1,17 @@
 <template>
 
   <article class="ThePost">
+    <header>
+      <h3> {{ title }} </h3>
+    </header>
 
-      <h2> {{postId}} </h2>
+    <main>
+      <p>{{ content }}</p>
+    </main>
+    
+    <footer>
+      <p>like : {{ likes.length }} / dislikes : {{ dislikes.length }}</p>
+    </footer>
 
   </article>
 
@@ -12,18 +21,52 @@
 export default {
   name: 'ThePost',
 
+  // http://localhost:3000/api/post/:postId
+
   data(){
     return {
-      commentaires : [],
-      test : "test"
+      ID : "",
+      title : '',
+      date : '',
+      picture : '',
+      content : '',
+      comment : [],
+      likes : [], // listes des identifiants utilisateurs ayant like
+      dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
   },
 
   props: ["postId"],
 
-  created() {
+  mounted() {
       console.log("test");
-      console.log(this.postId);
+      console.log(this.postId); // !!!!!!!!!!
+
+      this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
+      .then(response => {
+        console.log(response.data);
+        this.ID = response.data.ID,
+        this.title = response.data.title
+        this.date = response.data.date
+        this.picture = response.data.picture || ""
+        this.content = response.data.content
+        this.comment = response.data.comment
+        this.likes = response.data.likes
+        this.dislikes = response.data.dislikes
+
+      })
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        else {
+          console.log(error);
+        }
+        // ! User not connected
+      })
+
   }
 
 }
@@ -31,10 +74,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
   article{
     position: relative;
     margin: 50px auto;
-    height: 200px;
+    height: 400px;
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
@@ -43,6 +87,16 @@ export default {
   article section{
     border-top: 2px solid red;
     height: 100px;
+  }
+
+  /* disparition d'un article */
+  .post{
+    opacity: 1;
+    transition-duration: 0.5s;
+  }
+  .post-disparate{
+    opacity: 0;
+    transform: translateY(-100px);
   }
 
 </style>

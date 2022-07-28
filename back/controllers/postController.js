@@ -88,8 +88,9 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id`,
+        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
         function(err, results, fields) {
+            console.log(err);
             console.log(results);
             bddFront.ID = results[0]["postId"]
             bddFront.title = results[0]["title"]
@@ -145,6 +146,7 @@ const updatePost = (req, res) => {
 const deletePost = (req, res) => {
     let postId = req.params.postId
     connection.query(
+        
         `DELETE FROM posts WHERE id = ${postId}`,
         function(err, results, fields) {
             console.log(results); // results contains rows returned by server
