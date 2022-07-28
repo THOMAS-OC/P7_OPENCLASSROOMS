@@ -7,8 +7,8 @@
 
     <main>
 
-      <section class="content"></section>
-      <section class="comment"></section>
+      <section v-bind:class="contentView">CONTENT</section>
+      <section v-bind:class="commentView"> COMMENT </section>
       <p>{{ content }}</p>
 
     </main>
@@ -33,6 +33,7 @@ export default {
 
   data(){
     return {
+      // data back end
       ID : "",
       userIdCreated : "",
       title : '',
@@ -41,7 +42,10 @@ export default {
       content : '',
       comment : [],
       likes : [], // listes des identifiants utilisateurs ayant like
-      dislikes : [] // listes des identifiants utilisateurs ayant dislike
+      dislikes : [], // listes des identifiants utilisateurs ayant dislike
+      // class
+      commentView : "comment comment-hide",
+      contentView : "content"
     }
   },
 
@@ -50,6 +54,18 @@ export default {
   methods:{
 
     viewComment(){
+
+      // Affichage de la section comment
+      if (this.commentView == 'comment comment-hide') {
+        this.commentView = "comment"
+        this.contentView = "content content-hide"
+      }
+
+      // Affichage de la section content
+      else {
+        this.commentView = "comment comment-hide"
+        this.contentView = "content"
+      }
 
     },
 
@@ -224,7 +240,7 @@ export default {
   article{
     position: relative;
     margin: 50px auto;
-    height: 400px;
+    height: 600px;
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
@@ -236,16 +252,17 @@ export default {
 
   article header{
     border-bottom: 2px solid #000;
-    height: 20%;
+    height: 15%;
   }
 
   article main {
-    height: 60%;
+    height: 70%;
+    position: relative;
   }
 
   article footer {
     width: 100%;
-    height: 20%;
+    height: 15%;
     border-top: 2px solid red;
     display: flex;
     justify-content: space-between;
@@ -254,16 +271,35 @@ export default {
   }
 
   .content{
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
     height: 100%;
     width: 100%;
     background-color: green;
+    transition-duration: 0.5s;
+  }
+
+  .content-hide{
+    transition-duration: 0.5s;
+    transform: translateX(-100%);
   }
 
   .comment{
-    transform: translateX(-100%);
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    top: 0;
     height: 100%;
     width: 100%;
     background-color: red;
+    transition-duration: 0.5s;
+  }
+
+  .comment-hide{
+    transition-duration: 0.5s;
+    transform: translateX(100%);
   }
 
   i{
