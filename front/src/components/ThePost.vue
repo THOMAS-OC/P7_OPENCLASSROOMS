@@ -10,8 +10,8 @@
     </main>
     
     <footer>
-      <button><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
-      <button><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
+      <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
+      <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
       <button><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
     </footer>
 
@@ -42,6 +42,37 @@ export default {
   },
 
   props: ["postId"],
+
+  methods:{
+    like(){
+      // GESTION FRONT END ET VARIABLE like
+      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
+        this.likes.push(this.$store.state.id)
+      }
+      else {
+        let myIndex = this.likes.indexOf(this.$store.state.id);
+        if (myIndex !== -1) {
+            this.likes.splice(myIndex, 1);
+        }
+      }
+      // GESTION FRONT END ET VARIABLE like
+    },
+
+    dislike(){
+      // GESTION FRONT END ET VARIABLE dislike
+      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
+        this.dislikes.push(this.$store.state.id)
+      }
+      else {
+        let myIndex = this.dislikes.indexOf(this.$store.state.id);
+        if (myIndex !== -1) {
+            this.dislikes.splice(myIndex, 1);
+        }
+
+      }
+      // GESTION FRONT END ET VARIABLE dislike
+    }
+  },
 
   mounted() {
       console.log("test");
