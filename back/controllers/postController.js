@@ -90,11 +90,41 @@ const readAllPosts = (req, res) => {
 // READ ALL POST METHOD 2
 const readOnePost = (req, res) => {
     let postId = req.params.postId
+    let bddFront = {
+        ID : "",
+        title : '',
+        date : '',
+        picture : '',
+        content : '',
+        comment : [],
+        likes : [],
+        dislikes : []
+    }
     connection.query(
-        `SELECT posts.ID, date, picture, content, name, firstname, comment FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN users ON posts.user_id = users.ID `,
+        `SELECT posts.ID as postId, likes.ID as likeId, title, date, picture, content, comment FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
+            console.log(err);
+            console.log(results);
+            bddFront.ID = results[0]["postId"]
+            bddFront.title = results[0]["title"]
+            bddFront.date = results[0]["date"]
+            bddFront.picture = results[0]["picture"]
+            bddFront.content = results[0]["content"]
+
+            // récupération des commentaires
+            for (let comment of results) {
+                if (bddFront.comment.includes(comment.comment)){
+                    console.log("doublon");
+                }
+                else {
+                    bddFront.comment.push(comment.comment)
+                    console.log(comment.comment);
+                }
+            }
+
+            // Récupération des likes et dislikes
+            
+            res.json(bddFront)
         }
     );
 }
