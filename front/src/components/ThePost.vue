@@ -1,13 +1,11 @@
 <template>
-  <div class="ThePost">
 
-    <article>
+  <article class="ThePost">
 
-      <h2 class="id">{{postId}} </h2>
+      <h2> {{postId}} </h2>
 
-    </article>
+  </article>
 
-  </div>
 </template>
 
 <script>
@@ -17,11 +15,16 @@ export default {
   data(){
     return {
       commentaires : [],
+      test : "test"
     }
   },
 
   props: ["postId"],
 
+  created() {
+      console.log("test");
+      console.log(this.postId);
+  }
 
 }
 </script>

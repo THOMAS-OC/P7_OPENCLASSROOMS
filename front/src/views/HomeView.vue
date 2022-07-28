@@ -20,7 +20,7 @@
 
       <article class="post" v-for="post in posts" :key="post">
 
-        <the-post :postId="post"></the-post>
+        <the-post :class='post' :postId="post"></the-post>
         <button v-on:click="deletePost($event, post.id)" v-if="post.user_id == returnUserId()">DELETE</button>
 
       </article>
