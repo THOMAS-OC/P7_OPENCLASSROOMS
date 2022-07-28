@@ -6,13 +6,17 @@
     </header>
 
     <main>
+
+      <section class="content"></section>
+      <section class="comment"></section>
       <p>{{ content }}</p>
+
     </main>
     
     <footer>
       <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
       <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
-      <button><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
+      <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
     </footer>
 
     <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
@@ -44,6 +48,10 @@ export default {
   props: ["postId"],
 
   methods:{
+
+    viewComment(){
+
+    },
 
     deletePost($event){
       console.log($event.target.parentNode);
@@ -220,18 +228,22 @@ export default {
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
   }
 
-  article section{
-    border-top: 2px solid red;
-    height: 100px;
+  article header{
+    border-bottom: 2px solid #000;
+    height: 20%;
+  }
+
+  article main {
+    height: 60%;
   }
 
   article footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 20%;
     border-top: 2px solid red;
@@ -239,6 +251,19 @@ export default {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+  }
+
+  .content{
+    height: 100%;
+    width: 100%;
+    background-color: green;
+  }
+
+  .comment{
+    transform: translateX(-100%);
+    height: 100%;
+    width: 100%;
+    background-color: red;
   }
 
   i{
