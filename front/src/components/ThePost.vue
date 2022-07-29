@@ -21,9 +21,9 @@
             {{ com.commentaire }}
           </p>
 
-          <button class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
+          <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
 
-          <button class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
+          <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
 
@@ -53,8 +53,6 @@
 <script>
 export default {
   name: 'ThePost',
-
-
 
   data(){
     return {
