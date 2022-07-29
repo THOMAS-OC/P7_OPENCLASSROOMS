@@ -2,8 +2,8 @@ const connection = require("../db")
 
 // CREATE COMMENT : testé et ok
 const createComment = (req, res) => {
-    let postId = req.params.postId
-    let userId = req.params.userId
+    let postId = req.body.postId
+    let userId = req.body.userId
     let comment = req.body.comment
 
     connection.query(

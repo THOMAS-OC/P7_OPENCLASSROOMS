@@ -4,7 +4,7 @@ const controller = require('../controllers/commentController')
 const auth = require('../middleware/auth')
 
 // CREATE : testé et ok
-router.post('/:postId/:userId', controller.createComment)
+router.post('/', controller.createComment)
 
 // READ : testé et ok
 router.get('/:postId', controller.readComment)

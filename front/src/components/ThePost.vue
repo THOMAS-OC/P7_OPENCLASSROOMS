@@ -8,7 +8,19 @@
     <main>
 
       <section v-bind:class="contentView">CONTENT</section>
-      <section v-bind:class="commentView"> COMMENT </section>
+      <section v-bind:class="commentView">
+
+        <p v-for="com in comment" :key="com.ID">
+          {{ com }}
+        </p>
+
+          <div class="comment__add">
+            <textarea v-model="newComment" class="comment__form" placeholder="Commentaire" name="" id="" cols="30" rows="10"></textarea>
+            <button v-on:click="createComment" class="comment__send"> Envoyer </button>
+
+          </div>
+
+      </section>
       <p>{{ content }}</p>
 
     </main>
@@ -43,6 +55,7 @@ export default {
       comment : [],
       likes : [], // listes des identifiants utilisateurs ayant like
       dislikes : [], // listes des identifiants utilisateurs ayant dislike
+      newComment : '',
       // class
       commentView : "comment comment-hide",
       contentView : "content"
@@ -66,6 +79,31 @@ export default {
         this.commentView = "comment comment-hide"
         this.contentView = "content"
       }
+
+    },
+
+    createComment(){
+      
+      this.$http.post("http://localhost:3000/api/comment/", {
+        userId : this.$store.state.id,
+        postId : this.ID,
+        comment : this.newComment
+      })
+      .then(response => {
+        console.log(response);
+        this.comment.push({ "auteur": "", "commentaire": this.newComment, "id": "", "userId": this.$store.state.id } )
+      })
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        else {
+            console.log(error);
+        }
+        // ! User not connected
+        })
 
     },
 
@@ -295,6 +333,7 @@ export default {
     width: 100%;
     background-color: red;
     transition-duration: 0.5s;
+    overflow: auto;
   }
 
   .comment-hide{
@@ -302,7 +341,22 @@ export default {
     transform: translateX(100%);
   }
 
-  i{
+  .comment__add{
+    width: 100%;
+    height: 15%;
+
+  }
+
+  .comment__form{
+    width: 90%;
+    height: 100%;
+  }
+
+  .comment_send{
+
+  }
+
+  footer i{
     margin-right: 10px;
   }
 
