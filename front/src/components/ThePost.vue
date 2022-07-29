@@ -15,7 +15,7 @@
 
       <section v-bind:class="commentView">
 
-        <article v-for="com in comment" :key="com.ID" class="comment__child">
+        <article v-for="com in comment" :key="com.id" class="comment__child">
           <img src="../assets/profil_vierge.jpg" alt="">
           <p class="comment__child__text">
             {{ com.commentaire }}
@@ -23,7 +23,7 @@
 
           <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
 
-          <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
+          <button v-if="$store.state.id == com.userId" v-on:click="deleteComment($event, com.id)" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
 
@@ -77,6 +77,36 @@ export default {
 
   methods:{
 
+    refreshPost(){
+      console.log(this.postId); // !!!!!!!!!! lecture d'une props
+
+      this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
+      .then(response => {
+        console.log(response.data);
+        this.ID = response.data.ID,
+        this.userIdCreated = response.data.userIdCreated
+        this.title = response.data.title
+        this.date = response.data.date
+        this.picture = response.data.picture || ""
+        this.content = response.data.content
+        this.comment = response.data.comment
+        this.likes = response.data.likes
+        this.dislikes = response.data.dislikes
+
+      })
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        else {
+          console.log(error);
+        }
+        // ! User not connected
+      })
+    },
+
     viewComment(){
 
       // Affichage de la section comment
@@ -115,6 +145,24 @@ export default {
         // ! User not connected
         })
 
+    },
+
+    deleteComment($event, id){
+
+      this.$http.delete("http://localhost:3000/api/comment/" + id)
+      .then(response => {
+        console.log(response);
+        this.refreshPost()
+      })
+      .catch(error => {
+        // User not connected
+        console.log(error.response.data.userConnected)
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
     },
 
     deletePost($event){
@@ -247,34 +295,7 @@ export default {
   },
 
   mounted() {
-      console.log(this.postId); // !!!!!!!!!! lecture d'une props
-
-      this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
-      .then(response => {
-        console.log(response.data);
-        this.ID = response.data.ID,
-        this.userIdCreated = response.data.userIdCreated
-        this.title = response.data.title
-        this.date = response.data.date
-        this.picture = response.data.picture || ""
-        this.content = response.data.content
-        this.comment = response.data.comment
-        this.likes = response.data.likes
-        this.dislikes = response.data.dislikes
-
-      })
-      .catch(error => {
-        // User not connected
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        else {
-          console.log(error);
-        }
-        // ! User not connected
-      })
-
+    this.refreshPost()
   }
 
 }
