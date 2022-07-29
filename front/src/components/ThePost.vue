@@ -1,8 +1,25 @@
 <template>
 
   <article class="ThePost">
-    <header>
-      <h3> {{ title }} </h3>
+    <header class="header__post">
+
+      <div class="header__post__author">
+        <img src="../assets/profil_vierge.jpg" alt="">
+        <p> {{ name }} {{ firstname }} </p>
+      </div>
+
+      <div class="header__post__title">
+        <h2> {{ title }} </h2>
+        <p> {{ date }} </p>
+      </div>
+
+      <div class="header__post__btn">
+        <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
+      </div>
+
+      <!-- <p>{{ name }} {{ firstname }}</p>
+      <p>{{ date }}</p>
+      <h3 class="header__post__title"> {{ title }} </h3> -->
     </header>
 
     <main>
@@ -17,7 +34,7 @@
 
         <article v-for="com in comment" :key="com.id" class="comment__child">
           <img src="../assets/profil_vierge.jpg" alt="">
-          <p class="comment__child__text">
+          <p contenteditable="true" class="comment__child__text">
             {{ com.commentaire }}
           </p>
 
@@ -44,7 +61,7 @@
 
     </div> -->
 
-    <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
+    <!-- <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button> -->
 
   </article>
 
@@ -58,6 +75,8 @@ export default {
     return {
       // data back end
       ID : "",
+      name : '',
+      firstname : '',
       userIdCreated : "",
       title : '',
       date : '',
@@ -84,9 +103,11 @@ export default {
       .then(response => {
         console.log(response.data);
         this.ID = response.data.ID,
+        this.name = response.data.name
+        this.firstname = response.data.firstname
         this.userIdCreated = response.data.userIdCreated
         this.title = response.data.title
-        this.date = response.data.date
+        this.date = response.data.date.slice(0,10)
         this.picture = response.data.picture || ""
         this.content = response.data.content
         this.comment = response.data.comment
@@ -331,9 +352,61 @@ export default {
     }
   }
 
-  article header{
+  .header__post{
     border-bottom: 2px solid #000;
     height: 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__post__author{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: left;
+  }
+
+  .header__post__author img {
+    border: 1px solid #FD2D01;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: contain;
+  }
+
+  .header__post__title{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0;
+    width: 50%;
+    height: 100%;
+  }
+
+  .header__post__btn{
+    width: 25%;
+    height: 100%;
+    position: relative;
+  }
+
+    /* bouton delete-post */
+  .delete-post{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    border: 2px solid #FD2D01;
+    color: white;
+    text-shadow: 0px 0px 3px black;
   }
 
   article main {
@@ -453,20 +526,7 @@ export default {
     font-size: 30px;
   }
 
-  /* bouton delete-post */
-  .delete-post{
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    font-size: 30px;
-    cursor: pointer;
-    border: 2px solid #FD2D01;
-    color: white;
-    text-shadow: 0px 0px 3px black;
-  }
+
   /* disparition d'un article */
 
   .post-disparate{
