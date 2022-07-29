@@ -79,6 +79,8 @@ const readOnePost = (req, res) => {
     let bddFront = {
         ID : "",
         userIdCreated : "",
+        name : '',
+        firstname : '',
         title : '',
         date : '',
         picture : '',
@@ -89,16 +91,20 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
+        `SELECT users.name, users.firstname, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
+        LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
+        LEFT JOIN likes ON posts.ID = likes.post_id 
+        LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
+
         function(err, results, fields) {
-            console.log(err);
-            console.log(results);
             bddFront.ID = results[0]["postId"]
             bddFront.userIdCreated = results[0]["user_id"]
             bddFront.title = results[0]["title"]
             bddFront.date = results[0]["date"]
             bddFront.picture = results[0]["picture"]
             bddFront.content = results[0]["content"]
+            bddFront.name = results[0]["name"]
+            bddFront.firstname = results[0]["firstname"]
 
             // récupération des commentaires
             for (let comment of results) {
@@ -118,7 +124,6 @@ const readOnePost = (req, res) => {
             for (let like of results){
                 if (like.value_like){
                     if (like.value_like == 1){
-                        console.log(like);
                         if (!bddFront.likes.includes(like.like_user_id)) {
                             bddFront.likes.push(like.like_user_id)                   
                         }
@@ -131,6 +136,7 @@ const readOnePost = (req, res) => {
                 }
 
             }
+            console.log(bddFront);
             res.json(bddFront)
         }
     );

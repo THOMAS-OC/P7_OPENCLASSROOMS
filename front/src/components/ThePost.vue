@@ -236,7 +236,7 @@ export default {
   },
 
   mounted() {
-      console.log(this.postId); // !!!!!!!!!!
+      console.log(this.postId); // !!!!!!!!!! lecture d'une props
 
       this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
       .then(response => {
