@@ -29,13 +29,15 @@ export default ({
     NavUser
   },
 })
-window.localStorage.setItem("id", "15")
-document.cookie="test=test2"
+
 </script>
 
 
 <style>
 
+*{
+  box-sizing: border-box;
+}
 
 .v-enter{
   opacity: 0;

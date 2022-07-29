@@ -7,21 +7,27 @@
 
     <main>
 
-      <section v-bind:class="contentView">CONTENT</section>
-      <section v-bind:class="commentView">
+      <section v-bind:class="contentView">
 
-        <p v-for="com in comment" :key="com.ID">
-          {{ com }}
-        </p>
-
-          <div class="comment__add">
-            <textarea v-model="newComment" class="comment__form" placeholder="Commentaire" name="" id="" cols="30" rows="10"></textarea>
-            <button v-on:click="createComment" class="comment__send"> Envoyer </button>
-
-          </div>
+        <p>{{ content }}</p>
 
       </section>
-      <p>{{ content }}</p>
+
+      <section v-bind:class="commentView">
+
+        <article v-for="com in comment" :key="com.ID" class="comment__child">
+          <img src="../assets/profil_vierge.jpg" alt="">
+          <p class="comment__child__text">
+            {{ com.commentaire }}
+          </p>
+
+          <button class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
+
+          <button class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
+
+        </article>
+
+      </section>
 
     </main>
     
@@ -30,6 +36,13 @@
       <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
       <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
     </footer>
+
+    <!-- <div class="comment__add">
+
+        <textarea v-model="newComment" class="comment__form" placeholder="Commentaire" name="" id="" cols="30" rows="10"></textarea>
+        <button v-on:click="createComment" class="comment__send"> Envoyer </button>
+
+    </div> -->
 
     <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
 
@@ -272,7 +285,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  article{
+  .ThePost{
+    opacity: 1;
+    transition-duration: 0.5s;
     position: relative;
     margin: 50px auto;
     height: 600px;
@@ -287,15 +302,14 @@ export default {
     animation-duration: 1s;
   }
 
-  @keyframes fondu {
 
+  @keyframes fondu {
     0%{
       opacity: 0;
     }    
     100%{
       opacity: 1;
     }
-    
   }
 
   article header{
@@ -325,7 +339,6 @@ export default {
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: green;
     transition-duration: 0.5s;
   }
 
@@ -341,9 +354,10 @@ export default {
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: red;
     transition-duration: 0.5s;
-    overflow: auto;
+    overflow-y: scroll;
+    padding-left: 3%;
+    padding-top: 1%;
   }
 
   .comment-hide{
@@ -351,6 +365,49 @@ export default {
     transform: translateX(100%);
   }
 
+  /* Affichage d'un commentaire */
+  .comment__child{
+    background-color: white;
+    display: flex;
+    align-items: flex-start;
+    width: 70%;
+    border-radius: 15px;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  .comment__child img {
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+
+  .comment__child__text {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 80%;
+  }
+  /* Affichage d'un commentaire */
+
+  /* Suppression d'un commentaire */
+
+  .comment__edit{
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .comment__edit--delete {
+    right: -60px;
+  }
+
+  /* Suppression d'un commentaire */
   .comment__add{
     width: 100%;
     height: 15%;
@@ -392,10 +449,7 @@ export default {
     text-shadow: 0px 0px 3px black;
   }
   /* disparition d'un article */
-  .ThePost{
-    opacity: 1;
-    transition-duration: 0.5s;
-  }
+
   .post-disparate{
     opacity: 0;
     transition-duration: 0.5s;
