@@ -75,8 +75,6 @@ const readAllPosts = (req, res) => {
 
 // READ ALL POST METHOD 2
 const readOnePost = (req, res) => {
-    console.log("On est sur readOne");
-    console.log(req.params);
     let postId = req.params.postId
     let bddFront = {
         ID : "",
@@ -91,7 +89,7 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
+        `SELECT posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts LEFT JOIN commentaires ON posts.ID = commentaires.post_id LEFT JOIN likes ON posts.ID = likes.post_id WHERE posts.ID = ${postId}`,
         function(err, results, fields) {
             console.log(err);
             console.log(results);
@@ -107,15 +105,12 @@ const readOnePost = (req, res) => {
 
                 if (comment.comment){
 
-
-
                     if (!bddFront.commentOnly.includes(comment.comment)){
-                        bddFront.comment.push({auteur : '', commentaire : comment.comment, id : '', userId : comment.comment_user_id})
+                        bddFront.comment.push({auteur : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
                         bddFront.commentOnly.push(comment.comment)
                     }
 
                 }
-
 
             }
 

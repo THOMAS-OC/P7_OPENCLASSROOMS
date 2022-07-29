@@ -91,7 +91,7 @@ export default {
       })
       .then(response => {
         console.log(response);
-        this.comment.push({ "auteur": "", "commentaire": this.newComment, "id": "", "userId": this.$store.state.id } )
+        this.comment.push({ "auteur": "", "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
       })
       .catch(error => {
         // User not connected
