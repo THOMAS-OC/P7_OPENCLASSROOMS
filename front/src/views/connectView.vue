@@ -44,22 +44,35 @@ export default {
   },
 
   methods:{
+    
 
     checkBDD(target){
-      this.$http.post("http://localhost:3000/api/auth/checkemail", {
-        email : this.email
-      })
-      .then(res => {
-        if (res.data.userExist){
-          console.log(target);
-          target.target.style.borderColor = "green"
-        }
-        else {
-          target.target.style.borderColor = "#FD2D01"
-        }
-      })
-      .catch(err => console.log(err))
-      console.log(this.email);
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+      if (this.email.match(emailRegex)){
+
+        this.$http.post("http://localhost:3000/api/auth/checkemail", {
+          email : this.email
+        })
+        .then(res => {
+          if (res.data.userExist){
+            console.log(target);
+            target.target.style.borderColor = "green"
+          }
+          else {
+            target.target.style.borderColor = "#FD2D01"
+          }
+        })
+        .catch(err => console.log(err))
+        console.log(this.email);
+
+      }
+
+      else {
+        target.target.style.borderColor = "#FD2D01"
+      }
+
+
     },
 
 
