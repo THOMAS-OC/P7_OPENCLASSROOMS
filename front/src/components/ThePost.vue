@@ -45,18 +45,25 @@
 
     </main>
     
-    <footer>
-      <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
-      <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
-      <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
+    <footer class="footer__post">
+
+      <div v-bind:class="footerBtn">
+        <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
+        <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
+        <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
+      </div>
+
+      <div v-bind:class="footerInput">
+
+        <button v-on:click="viewComment"><i class="fa-solid fa-arrow-left"></i></button>
+        <textarea v-model="newComment" name="" id="" cols="30" rows="10"></textarea>
+        <button v-on:click="createComment" class="comment__send"> <i class="fa-solid fa-comment-dots"></i> </button>
+
+      </div>
+
     </footer>
 
-    <!-- <div class="comment__add">
 
-        <textarea v-model="newComment" class="comment__form" placeholder="Commentaire" name="" id="" cols="30" rows="10"></textarea>
-        <button v-on:click="createComment" class="comment__send"> Envoyer </button>
-
-    </div> -->
 
   </article>
 
@@ -82,9 +89,12 @@ export default {
       likes : [], // listes des identifiants utilisateurs ayant like
       dislikes : [], // listes des identifiants utilisateurs ayant dislike
       newComment : '',
-      // class
+      // class main post
       commentView : "comment comment-hide",
-      contentView : "content"
+      contentView : "content",
+      // class footer post
+      footerBtn : 'footer__post__btn footer__post__visible',
+      footerInput : 'footer__post__comment'
     }
   },
 
@@ -127,16 +137,29 @@ export default {
 
     viewComment(){
 
-      // Affichage de la section comment
+      // Affichage de la section comment et de l'input comment
       if (this.commentView == 'comment comment-hide') {
+
+        // MAIN
         this.commentView = "comment"
         this.contentView = "content content-hide"
+
+        // FOOT
+        this.footerBtn = "footer__post__btn"
+        this.footerInput = "footer__post__comment footer__post__visible"
+
       }
 
       // Affichage de la section content
       else {
+
+        // MAIN
         this.commentView = "comment comment-hide"
         this.contentView = "content"
+
+        // FOOT
+        this.footerBtn = "footer__post__btn footer__post__visible"
+        this.footerInput = "footer__post__comment"
       }
 
     },
@@ -350,6 +373,7 @@ export default {
     }
   }
 
+  /* HEADER POST */
   .header__post{
     border-bottom: 2px solid #000;
     height: 15%;
@@ -394,6 +418,63 @@ export default {
     height: 100%;
     position: relative;
   }
+  /* END HEADER POST */
+
+  /* FOOTER POST */
+  .footer__post{
+    position: relative;
+  }
+
+  .footer__post__btn{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    transition-duration: 0.5s;
+    transform: translateX(-100%);
+  }
+
+  .footer__post__comment{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition-duration: 0.5s;
+    transform: translateX(100%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .footer__post__comment button{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+  }
+
+  .footer__post__comment button:hover{
+    color: #FD2D01;
+  }
+
+  .footer__post__comment textarea{
+    width: 70%;
+    height: 80%;
+    border-radius: 15px;
+    outline: none;
+    border: none;
+  }
+
+  .footer__post__visible{
+      transform: translateX(0%);
+  }
+  /* END FOOTER POST */
 
     /* bouton delete-post */
   .delete-post{
@@ -420,10 +501,6 @@ export default {
     width: 100%;
     height: 15%;
     border-top: 2px solid red;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
   }
 
   .content{
