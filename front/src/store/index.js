@@ -10,7 +10,8 @@ export default new Vuex.Store({
     id: "",
     name: "",
     firstName: "",
-    email : ""
+    email : "",
+    pictureprofil: ''
   },
   getters: {
   },
@@ -20,6 +21,7 @@ export default new Vuex.Store({
       state.name = user.name,
       state.firstName = user.firstName,
       state.email = user.email
+      state.pictureprofil = user.pictureprofil || ''
     },
   },
   actions: {

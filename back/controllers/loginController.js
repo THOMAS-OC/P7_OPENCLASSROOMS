@@ -58,6 +58,7 @@ const loginUser = (req, res) => {
                     name: results[0]["name"],
                     firstname: results[0]["firstname"],
                     email: results[0]["email"],
+                    pictureprofil: results[0]["pictureprofil"],
                 };
 
                 console.log(user);

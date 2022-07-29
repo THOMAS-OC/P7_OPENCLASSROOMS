@@ -3,6 +3,7 @@
     <h1>Mon profil </h1>
 
     <div class="picture-profil">
+        <img :src="$store.state.pictureprofil" alt="">
         <div class="add">+</div>
     </div>
 
@@ -196,6 +197,12 @@ export default {
         background-position: center;
         position: relative;
         cursor: pointer;
+    }
+
+    .picture-profil img {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
     }
 
     .add{
