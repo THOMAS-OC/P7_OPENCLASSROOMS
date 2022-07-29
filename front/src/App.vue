@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <!-- Affiche conditionnel de la nav de connexion si page connexion ou inscription active -->
     <template v-if="this.$router.history.current.name == 'connect' || this.$router.history.current.name == 'register' ">
       
@@ -39,16 +40,15 @@ export default ({
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif;
 }
 
 .v-enter{
   opacity: 0;
-  transform: translate(-100vw);
 }
 
 .v-enter-to{
   opacity: 1;
-  transform: translate(0vw);
   transition-duration: 1.5s;
 }
 
@@ -72,11 +72,11 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
+
 
 </style>

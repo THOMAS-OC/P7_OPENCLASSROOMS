@@ -4,7 +4,7 @@
     <header class="header__post">
 
       <div class="header__post__author">
-        <img src="../assets/profil_vierge.jpg" alt="">
+        <img :src="pictureprofil" alt="DUPONT">
         <p> {{ name }} {{ firstname }} </p>
       </div>
 
@@ -17,9 +17,6 @@
         <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
       </div>
 
-      <!-- <p>{{ name }} {{ firstname }}</p>
-      <p>{{ date }}</p>
-      <h3 class="header__post__title"> {{ title }} </h3> -->
     </header>
 
     <main>
@@ -61,8 +58,6 @@
 
     </div> -->
 
-    <!-- <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button> -->
-
   </article>
 
 </template>
@@ -81,6 +76,7 @@ export default {
       title : '',
       date : '',
       picture : '',
+      pictureprofil : '',
       content : '',
       comment : [],
       likes : [], // listes des identifiants utilisateurs ayant like
@@ -109,6 +105,7 @@ export default {
         this.title = response.data.title
         this.date = response.data.date.slice(0,10)
         this.picture = response.data.picture || ""
+        this.pictureprofil = response.data.pictureprofil
         this.content = response.data.content
         this.comment = response.data.comment
         this.likes = response.data.likes
@@ -187,8 +184,8 @@ export default {
     },
 
     deletePost($event){
-      console.log($event.target.parentNode);
-      $event.target.parentNode.className = "ThePost post-disparate"
+      console.log($event.target.parentNode.parentNode.parentNode);
+      $event.target.parentNode.parentNode.parentNode.style.display = "none"
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
       .then(response => {
         console.log(response);
@@ -331,6 +328,7 @@ export default {
     position: relative;
     margin: 50px auto;
     height: 600px;
+    max-width: 90vw;
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
@@ -385,6 +383,10 @@ export default {
     margin: 0;
     width: 50%;
     height: 100%;
+  }
+
+  .header__post__title p {
+    font-style: italic;
   }
 
   .header__post__btn{

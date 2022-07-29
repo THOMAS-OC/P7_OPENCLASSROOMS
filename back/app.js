@@ -24,6 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // gestion des cookies
 app.use(cookieParser())
+// GESTION DES FICHIERS STATIQUES
+app.use(express.static('public'));
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to API groupomania" });
