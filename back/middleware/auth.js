@@ -14,6 +14,10 @@ module.exports = (req, res, next) => {
         if (err) {
             res.status(401).json({ message: 'Error. Bad token' })
         } else {
+            console.log("VALUE TOKEN");
+            console.log(decodedToken);
+            req.body.userId = decodedToken.id
+            console.log("VALUE TOKEN");
             return next()
         }
     })

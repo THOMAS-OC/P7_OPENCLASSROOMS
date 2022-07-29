@@ -85,7 +85,6 @@ export default {
     createComment(){
       
       this.$http.post("http://localhost:3000/api/comment/", {
-        userId : this.$store.state.id,
         postId : this.ID,
         comment : this.newComment
       })
@@ -133,7 +132,6 @@ export default {
           this.likes.push(this.$store.state.id)
           // BACK
           this.$http.post("http://localhost:3000/api/post/addlike", {
-            userId : this.$store.state.id,
             postId : this.ID,
             value : "1"
           })
@@ -161,7 +159,7 @@ export default {
               this.likes.splice(myIndex, 1);
           }
           // back
-          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
+          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: {postId : this.ID } } )
           .then(response => {
             console.log(response);
           })
@@ -187,7 +185,6 @@ export default {
           console.log("On ajoute un dislike");
           this.dislikes.push(this.$store.state.id)
           this.$http.post("http://localhost:3000/api/post/addlike", {
-            userId : this.$store.state.id,
             postId : this.ID,
             value : '-1'
           })
@@ -216,7 +213,7 @@ export default {
           }
 
           // back
-          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: { userId : this.$store.state.id, postId : this.ID } } )
+          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: {postId : this.ID } } )
           .then(response => {
               console.log(response);
           })
