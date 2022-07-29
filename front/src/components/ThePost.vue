@@ -283,6 +283,19 @@ export default {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    animation-name: fondu;
+    animation-duration: 1s;
+  }
+
+  @keyframes fondu {
+
+    0%{
+      opacity: 0;
+    }    
+    100%{
+      opacity: 1;
+    }
+    
   }
 
   article header{

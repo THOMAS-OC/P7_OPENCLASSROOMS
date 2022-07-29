@@ -81,6 +81,7 @@ const readOnePost = (req, res) => {
         userIdCreated : "",
         name : '',
         firstname : '',
+        pictureprofil : '',
         title : '',
         date : '',
         picture : '',
@@ -91,7 +92,7 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
     connection.query(
-        `SELECT users.name, users.firstname, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
+        `SELECT users.name, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
         LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
         LEFT JOIN likes ON posts.ID = likes.post_id 
         LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
@@ -105,7 +106,7 @@ const readOnePost = (req, res) => {
             bddFront.content = results[0]["content"]
             bddFront.name = results[0]["name"]
             bddFront.firstname = results[0]["firstname"]
-
+            bddFront.pictureprofil = results[0]["pictureprofil"]
             // récupération des commentaires
             for (let comment of results) {
 

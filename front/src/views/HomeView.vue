@@ -48,19 +48,7 @@ export default {
   },
 
   mounted(){
-    this.$http.get("http://localhost:3000/api/post")
-    .then(response => {
-        this.posts = response.data
-        console.log(response.data);
-    })
-    .catch(error => {
-      // User not connected
-      if (error.response.data.userConnected == 'false') {
-          alert("Veuillez vous connecter svp")
-          this.$router.push("connect")
-      }
-      // ! User not connected
-    })
+    this.refreshPosts()
   },
 
   created: function () {
@@ -68,6 +56,24 @@ export default {
   },
 
   methods:{
+
+    refreshPosts(){
+      // this.posts = []
+      this.$http.get("http://localhost:3000/api/post")
+      .then(response => {
+          this.posts = response.data
+          console.log(response.data);
+      })
+      .catch(error => {
+        // User not connected
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
+    },
+
     returnUserId(){
       return window.localStorage.getItem("id")
     },
@@ -81,7 +87,8 @@ export default {
       })
       .then(response => {
         console.log(response);
-        window.location.reload()
+        // window.location.reload()
+        this.refreshPosts()
       })
       .catch(error => {
         // User not connected

@@ -6,7 +6,7 @@
         <div class="add">+</div>
     </div>
 
-    <h2>{{ $store.state.firstName }} {{ $store.state.name }} {{ $store.state.id }}</h2>
+    <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
 
     <form v-on:submit.prevent="updateUser">
         
