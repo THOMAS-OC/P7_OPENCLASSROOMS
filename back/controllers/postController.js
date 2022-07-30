@@ -91,6 +91,7 @@ const readOnePost = (req, res) => {
         likes : [], // listes des identifiants utilisateurs ayant like
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
+
     connection.query(
         `SELECT users.name, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
         LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
