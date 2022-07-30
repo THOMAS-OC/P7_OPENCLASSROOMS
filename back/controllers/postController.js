@@ -20,36 +20,158 @@ const like = (req, res) => {
 
     let userId = req.body.userId
     let postId = req.body.postId
-    let valueLike = req.body.value
+    let valueLike = req.body.valueLike
 
+    console.log(req.body);
+
+    // On envoie un like
     if (valueLike == 1){
         connection.query(
             `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
             function(err, results, fields) {
-                console.log(results);
+                console.log(results[0]);
+
+                // --> Si on ne trouve ni like ni dislike, on ajoute simplement un like
+                if(!results[0]){
+                    connection.query(
+
+                        `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, '1')`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+                            console.log("Ajout de like");
+                            res.json(results)
+                        }
+                    );
+                }
+
+                // --> Si like déjà présent, suppression du like, eviter les doublons
+                else if (results[0]["value"] == 1) {
+
+                    connection.query(
+
+                        `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+                            console.log("delete de like");
+                            res.json(results)
+                        }
+                    );
+                    
+                }
+
+                // --> Si dislike existant, suppression du dislike et ajout d'un like
+                else if (results[0]["value"] == -1) {
+                    connection.query(
+
+                        // Suppression du dislike
+                        `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+
+                            // Ajout du like
+                            connection.query(
+
+                                `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, '1')`,
+                                function(err, results, fields) {
+                                    if(err){
+                                        res.json(err)
+                                    }
+                                    console.log("Suppression de dislike, ajout de like");
+                                    res.json(results)
+                                }
+
+                            );
+
+                        }
+                    );
+                }
+
+                
             }
         );
     }
 
     else if (valueLike == -1){
+        connection.query(
+            `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+            function(err, results, fields) {
+                console.log(results[0]);
 
+                // --> Si on ne trouve ni like ni dislike, on ajoute simplement un dislike
+                if(!results[0]){
+                    connection.query(
+
+                        `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, '-1')`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+                            console.log("Ajout de dislike");
+                            res.json(results)
+                        }
+                    );
+                }
+
+                // --> Si dislike déjà présent, suppression du dislike, eviter les doublons
+                else if (results[0]["value"] == -1) {
+
+                    connection.query(
+
+                        `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+                            console.log("delete de dislike");
+                            res.json(results)
+                        }
+                    );
+                    
+                }
+
+                // --> Si like existant, suppression du like et ajout d'un dislike
+                else if (results[0]["value"] == 1) {
+                    connection.query(
+
+                        // Suppression du dislike
+                        `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                        function(err, results, fields) {
+                            if(err){
+                                res.json(err)
+                            }
+
+                            // Ajout du like
+                            connection.query(
+
+                                `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, '-1')`,
+                                function(err, results, fields) {
+                                    if(err){
+                                        res.json(err)
+                                    }
+                                    console.log("Suppression de like, ajout de dislike");
+                                    res.json(results)
+                                }
+
+                            );
+
+                        }
+                    );
+                }
+
+                
+            }
+        );
     }
 
     else{
         res.status(403).json({message : "Donnée non valide"})
     }
-
-    // On envoie un like
-    // -------------
-    // --> Si inexistant, on ajoute un like
-    // --> Si like déjà présent, suppression du like
-    // --> Si dislike existant, suppression du dislike et ajout d'un like
-
-    // On envoie un dislike
-    // -------------
-    // --> Si inexistant, on ajoute un dislike
-    // --> Si dislike déjà présent, suppression du dislike
-    // --> Si like existant, suppression du like et ajout d'un dislike
 
 }
 
