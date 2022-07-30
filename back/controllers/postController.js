@@ -152,11 +152,29 @@ const readOnePost = (req, res) => {
 
     queryPromise()
     .then(resultats => {
+        let i = 0
+
         for (let resultat of resultats.comment){
-            console.log(resultat);
-            resultat.auteur = "toto Jean"
+
+            connection.query(
+
+                `SELECT name, firstname FROM users WHERE ID=${resultat.userId}`,
+                function(err, results, fields) {
+                    console.log(results[0]);
+                    resultat.auteur = results[0]['name'] + " " + results[0]['firstname']
+                    i += 1
+                    console.log(i);
+                    if (i == resultats.comment.length){
+                        res.json(resultats)
+                    }
+                }
+
+            );
+            
         }
-        res.json(resultats)
+
+        
+        
     })
     .catch(error => {
         console.log("On log l'erreur");
