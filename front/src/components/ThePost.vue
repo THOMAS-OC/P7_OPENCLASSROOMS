@@ -34,6 +34,7 @@
           <p contenteditable="true" class="comment__child__text">
             {{ com.commentaire }}
           </p>
+          <p class="comment__child__author">{{ com.auteur }}</p>
 
           <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
 
@@ -543,7 +544,7 @@ export default {
     align-items: flex-start;
     width: 70%;
     border-radius: 15px;
-    margin-top: 10px;
+    margin-top: 30px;
     position: relative;
   }
 
@@ -562,7 +563,17 @@ export default {
     text-align: left;
     width: 80%;
   }
-  /* Affichage d'un commentaire */
+  /* FIN Affichage d'un commentaire */
+
+  /* affichage auteur d'un commentaire */
+  .comment__child__author{
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-style: italic;
+  }
 
   /* Suppression d'un commentaire */
 

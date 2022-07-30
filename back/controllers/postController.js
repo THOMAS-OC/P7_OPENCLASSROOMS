@@ -172,8 +172,7 @@ const readOnePost = (req, res) => {
             );
             
         }
-
-        
+   
         
     })
     .catch(error => {
