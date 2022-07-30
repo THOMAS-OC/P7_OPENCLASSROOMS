@@ -7,15 +7,24 @@
     </nav> -->
 
     <h1>Se connecter sur groupomania</h1>
-    <form v-on:submit.prevent="connect">
+    <form class="form__connect" v-on:submit.prevent="connect">
+      
 
-        <div>
+          <div class="form__connect__email">
 
             <input v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <i v-if="emailValid" :class="emailValid"></i>
+          
+          </div>
+
+          <div class="form__connect__password">
+
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
-        
-        </div>
-            
+            <i style="opacity : 0" v-if="emailValid" :class="emailValid"></i>
+
+          </div>
+
+                    
         <input type="submit" value="Se connecter">
 
     </form>
@@ -32,6 +41,7 @@ export default {
     return {
         email : "",
         password : "",
+        emailValid : "fa-solid fa-check op0"
     }
   },
 
@@ -57,7 +67,8 @@ export default {
         .then(res => {
           if (res.data.userExist){
             console.log(target);
-            target.target.style.borderColor = "green"
+            target.target.style.borderBottom = "2px solid green"
+            this.emailValid = "fa-solid fa-check op1"
           }
           else {
             target.target.style.borderColor = "#FD2D01"
@@ -116,7 +127,7 @@ export default {
     height: 100vh;
 }
 
- form{
+.form__connect{
     background-image: url("../assets/logo.png");
     overflow: hidden;
     background-size: cover;
@@ -132,28 +143,47 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     overflow: hidden;
-}
-
-form div{
-    width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 40%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.588);
+    justify-content: center;
 }
 
-input:not(input[type="submit"]){
-    border: none;
-    border-bottom: 2px solid #FD2D01;
-    width: 100%;
-    height: 50px;
-    font-size: 35px;
-    background-color: transparent;
+.form__connect__email{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.form__connect__password{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+input[type="email"], input[type="password"]{
+  width: 60%;
+  height: 60%;
+  background-color: rgba(255, 255, 255, 0.817);
+  border: 1px solid gray;
+  font-size: 30px;
+  border-bottom: 2px solid #FD2D01;
+
+}
+
+
+i{
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+.op0{
+  opacity: 0;
+}
+
+.op1{
+  opacity: 1;
 }
 
 

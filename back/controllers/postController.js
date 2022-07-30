@@ -15,6 +15,44 @@ const createPost = (req, res) => {
     );
 }
 
+// NEW SYSTEM OF LIKE
+const like = (req, res) => {
+
+    let userId = req.body.userId
+    let postId = req.body.postId
+    let valueLike = req.body.value
+
+    if (valueLike == 1){
+        connection.query(
+            `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+            function(err, results, fields) {
+                console.log(results);
+            }
+        );
+    }
+
+    else if (valueLike == -1){
+
+    }
+
+    else{
+        res.status(403).json({message : "Donnée non valide"})
+    }
+
+    // On envoie un like
+    // -------------
+    // --> Si inexistant, on ajoute un like
+    // --> Si like déjà présent, suppression du like
+    // --> Si dislike existant, suppression du dislike et ajout d'un like
+
+    // On envoie un dislike
+    // -------------
+    // --> Si inexistant, on ajoute un dislike
+    // --> Si dislike déjà présent, suppression du dislike
+    // --> Si like existant, suppression du like et ajout d'un dislike
+
+}
+
 // CREATE LIKE : testé et ok
 
 const addLike = (req, res) => {
@@ -241,6 +279,7 @@ module.exports = {
     readOnePost,
     updatePost,
     deletePost,
+    like,
     addLike,
     deleteLike
 }

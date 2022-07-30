@@ -175,6 +175,7 @@ export default {
         console.log(this.ID);
         console.log(response);
         this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
+        this.newComment = ''
       })
       .catch(error => {
         // User not connected
