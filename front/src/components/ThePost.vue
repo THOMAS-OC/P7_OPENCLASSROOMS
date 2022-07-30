@@ -49,8 +49,8 @@
     <footer class="footer__post">
 
       <div v-bind:class="footerBtn">
-        <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
-        <button v-on:click="dislike"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
+        <button v-on:click="like(arg = 1)"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
+        <button v-on:click="like(arg = -1)"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
         <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
       </div>
 
@@ -228,114 +228,29 @@ export default {
 
     },
 
-    like(){
-      // add like
-      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
-          // FRONT
-          this.likes.push(this.$store.state.id)
-          // BACK
-          this.$http.post("http://localhost:3000/api/post/addlike", {
-            postId : this.ID,
-            value : "1"
-          })
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            // User not connected
-            if (error.response.data.userConnected == 'false') {
-                alert("Veuillez vous connecter svp")
-                this.$router.push("connect")
-            }
-            else {
-              console.log(error);
-            }
-            // ! User not connected
-          })
-      }
-
-      else {
-        // delete like
-          // front
-          let myIndex = this.likes.indexOf(this.$store.state.id);
-          if (myIndex !== -1) {
-              this.likes.splice(myIndex, 1);
+    like(arg){
+      this.$http.post("http://localhost:3000/api/post/like", {
+          postId : this.ID,
+          valueLike : arg
+      })
+      .then(response => {
+          console.log(response);
+          this.refreshPost()
+      })
+      .catch(error => {
+        // User not connected
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
           }
-          // back
-          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: {postId : this.ID } } )
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            // User not connected
-            if (error.response.data.userConnected == 'false') {
-                alert("Veuillez vous connecter svp")
-                this.$router.push("connect")
-            }
-            else {
-              console.log(error);
-            }
-            // ! User not connected
-          })
-      }
+          else {
+            console.log(error);
+          }
+          // ! User not connected
+        })
 
     },
 
-    dislike(){
-
-      if (!this.likes.includes(this.$store.state.id) && !this.dislikes.includes(this.$store.state.id)){
-
-          console.log("On ajoute un dislike");
-          this.dislikes.push(this.$store.state.id)
-          this.$http.post("http://localhost:3000/api/post/addlike", {
-            postId : this.ID,
-            value : '-1'
-          })
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            // User not connected
-            if (error.response.data.userConnected == 'false') {
-                alert("Veuillez vous connecter svp")
-                this.$router.push("connect")
-            }
-            else {
-              console.log(error);
-            }
-            // ! User not connected
-          })
-
-      }
-
-      else {
-          console.log("On supprime un dislike");
-          let myIndex = this.dislikes.indexOf(this.$store.state.id);
-          if (myIndex !== -1) {
-              this.dislikes.splice(myIndex, 1);
-          }
-
-          // back
-          this.$http.delete("http://localhost:3000/api/post/deletelike", { data: {postId : this.ID } } )
-          .then(response => {
-              console.log(response);
-          })
-          .catch(error => {
-            // User not connected
-            if (error.response.data.userConnected == 'false') {
-                alert("Veuillez vous connecter svp")
-                this.$router.push("connect")
-            }
-            else {
-              console.log(error);
-            }
-            // ! User not connected
-          })
-
-        }
-
-
-    }
   },
 
   mounted() {

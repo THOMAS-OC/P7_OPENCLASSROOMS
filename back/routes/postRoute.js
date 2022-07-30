@@ -12,7 +12,7 @@ router.post('/', auth, controller.createPost)
 router.post('/addlike', auth, controller.addLike)
 
 // Ajout d'un like ou d'un dislike : testé et ok
-router.post('/like', controller.like)
+router.post('/like', auth, controller.like)
 
 // Suppression d'un like ou d'un dislike : testé et ok
 router.delete('/deletelike', auth, controller.deleteLike) 

@@ -15,7 +15,7 @@ const createPost = (req, res) => {
     );
 }
 
-// NEW SYSTEM OF LIKE
+// NEW SYSTEM OF LIKE : testé et ok
 const like = (req, res) => {
 
     let userId = req.body.userId
@@ -163,7 +163,6 @@ const like = (req, res) => {
                         }
                     );
                 }
-
                 
             }
         );
