@@ -4,7 +4,7 @@
     <header class="header__post">
 
       <div class="header__post__author">
-        <img :src="pictureprofil" alt="DUPONT">
+        <img :src="pictureprofil" alt="test">
         <p> {{ name }} {{ firstname }} </p>
       </div>
 
@@ -30,7 +30,7 @@
       <section v-bind:class="commentView">
 
         <article v-for="com in comment" :key="com.id" class="comment__child">
-          <img src="../assets/profil_vierge.jpg" alt="">
+          <img :src="com.pictureprofil" alt="test">
           <p contenteditable="true" class="comment__child__text">
             {{ com.commentaire }}
           </p>
@@ -172,8 +172,9 @@ export default {
         comment : this.newComment
       })
       .then(response => {
+        console.log(this.ID);
         console.log(response);
-        this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.name, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
+        this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
       })
       .catch(error => {
         // User not connected

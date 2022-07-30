@@ -119,7 +119,7 @@ const readOnePost = (req, res) => {
                         if (comment.comment){
         
                             if (!bddFront.commentOnly.includes(comment.comment)){
-                                bddFront.comment.push({auteur : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
+                                bddFront.comment.push({auteur : '', pictureprofil : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
                                 bddFront.commentOnly.push(comment.comment)
                             }
         
@@ -158,13 +158,15 @@ const readOnePost = (req, res) => {
 
             connection.query(
 
-                `SELECT name, firstname FROM users WHERE ID=${resultat.userId}`,
+                `SELECT name, firstname, pictureprofil FROM users WHERE ID=${resultat.userId}`,
                 function(err, results, fields) {
                     console.log(results[0]);
                     resultat.auteur = results[0]['name'] + " " + results[0]['firstname']
+                    resultat.pictureprofil = results[0]['pictureprofil']
                     i += 1
                     console.log(i);
                     if (i == resultats.comment.length){
+                        console.log(resultats);
                         res.json(resultats)
                     }
                 }
