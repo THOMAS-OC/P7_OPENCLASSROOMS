@@ -75,7 +75,7 @@ const readAllPosts = (req, res) => {
 
 // READ ONE POST
 const readOnePost = (req, res) => {
-
+    console.log("on lit un post");
     let postId = req.params.postId
 
     let bddFront = {
@@ -104,6 +104,9 @@ const readOnePost = (req, res) => {
                 LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
         
                 function(err, results, fields) {
+                    if (err){
+                        console.log(err);
+                    }
                     bddFront.ID = results[0]["postId"]
                     bddFront.userIdCreated = results[0]["user_id"]
                     bddFront.title = results[0]["title"]
@@ -152,29 +155,40 @@ const readOnePost = (req, res) => {
 
     queryPromise()
     .then(resultats => {
+        console.log(resultats.comment[0]);
+        console.log(typeof resultats.comment);
         let i = 0
 
-        for (let resultat of resultats.comment){
+        if (resultats.comment[0]){
+            console.log("Gestion des commentaires");
+            for (let resultat of resultats.comment){
 
-            connection.query(
-
-                `SELECT name, firstname, pictureprofil FROM users WHERE ID=${resultat.userId}`,
-                function(err, results, fields) {
-                    console.log(results[0]);
-                    resultat.auteur = results[0]['name'] + " " + results[0]['firstname']
-                    resultat.pictureprofil = results[0]['pictureprofil']
-                    i += 1
-                    console.log(i);
-                    if (i == resultats.comment.length){
-                        console.log(resultats);
-                        res.json(resultats)
+                connection.query(
+    
+                    `SELECT name, firstname, pictureprofil FROM users WHERE ID=${resultat.userId}`,
+                    function(err, results, fields) {
+                        if (err){
+                            console.log(err);
+                        }
+                        resultat.auteur = results[0]['name'] + " " + results[0]['firstname']
+                        resultat.pictureprofil = results[0]['pictureprofil']
+                        i += 1
+                        console.log(i);
+                        if (i == resultats.comment.length){
+                            res.json(resultats)
+                        }
                     }
-                }
-
-            );
-            
+    
+                );
+                
+            }
         }
-   
+
+        else {
+            console.log('Pas de commentaires sur ce post');
+            res.json(resultats)
+        }
+ 
         
     })
     .catch(error => {
