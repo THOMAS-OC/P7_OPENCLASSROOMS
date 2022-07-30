@@ -56,7 +56,7 @@ const addLike = (req, res) => {
 
 
 
-// READ ALL POSTS : METHODE 1
+// READ ALL POSTS : GET ALL ID's
 const readAllPosts = (req, res) => {
     let listIds = []
     connection.query(
@@ -73,9 +73,11 @@ const readAllPosts = (req, res) => {
 
 }
 
-// READ ALL POST METHOD 2
+// READ ONE POST
 const readOnePost = (req, res) => {
+
     let postId = req.params.postId
+
     let bddFront = {
         ID : "",
         userIdCreated : "",
@@ -92,56 +94,76 @@ const readOnePost = (req, res) => {
         dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
 
-    connection.query(
-        `SELECT users.name, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
-        LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
-        LEFT JOIN likes ON posts.ID = likes.post_id 
-        LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
+    const queryPromise = () => {
 
-        function(err, results, fields) {
-            bddFront.ID = results[0]["postId"]
-            bddFront.userIdCreated = results[0]["user_id"]
-            bddFront.title = results[0]["title"]
-            bddFront.date = results[0]["date"]
-            bddFront.picture = results[0]["picture"]
-            bddFront.content = results[0]["content"]
-            bddFront.name = results[0]["name"]
-            bddFront.firstname = results[0]["firstname"]
-            bddFront.pictureprofil = results[0]["pictureprofil"]
-            // récupération des commentaires
-            for (let comment of results) {
-
-                if (comment.comment){
-
-                    if (!bddFront.commentOnly.includes(comment.comment)){
-                        bddFront.comment.push({auteur : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
-                        bddFront.commentOnly.push(comment.comment)
-                    }
-
-                }
-
-            }
-
-            // Récupération des likes et dislikes
-            for (let like of results){
-                if (like.value_like){
-                    if (like.value_like == 1){
-                        if (!bddFront.likes.includes(like.like_user_id)) {
-                            bddFront.likes.push(like.like_user_id)                   
+        return new Promise((resolve, reject) => {
+            connection.query(
+                `SELECT users.name, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
+                LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
+                LEFT JOIN likes ON posts.ID = likes.post_id 
+                LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
+        
+                function(err, results, fields) {
+                    bddFront.ID = results[0]["postId"]
+                    bddFront.userIdCreated = results[0]["user_id"]
+                    bddFront.title = results[0]["title"]
+                    bddFront.date = results[0]["date"]
+                    bddFront.picture = results[0]["picture"]
+                    bddFront.content = results[0]["content"]
+                    bddFront.name = results[0]["name"]
+                    bddFront.firstname = results[0]["firstname"]
+                    bddFront.pictureprofil = results[0]["pictureprofil"]
+                    // récupération des commentaires
+                    for (let comment of results) {
+        
+                        if (comment.comment){
+        
+                            if (!bddFront.commentOnly.includes(comment.comment)){
+                                bddFront.comment.push({auteur : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
+                                bddFront.commentOnly.push(comment.comment)
+                            }
+        
                         }
+        
                     }
-                    else {
-                        if (!bddFront.dislikes.includes(like.like_user_id)) {
-                            bddFront.dislikes.push(like.like_user_id)                   
+        
+                    // Récupération des likes et dislikes
+                    for (let like of results){
+                        if (like.value_like){
+                            if (like.value_like == 1){
+                                if (!bddFront.likes.includes(like.like_user_id)) {
+                                    bddFront.likes.push(like.like_user_id)                   
+                                }
+                            }
+                            else {
+                                if (!bddFront.dislikes.includes(like.like_user_id)) {
+                                    bddFront.dislikes.push(like.like_user_id)                   
+                                }
+                            }
                         }
+        
                     }
+                    return resolve(bddFront)
                 }
+            );
+        })
 
-            }
-            console.log(bddFront);
-            res.json(bddFront)
+    }
+
+    queryPromise()
+    .then(resultats => {
+        for (let resultat of resultats.comment){
+            console.log(resultat);
+            resultat.auteur = "toto Jean"
         }
-    );
+        res.json(resultats)
+    })
+    .catch(error => {
+        console.log("On log l'erreur");
+        console.log(error);
+    })
+
+
 }
 
 // UPDATE POST
