@@ -71,6 +71,7 @@ export default {
             this.emailValid = "fa-solid fa-check op1"
           }
           else {
+            this.emailValid = "fa-solid fa-check op0"
             target.target.style.borderColor = "#FD2D01"
           }
         })
@@ -80,6 +81,7 @@ export default {
       }
 
       else {
+        this.emailValid = "fa-solid fa-check op0"
         target.target.style.borderColor = "#FD2D01"
       }
 

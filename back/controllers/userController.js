@@ -2,18 +2,6 @@ const connection = require("../db")
 const bcrypt = require("bcrypt")
 const cookieParser = require('cookie-parser')
 
-// READ INFORMATIONS : testé et ok
-const readUser = (req, res) => {
-
-    let userId = req.body.userId
-    connection.query(
-        `SELECT email, name, firstname FROM users WHERE id = ${userId}`,
-        function(err, results, fields) {
-            console.log(results[0]); // results contains rows returned by server
-            res.json(results[0])
-        }
-    );
-}
 
 // UPDATE INFORMATIONS : 
 const updateUser = (req, res) => {
@@ -58,7 +46,6 @@ const deleteUser = (req, res) => {
     console.log(userId);
 
     if (req.body.admin == 1){
-        console.log("Vous ne pouvez pas supprimer le compte administrateur");
         res.status(401).json({message: "Vous ne pouvez pas supprimer le compte administrateur"})
     }
 
@@ -66,9 +53,14 @@ const deleteUser = (req, res) => {
         connection.query(
             `DELETE FROM users WHERE ID = ${userId}`,
             function(err, results, fields) {
-                console.log(results); // results contains rows returned by server
-                console.log(err);
-                res.json({message : "User delete"})
+                if (err){
+                    res.json("err")
+                }
+                else {
+                    console.log(results); 
+                    res.clearCookie("auth")
+                    res.json({message : "User delete"})
+                }
             }
         );
     }
@@ -76,7 +68,6 @@ const deleteUser = (req, res) => {
 }
 
 module.exports = { 
-    readUser,
     deleteUser,
     updateUser
 }

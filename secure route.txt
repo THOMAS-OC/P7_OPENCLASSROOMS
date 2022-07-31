@@ -8,3 +8,11 @@ like (factoriser)
 update user (user)
 delete user (user)
 read user (passer sur du get grâce au middleware auth)
+
+2) Empecher l'administrateur de supprimer son compte (visuellement et dans le back) OK
+
+3) améliorer formulaire inscription visuellement et verif de data
+
+4) faire disparaitre le check email si nouvelle saisie non valide OK
+
+5) Faire expirer le cookie d'auth une fois le compte supprimé OK
