@@ -17,6 +17,6 @@ router.get('/:postId', auth, controller.readOnePost)
 router.put('/', auth, controller.updatePost)
 
 // DELETE : testé et ok
-router.delete('/:postId', auth, controller.deletePost)
+router.delete('/:postId', controller.deletePost)
 
 module.exports = router;

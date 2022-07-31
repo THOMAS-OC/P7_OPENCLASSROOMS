@@ -31,7 +31,7 @@ const readComment = (req, res) => {
 
 }
 
-// UPDATE COMMENT : testé et ok
+// UPDATE COMMENT
 const updateComment = (req, res) => {
 
     let commentId = req.params.commentId
@@ -64,7 +64,7 @@ const updateComment = (req, res) => {
 
 }
 
-// DELETE COMMENT : testé et ok
+// DELETE COMMENT
 const deleteComment = (req, res) => {
 
     let commentId = req.params.commentId

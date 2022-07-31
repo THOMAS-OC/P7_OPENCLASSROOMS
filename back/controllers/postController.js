@@ -334,14 +334,44 @@ const updatePost = (req, res) => {
 // DELETE POST : testé et ok
 const deletePost = (req, res) => {
     let postId = req.params.postId
-    connection.query(
+
+    // connection.query(
         
-        `DELETE FROM posts WHERE id = ${postId}`,
+    //     `DELETE FROM posts WHERE ID = ${postId}`,
+    //     function(err, results, fields) {
+    //         console.log(results);
+    //         res.json(results)
+    //     }
+    // );
+
+
+    connection.query(
+        `SELECT * FROM posts WHERE ID= ${postId}`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
+
+            if (!results[0]){
+                res.status(404).json({message: "Post introuvable"})
+            }
+
+            else {
+                if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
+                    connection.query(
+                        `DELETE FROM posts WHERE ID = ${postId}`,
+                        function(err, results, fields) {
+                            console.log(results);
+                            res.json(results)
+                        }
+                    );
+                }
+                else {
+                    res.status(401).json({message: "Suppression non autorisée"})
+                }
+            }
+
         }
     );
+
+
 }
 
 module.exports = { 

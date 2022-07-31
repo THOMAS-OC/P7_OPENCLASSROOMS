@@ -13,6 +13,6 @@ router.get('/:postId', controller.readComment)
 router.put('/:commentId', auth, controller.updateComment)
 
 // DELETE : testé et ok
-router.delete('/:commentId', controller.deleteComment)
+router.delete('/:commentId', auth, controller.deleteComment)
 
 module.exports = router;

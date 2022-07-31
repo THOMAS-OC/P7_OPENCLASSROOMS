@@ -1,5 +1,7 @@
-update comment (user)
-delete comment (user et admin)
+update comment (user) on cible le commentaire avec son id et si la clef etrangère user_id correspond
+on peut alors supprimer OK
+
+delete comment (user et admin) on cible le commentaire avec son id et si la clef etrangère user_id correspond on peut alors supprimer OK
 
 update post (user)
 delete post (user et admin)
