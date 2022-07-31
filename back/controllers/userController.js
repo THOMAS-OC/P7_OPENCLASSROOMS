@@ -56,14 +56,23 @@ const updateUser = (req, res) => {
 const deleteUser = (req, res) => {
     let userId = req.body.userId
     console.log(userId);
-    connection.query(
-        `DELETE FROM users WHERE ID = ${userId}`,
-        function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(err);
-            res.json({message : "User delete"})
-        }
-    );
+
+    if (req.body.admin == 1){
+        console.log("Vous ne pouvez pas supprimer le compte administrateur");
+        res.status(401).json({message: "Vous ne pouvez pas supprimer le compte administrateur"})
+    }
+
+    else {
+        connection.query(
+            `DELETE FROM users WHERE ID = ${userId}`,
+            function(err, results, fields) {
+                console.log(results); // results contains rows returned by server
+                console.log(err);
+                res.json({message : "User delete"})
+            }
+        );
+    }
+    
 }
 
 module.exports = { 
