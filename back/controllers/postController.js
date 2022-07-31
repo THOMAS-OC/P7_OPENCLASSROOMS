@@ -174,44 +174,7 @@ const like = (req, res) => {
 
 }
 
-// CREATE LIKE : testé et ok
 
-const addLike = (req, res) => {
-    let userId = req.body.userId
-    let postId = req.body.postId
-    let valueLike = req.body.value
-    console.log(req.body);
-    connection.query(
-        `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
-        function(err, results, fields) {
-            if(results[0]){
-                res.status(409).json({message: "Like existant"})
-            }
-            else {
-                connection.query(
-                    `INSERT INTO likes (post_id, user_id, VALUE) VALUES (${postId}, ${userId}, ${valueLike});`,
-                    function(err, results, fields) {
-                        if (err) {
-                            res.json(err)
-                        }
-
-                        else {  
-                            if (valueLike == 1){
-                                res.status(200).json({message : "Like"})
-                            }
-                            else {
-                                res.status(200).json({message : "Dislike"})
-                            }
-                        }
-
-                    }
-                );
-            }
-        }
-    );
-
-
-}
 
 
 
@@ -239,6 +202,7 @@ const readOnePost = (req, res) => {
 
     let bddFront = {
         ID : "",
+        admin : 0,
         userIdCreated : "",
         name : '',
         firstname : '',
@@ -257,7 +221,7 @@ const readOnePost = (req, res) => {
 
         return new Promise((resolve, reject) => {
             connection.query(
-                `SELECT users.name, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
+                `SELECT users.name, users.admin, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
                 LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
                 LEFT JOIN likes ON posts.ID = likes.post_id 
                 LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
@@ -267,6 +231,10 @@ const readOnePost = (req, res) => {
                         console.log(err);
                     }
                     bddFront.ID = results[0]["postId"]
+                    console.log("ADMIN ?");
+                    bddFront.admin = results[0]["admin"]
+                    console.log(results[0]["admin"]);
+                    console.log("ADMIN ?");
                     bddFront.userIdCreated = results[0]["user_id"]
                     bddFront.title = results[0]["title"]
                     bddFront.date = results[0]["date"]
@@ -376,31 +344,11 @@ const deletePost = (req, res) => {
     );
 }
 
-// DELETE LIKE : testé et ok
-const deleteLike = (req, res) => {
-    let userId = req.body.userId
-    let postId = req.body.postId
-    connection.query(
-        `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
-        function(err, results, fields) {
-            console.log(results.affectedRows); // results contains rows returned by server
-            if (results.affectedRows){
-                res.status(200).json({message: "Like supprimé"})
-            }
-            else {
-                res.status(404).json({message: "Like introuvable en BDD"})
-            }
-        }
-    );
-}
-
 module.exports = { 
     createPost,
     readAllPosts,
     readOnePost,
     updatePost,
     deletePost,
-    like,
-    addLike,
-    deleteLike
+    like
 }

@@ -55,6 +55,7 @@ const loginUser = (req, res) => {
 
                 const user = {
                     id: results[0]["ID"],
+                    admin: results[0]["admin"],
                     name: results[0]["name"],
                     firstname: results[0]["firstname"],
                     email: results[0]["email"],

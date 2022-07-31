@@ -98,7 +98,7 @@ export default {
       .then(response => {
             console.log(response.data);
             console.log(response.data.token);
-            this.$store.commit('setUser', {id: response.data.user.id, name:response.data.user.name, firstName:response.data.user.firstname, email:response.data.user.email, pictureprofil:response.data.user.pictureprofil})
+            this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:response.data.user.email, pictureprofil:response.data.user.pictureprofil})
             this.$router.push("home")
       })
 

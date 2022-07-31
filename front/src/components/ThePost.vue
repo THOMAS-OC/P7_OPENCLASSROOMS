@@ -14,7 +14,7 @@
       </div>
 
       <div class="header__post__btn">
-        <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated" class="delete-post">X</button>
+        <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated || $store.state.admin == 1" class="delete-post">X</button>
       </div>
 
     </header>
@@ -36,9 +36,9 @@
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
 
-          <button v-if="$store.state.id == com.userId" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
+          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
 
-          <button v-if="$store.state.id == com.userId" v-on:click="deleteComment($event, com.id)" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
+          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
 
@@ -78,6 +78,7 @@ export default {
     return {
       // data back end
       ID : "",
+      admin : false,
       name : '',
       firstname : '',
       userIdCreated : "",
@@ -108,8 +109,10 @@ export default {
 
       this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
       .then(response => {
-        console.log(response.data);
-        this.ID = response.data.ID,
+        console.log("ADMIN ?");
+        console.log(response.data.admin)
+        this.ID = response.data.ID
+        this.admin = response.data.admin
         this.name = response.data.name
         this.firstname = response.data.firstname
         this.userIdCreated = response.data.userIdCreated
@@ -121,7 +124,7 @@ export default {
         this.comment = response.data.comment
         this.likes = response.data.likes
         this.dislikes = response.data.dislikes
-
+        
       })
       .catch(error => {
         // User not connected

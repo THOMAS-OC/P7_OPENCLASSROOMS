@@ -8,6 +8,7 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     id: "",
+    admin: 0,
     name: "",
     firstName: "",
     email : "",
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   mutations: {
     setUser(state, user) {
       state.id = user.id,
+      state.admin = user.admin
       state.name = user.name,
       state.firstName = user.firstName,
       state.email = user.email
