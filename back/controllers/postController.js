@@ -29,7 +29,6 @@ const like = (req, res) => {
         `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
         function(err, results, fields) {
 
-
             // SI LE LIKE OU DISLIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
             if (results[0] && results[0]["value"] == valueLike){
                 connection.query(
@@ -64,25 +63,15 @@ const like = (req, res) => {
             else if (results[0]["value"] != valueLike){
                 connection.query(
                     // Suppression du like ou du dislike
-                    `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                    `UPDATE likes SET value = ${valueLike} WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
                     function(err, results, fields) {
                         if(err){
                             res.json(err)
                         }
 
-                        // Ajout du like ou du dislike
-                        connection.query(
-
-                            `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, ${valueLike})`,
-                            function(err, results, fields) {
-                                if(err){
-                                    res.json(err)
-                                }
-                                console.log("Ajout d'un like ou d'un dislike ! ");
-                                res.json(results)
-                            }
-
-                        );
+                        else {
+                            res.json(results)
+                        }
 
                     }
                 );
