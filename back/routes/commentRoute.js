@@ -10,9 +10,9 @@ router.post('/', auth, controller.createComment)
 router.get('/:postId', controller.readComment)
 
 // UPDATE : testé et ok
-router.put('/:commentId', controller.updateComment)
+router.put('/:commentId', auth, controller.updateComment)
 
 // DELETE : testé et ok
-router.delete('/:commentId', auth, controller.deleteComment)
+router.delete('/:commentId', controller.deleteComment)
 
 module.exports = router;

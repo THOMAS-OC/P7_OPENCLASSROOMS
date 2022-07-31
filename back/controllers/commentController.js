@@ -33,6 +33,7 @@ const readComment = (req, res) => {
 
 // UPDATE COMMENT : testé et ok
 const updateComment = (req, res) => {
+
     let commentId = req.params.commentId
     let newComment = req.body.comment
 
@@ -40,7 +41,7 @@ const updateComment = (req, res) => {
         `SELECT * FROM commentaires WHERE ID= ${commentId}`,
         function(err, results, fields) {
 
-            if (err){
+            if (!results[0]){
                 res.status(404).json({message: "Commentaire introuvable"})
             }
 
@@ -49,13 +50,12 @@ const updateComment = (req, res) => {
                     connection.query(
                         `UPDATE commentaires SET comment = "${newComment}" WHERE commentaires.ID = ${commentId}`,
                         function(err, results, fields) {
-                            console.log("Autorisation de Modifier")
                             res.json(results)
                         }
                     );
                 }
                 else {
-                    res.status(403).json({message: "Modification non autorisée"})
+                    res.status(401).json({message: "Modification non autorisée"})
                 }
             }
 
@@ -66,15 +66,35 @@ const updateComment = (req, res) => {
 
 // DELETE COMMENT : testé et ok
 const deleteComment = (req, res) => {
+
     let commentId = req.params.commentId
 
     connection.query(
-        `DELETE FROM commentaires WHERE commentaires.ID = ${commentId}`,
+        `SELECT * FROM commentaires WHERE ID= ${commentId}`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
+
+            if (!results[0]){
+                res.status(404).json({message: "Commentaire introuvable"})
+            }
+
+            else {
+                if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
+                    connection.query(
+                        `DELETE FROM commentaires WHERE commentaires.ID = ${commentId}`,
+                        function(err, results, fields) {
+                            console.log(results); // results contains rows returned by server
+                            res.json(results)
+                        }
+                    );
+                }
+                else {
+                    res.status(401).json({message: "Suppression non autorisée"})
+                }
+            }
+
         }
     );
+
 }
 
 
