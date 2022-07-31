@@ -5,9 +5,6 @@ update post (user)
 delete post (user et admin)
 like (factoriser)
 
-update user (user)
-delete user (user)
-read user (passer sur du get grâce au middleware auth)
 
 2) Empecher l'administrateur de supprimer son compte (visuellement et dans le back) OK
 

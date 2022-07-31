@@ -10,7 +10,7 @@ router.post('/', auth, controller.createComment)
 router.get('/:postId', controller.readComment)
 
 // UPDATE : testé et ok
-router.put('/:commentId', auth, controller.updateComment)
+router.put('/:commentId', controller.updateComment)
 
 // DELETE : testé et ok
 router.delete('/:commentId', auth, controller.deleteComment)

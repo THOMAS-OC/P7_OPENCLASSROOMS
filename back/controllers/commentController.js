@@ -37,10 +37,28 @@ const updateComment = (req, res) => {
     let newComment = req.body.comment
 
     connection.query(
-        `UPDATE commentaires SET comment = "${newComment}" WHERE commentaires.ID = ${commentId}`,
+        `SELECT * FROM commentaires WHERE ID= ${commentId}`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            res.json(results)
+
+            if (err){
+                res.status(404).json({message: "Commentaire introuvable"})
+            }
+
+            else {
+                if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
+                    connection.query(
+                        `UPDATE commentaires SET comment = "${newComment}" WHERE commentaires.ID = ${commentId}`,
+                        function(err, results, fields) {
+                            console.log("Autorisation de Modifier")
+                            res.json(results)
+                        }
+                    );
+                }
+                else {
+                    res.status(403).json({message: "Modification non autorisée"})
+                }
+            }
+
         }
     );
 
