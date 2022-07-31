@@ -24,7 +24,7 @@
 
     </form>
 
-    <button v-on:click="viewModal" class="button-delete">Supprimer mon compte</button>
+    <button v-if="$store.state.admin != 1" v-on:click="viewModal" class="button-delete">Supprimer mon compte</button>
     <div class="confirmation-delete">
         <p>êtes-vous sûr de vouloir supprimer votre compte ? </p>
         <button v-on:click="deleteAccount(true)" class="confirmation">Supprimer</button>
