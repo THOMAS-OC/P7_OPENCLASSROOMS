@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 router.post('/', auth, controller.createPost)
 
 // SYSTEME DE LIKE
-router.post('/like', auth, controller.like)
+router.post('/like', controller.like)
 
 // READ : testé et ok
 router.get('/', auth, controller.readAllPosts)
@@ -17,6 +17,6 @@ router.get('/:postId', auth, controller.readOnePost)
 router.put('/', auth, controller.updatePost)
 
 // DELETE : testé et ok
-router.delete('/:postId', controller.deletePost)
+router.delete('/:postId', auth, controller.deletePost)
 
 module.exports = router;
