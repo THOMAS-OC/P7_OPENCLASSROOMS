@@ -46,10 +46,10 @@
 
       <section v-bind:class="updateView">
         <label for="titre">Titre du post</label>
-        <input id="titre" name="titre" type="text">
+        <input v-model="title" id="titre" name="titre" type="text">
 
         <label for="content">Contenu</label>
-        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <textarea v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
       </section>
 
     </main>
@@ -62,7 +62,7 @@
         <button v-on:click="like(arg = -1)"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
         <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
         <button v-on:click="viewUpdate" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
-        
+
       </div>
 
       <div v-bind:class="footerInput">
@@ -71,6 +71,11 @@
         <textarea v-model="newComment" name="" id="" cols="30" rows="10"></textarea>
         <button v-on:click="createComment" class="comment__send"> <i class="fa-solid fa-comment-dots"></i> </button>
 
+      </div>
+
+      <div v-bind:class="footerUpdate">
+        <button v-on:click="viewComment"><i class="fa-solid fa-arrow-left"></i></button>
+        <button v-on:click="updatePost" class="comment__send"> <i class="fa-solid fa-pen-to-square"></i> </button>
       </div>
 
     </footer>
@@ -107,6 +112,7 @@ export default {
       // class footer post
       footerBtn : 'footer__post__btn footer__post__visible',
       footerInput : 'footer__post__comment',
+      footerUpdate : 'footer__post__update',
       // class update comment
       clsUpdateComment : 'false',
       // variable update comment
@@ -154,9 +160,12 @@ export default {
     },
 
     viewUpdate(){
-      alert("test")
+      
       this.contentView = "content content-hide"
       this.updateView = "updateView updateView-show"
+      this.footerBtn = "footer__post__btn"
+      this.footerUpdate += "footer__post__visible"
+
     },
 
 
@@ -168,10 +177,12 @@ export default {
         // MAIN
         this.commentView = "comment"
         this.contentView = "content content-hide"
+        this.updateView = "updateView"
 
         // FOOT
         this.footerBtn = "footer__post__btn"
         this.footerInput = "footer__post__comment footer__post__visible"
+        this.footerUpdate = "footer__post__update"
 
       }
 
@@ -252,6 +263,27 @@ export default {
     deleteComment($event, id){
 
       this.$http.delete("http://localhost:3000/api/comment/" + id)
+      .then(response => {
+        console.log(response);
+        this.refreshPost()
+      })
+      .catch(error => {
+        // User not connected
+        console.log(error.response.data.userConnected)
+        if (error.response.data.userConnected == 'false') {
+            alert("Veuillez vous connecter svp")
+            this.$router.push("connect")
+        }
+        // ! User not connected
+      })
+    },
+
+    updatePost(){
+
+      this.$http.put("http://localhost:3000/api/post/" + this.ID, {
+        newContent: this.content,
+        newTitle: this.title
+      })
       .then(response => {
         console.log(response);
         this.refreshPost()
@@ -447,6 +479,23 @@ export default {
     outline: none;
     border: none;
   }
+
+  /* footer update post */
+
+  .footer__post__update{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition-duration: 0.5s;
+    transform: translateX(100%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  /* END footer update post */
 
   .footer__post__visible{
       transform: translateX(0%);

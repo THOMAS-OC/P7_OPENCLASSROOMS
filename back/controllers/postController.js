@@ -235,7 +235,38 @@ const readOnePost = (req, res) => {
 
 // UPDATE POST
 const updatePost = (req, res) => {
-    res.json({message : "Mise à jour du post"})
+
+    let postId = req.params.postId
+    let newTitle = req.body.newTitle
+    let newContent = req.body.newContent
+
+    connection.query(
+        `SELECT * FROM posts WHERE ID= ${postId}`,
+        function(err, results, fields) {
+
+            if (!results[0]){
+                res.status(404).json({message: "Post introuvable"})
+            }
+
+            else {
+                if (results[0]["user_id"] == req.body.userId){
+                    connection.query(
+                        `UPDATE posts SET title = '${newTitle}', content = '${newContent}' WHERE posts.ID = ${postId}`,
+                        function(err, results, fields) {
+                            console.log(results);
+                            res.json(results)
+                        }
+                    );
+                }
+                else {
+                    res.status(401).json({message: "Modification non autorisée"})
+                }
+            }
+
+        }
+    );
+
+    
 }
 
 // DELETE POST : testé et ok
