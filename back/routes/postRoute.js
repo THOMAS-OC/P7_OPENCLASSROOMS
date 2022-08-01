@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 router.post('/', auth, controller.createPost)
 
 // SYSTEME DE LIKE
-router.post('/like', controller.like)
+router.post('/like', auth, controller.like)
 
 // READ : testé et ok
 router.get('/', auth, controller.readAllPosts)

@@ -4,8 +4,10 @@ on peut alors supprimer OK
 delete comment (user et admin) on cible le commentaire avec son id et si la clef etrangère user_id correspond on peut alors supprimer OK
 
 update post (user)
-delete post (user et admin)
-like (factoriser)
+
+delete post (user et admin) OK
+
+like (factoriser) OK
 
 
 2) Empecher l'administrateur de supprimer son compte (visuellement et dans le back) OK

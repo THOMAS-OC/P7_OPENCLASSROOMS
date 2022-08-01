@@ -31,12 +31,12 @@
 
         <article v-for="com in comment" :key="com.id" class="comment__child">
           <img :src="com.pictureprofil" alt="test">
-          <p contenteditable="true" class="comment__child__text">
+          <p v-on:keyup="onInput" :contenteditable="clsUpdateComment" class="comment__child__text">
             {{ com.commentaire }}
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
 
-          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
+          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="updateComment($event, com.id)" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
 
           <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
@@ -44,14 +44,25 @@
 
       </section>
 
+      <section v-bind:class="updateView">
+        <label for="titre">Titre du post</label>
+        <input id="titre" name="titre" type="text">
+
+        <label for="content">Contenu</label>
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+      </section>
+
     </main>
     
     <footer class="footer__post">
 
       <div v-bind:class="footerBtn">
+
         <button v-on:click="like(arg = 1)"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
         <button v-on:click="like(arg = -1)"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
         <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
+        <button v-on:click="viewUpdate" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
+        
       </div>
 
       <div v-bind:class="footerInput">
@@ -63,8 +74,6 @@
       </div>
 
     </footer>
-
-
 
   </article>
 
@@ -94,9 +103,14 @@ export default {
       // class main post
       commentView : "comment comment-hide",
       contentView : "content",
+      updateView : "updateView",
       // class footer post
       footerBtn : 'footer__post__btn footer__post__visible',
-      footerInput : 'footer__post__comment'
+      footerInput : 'footer__post__comment',
+      // class update comment
+      clsUpdateComment : 'false',
+      // variable update comment
+      textUpdateComment : ""
     }
   },
 
@@ -138,6 +152,13 @@ export default {
         // ! User not connected
       })
     },
+
+    viewUpdate(){
+      alert("test")
+      this.contentView = "content content-hide"
+      this.updateView = "updateView updateView-show"
+    },
+
 
     viewComment(){
 
@@ -192,6 +213,40 @@ export default {
         // ! User not connected
         })
 
+    },
+
+    onInput(e) {
+      this.textUpdateComment = e.target.innerText;
+      console.log(e.target.innerText);
+    },
+
+    updateComment($event, id){
+      if (this.clsUpdateComment == 'false'){
+        alert("On modifie")
+        console.log($event.target);
+        this.clsUpdateComment = 'true'
+      }
+
+      else {
+        alert("On enregistre")
+        this.clsUpdateComment = 'false'
+        this.$http.put("http://localhost:3000/api/comment/" + id, {
+          comment : this.textUpdateComment
+        })
+        .then(response => {
+          console.log(response);
+          this.refreshPost()
+        })
+        .catch(error => {
+          // User not connected
+          console.log(error.response.data.userConnected)
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
+          }
+          // ! User not connected
+        })
+      }
     },
 
     deleteComment($event, id){
@@ -438,6 +493,25 @@ export default {
   .content-hide{
     transition-duration: 0.5s;
     transform: translateX(-100%);
+  }
+
+  .updateView{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    transition-duration: 0.5s;
+    transform: translateX(-100%);
+  }
+
+  .updateView-show{
+    z-index: 3;
+    transform: translateX(0%);
   }
 
   .comment{
