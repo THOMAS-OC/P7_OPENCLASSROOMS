@@ -3,7 +3,7 @@ const router = express.Router()
 const controller = require('../controllers/userController')
 const auth = require('../middleware/auth')
 
-// READ INFORMATIONS : testé et ok
+// UPDATE PERSONAL INFORMATIONS : testé et ok
 router.put('/', auth, controller.updateUser)
 
 // DELETE USER : testé et ok
