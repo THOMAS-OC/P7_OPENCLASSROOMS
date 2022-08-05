@@ -64,7 +64,7 @@ export default {
     deleteAccount(confirm){
         if(confirm){
 
-            this.$http.delete("http://localhost:3000/api/user", { data: {} })
+            this.$http.delete("https://localhost:3001/api/user", { data: {} })
             .then(response => {
                 console.log(response);
                 this.$router.push('connect')
@@ -154,7 +154,7 @@ export default {
 
     updateUser(){
         if (this.authorization){
-            this.$http.put("http://localhost:3000/api/user", {
+            this.$http.put("https://localhost:3001/api/user", {
                 newEmail : this.email,
                 newPassword : this.password,
             })

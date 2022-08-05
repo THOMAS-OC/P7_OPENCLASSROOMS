@@ -48,7 +48,7 @@ export default {
   created: function () {
     window.localStorage.clear() // Vidage de vueX
     document.title = "Connexion / GROUPOMANIA";
-    this.$http.get("http://localhost:3000/api/auth/logout") // Suppression du cookie d'authentification
+    this.$http.get("https://localhost:3001/api/auth/logout") // Suppression du cookie d'authentification
     .then(res => console.log(res))
     .catch(err => console.log(err))
   },
@@ -61,7 +61,7 @@ export default {
 
       if (this.email.match(emailRegex)){
 
-        this.$http.post("http://localhost:3000/api/auth/checkemail", {
+        this.$http.post("https://localhost:3001/api/auth/checkemail", {
           email : this.email
         })
         .then(res => {
@@ -92,7 +92,7 @@ export default {
     connect(){
 
       if (this.email && this.password){
-            this.$http.post("http://localhost:3000/api/auth/login", {
+            this.$http.post("https://localhost:3001/api/auth/login", {
               password : this.password,
               email : this.email
       })

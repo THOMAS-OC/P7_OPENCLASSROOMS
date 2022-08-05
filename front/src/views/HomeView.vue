@@ -59,7 +59,7 @@ export default {
 
     refreshPosts(){
       // this.posts = []
-      this.$http.get("http://localhost:3000/api/post")
+      this.$http.get("https://localhost:3001/api/post")
       .then(response => {
           this.posts = response.data
           console.log(response.data);
@@ -81,7 +81,7 @@ export default {
     createPost(){
       console.log(this.title, this.content);
       // REQUETE POST
-      this.$http.post("http://localhost:3000/api/post/", {
+      this.$http.post("https://localhost:3001/api/post/", {
         title : this.title,
         content : this.content,
       })

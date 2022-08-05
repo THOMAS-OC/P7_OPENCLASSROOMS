@@ -2,12 +2,13 @@ const connection = require("../db")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
-
-
+const cryptojs = require("crypto-js")
+const dotenv = require("dotenv")
+dotenv.config()
 // CREATE : testé et ok
 const createUser = (req, res) =>{
     console.log(req.body);
-    let email = req.body.email
+    const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     let password = req.body.password
     let name = req.body.name
     let firstname = req.body.firstname
@@ -15,7 +16,7 @@ const createUser = (req, res) =>{
     let userExist = false
 
     connection.query(
-        `SELECT ID FROM users WHERE email = '${email}'`,
+        `SELECT ID FROM users WHERE email = '${emailCrypt}'`,
         function(err, results, fields) {
             if (results[0]){
                 console.log("Utilisateur existant");
@@ -27,7 +28,7 @@ const createUser = (req, res) =>{
                 .then(hash => {
                     console.log(hash);
                     connection.query(
-                        `INSERT INTO users (name, firstname, email, password, ID) VALUES ('${name}', '${firstname}', '${email}', '${hash}', NULL)`,
+                        `INSERT INTO users (name, firstname, email, password, ID) VALUES ('${name}', '${firstname}', '${emailCrypt}', '${hash}', NULL)`,
                         function(err, results, fields) {
                             if (err){
                                 console.log(err);
@@ -46,9 +47,9 @@ const createUser = (req, res) =>{
 }
 
 const loginUser = (req, res) => {
-
+    const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     connection.query(
-        `SELECT * FROM users WHERE email = "${req.body.email}"`,
+        `SELECT * FROM users WHERE email = "${emailCrypt}"`,
         function(err, results, fields) {
 
             if(results[0]) {
@@ -62,11 +63,8 @@ const loginUser = (req, res) => {
                     pictureprofil: results[0]["pictureprofil"],
                 };
 
-                console.log(user);
                 const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '5400s'})
-                console.log("la clef jwt ci desssous");
-                console.log(authToken);
-                res.cookie("auth", authToken)
+
                 
                 const userInDb = results[0]
                 bcrypt.compare(req.body.password, userInDb.password)
@@ -74,8 +72,11 @@ const loginUser = (req, res) => {
                     if (!valid) {
                         return res.status(401).json({message: 'Paire login/mot de passe incorrecte'});
                     }
-                    res.cookie("auth", authToken)
-                    res.status(200).json({token : authToken, user:user});
+                    res.cookie("auth", authToken, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production",
+                    })
+                    res.status(200).json({user:user});
                 })
 
             }
@@ -95,8 +96,10 @@ const logoutUser = (req, res) => {
 }
 
 const checkEmail = (req, res) => {
+    const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
+
     connection.query(
-        `SELECT * FROM users WHERE email = "${req.body.email}"`,
+        `SELECT * FROM users WHERE email = "${emailCrypt}"`,
         function(err, results, fields) {
 
             if(results[0]) {

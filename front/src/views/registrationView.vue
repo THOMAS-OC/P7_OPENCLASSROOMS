@@ -16,7 +16,6 @@
             <input type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
             <input placeholder="Email" type="email" name="" id="email" v-model="email">
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
-        
         </div>
             
         <input type="submit" value="S'inscrire">
@@ -51,7 +50,7 @@ export default {
 
     connect(){
 
-      this.$http.post("http://localhost:3000/api/auth/signup", {
+      this.$http.post("https://localhost:3001/api/auth/signup", {
           email : this.email,
           password : this.password,
           name: this.name,
@@ -66,7 +65,7 @@ export default {
         // Connexion automatique
         else {
 
-            this.$http.post("http://localhost:3000/api/auth/login", {
+            this.$http.post("https://localhost:3001/api/auth/login", {
               password : this.password,
               email : this.email
             })
