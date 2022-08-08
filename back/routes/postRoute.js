@@ -32,6 +32,9 @@ const upload = multer(
     }
 );
 
+// ROUTE DE TEST
+router.get('/test', controller.test)
+
 // IMAGE
 router.post('/photo', upload.single('image'), controller.photo)
 

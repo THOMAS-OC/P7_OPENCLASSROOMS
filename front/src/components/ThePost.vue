@@ -169,6 +169,7 @@ export default {
     },
 
 
+
     viewComment(){
 
       // Affichage de la section comment et de l'input comment
@@ -287,6 +288,7 @@ export default {
       .then(response => {
         console.log(response);
         this.refreshPost()
+        this.viewComment()
       })
       .catch(error => {
         // User not connected

@@ -306,6 +306,10 @@ const deletePost = (req, res) => {
 
 }
 
+const test = (req, res) => {
+    res.json("le test fonctionne")
+}
+
 module.exports = { 
     createPost,
     readAllPosts,
@@ -313,5 +317,6 @@ module.exports = {
     updatePost,
     deletePost,
     like,
-    photo
+    photo,
+    test
 }

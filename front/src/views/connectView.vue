@@ -46,11 +46,6 @@ export default {
   },
 
   created: function () {
-    // window.localStorage.clear() // Vidage de vueX
-    // this.$http.get("https://localhost:3001/api/auth/logout") // Suppression du cookie d'authentification
-    // .then(res => console.log(res))
-    // .catch(err => console.log(err))
-
     document.title = "Connexion / GROUPOMANIA";
     this.$http.get("https://localhost:3001/api/auth/checkconnect")
     .then(res => {

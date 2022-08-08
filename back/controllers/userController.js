@@ -70,7 +70,24 @@ const deleteUser = (req, res) => {
     
 }
 
+const addProfilPicture = (req, res) => {
+
+    console.log("id user");
+    console.log(req.body.userId);
+    console.log("id user");
+
+    console.log("path image");
+    console.log(req.body.destinationImage);
+    let fullPath = req.body.destinationImage + req.body.nameImage
+    console.log(fullPath);
+    console.log("path image");
+
+    res.send('Photo reçu')
+
+}
+
 module.exports = { 
     deleteUser,
-    updateUser
+    updateUser,
+    addProfilPicture
 }

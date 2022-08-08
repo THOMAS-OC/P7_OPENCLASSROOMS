@@ -51,11 +51,22 @@ export default {
   },
 
   // Modification de balise title  
-  created: () => {
+  mounted: function () {
     document.title = "Mon profil / GROUPOMANIA"
+    console.log(this);
+    this.$http.get("https://localhost:3001/api/auth/checkconnect")
+    .then(res => {
+        console.log(res);
+    })
+    .catch(err => {
+        console.log(err);
+        alert('Veuillez vous connecter svp.')
+        this.$router.push('connect')
+    })
   },
 
   methods:{
+
 
     viewModal(){
         document.querySelector(".confirmation-delete").style.display = "block"

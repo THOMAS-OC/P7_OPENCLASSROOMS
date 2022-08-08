@@ -107,8 +107,13 @@ export default {
 
 
     viewForm(){
-      document.querySelector("form").className = "createPost formVisible"
-      document.querySelector("section").className = "section-replace"
+      if (document.querySelector("form").className == "createPost formVisible"){
+        this.hideForm()
+      }
+      else {
+        document.querySelector("form").className = "createPost formVisible"
+        document.querySelector("section").className = "section-replace"
+      }
     },
 
     hideForm(){
