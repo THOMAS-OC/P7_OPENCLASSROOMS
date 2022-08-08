@@ -2,14 +2,14 @@
   <div class="profil">
     <h1>Mon profil </h1>
 
-    <div class="picture-profil">
+    <form class="picture-profil">
         <img :src="$store.state.pictureprofil" alt="">
-        <div class="add">+</div>
-    </div>
+        <input type="file" class="add" name="pictureProfil" @change="onChange">
+    </form>
 
     <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
 
-    <form v-on:submit.prevent="updateUser">
+    <form class="form__update" v-on:submit.prevent="updateUser">
         
         <div>
             <label for="email">Email</label>
@@ -47,6 +47,7 @@ export default {
         password : "",
         action : "Modifier mon email",
         authorization : false,
+        pictureProfil: null
     }
   },
 
@@ -66,6 +67,12 @@ export default {
   },
 
   methods:{
+
+    onChange(event) {
+        this.pictureProfil = event.target.files[0]
+        this.updatePictureProfil()
+        alert(this.pictureProfil)
+    },
 
 
     viewModal(){
@@ -186,6 +193,16 @@ export default {
         else {
             alert("Champs mal renseignés")
         }
+    },
+
+    updatePictureProfil(){
+          const formData = new FormData()
+          formData.append('ProfilPicture', this.pictureProfil)
+          this.$http.post('https://localhost:3001/api/user/32', formData, {})
+          .then((response) => {
+            console.log(response)
+          })
+          .catch(err => console.log(err))
     }
 
   }
@@ -240,7 +257,7 @@ export default {
         height: 50px;
     }
 
-    form{
+    .form__update{
         margin: 100px auto;
         background-color: rgba(255, 255, 255, 0.83);
         width: 700px;
@@ -252,7 +269,7 @@ export default {
         justify-content: space-around;
     }
 
-    form div {
+    .form__update div {
         width: 100%;
         display: flex;
         flex-direction: column;
