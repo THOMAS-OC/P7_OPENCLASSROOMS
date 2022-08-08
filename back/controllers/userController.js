@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const cookieParser = require('cookie-parser')
 const cryptojs = require("crypto-js")
 const dotenv = require("dotenv")
+const path = require("path")
 dotenv.config()
 
 // UPDATE INFORMATIONS : 
@@ -72,18 +73,27 @@ const deleteUser = (req, res) => {
 
 const addProfilPicture = (req, res) => {
 
-    console.log("id user");
-    console.log(req.body.userId);
-    console.log("id user");
-
-    console.log("path image");
-    console.log(req.body.destinationImage);
-    let fullPath = req.body.destinationImage + req.body.nameImage
+    let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
     console.log(fullPath);
-    console.log("path image");
 
-    res.send('Photo reçu')
+    console.log(req.body.extensionFile);
 
+    connection.query(
+
+        `UPDATE users SET pictureprofil = "${fullPath}" WHERE users.ID = ${req.body.userId}`,
+        function(err, results, fields) {
+
+            if (err){
+                res.json(err)
+            }
+            else {
+                console.log(results); 
+                res.status(201).json({message : "Add picture profil"})
+            }
+            
+        }
+
+    );
 }
 
 module.exports = { 
