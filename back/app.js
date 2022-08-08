@@ -58,8 +58,5 @@ const cert = fs.readFileSync(path.join(__dirname, 'localhost.pem'), "utf-8");
 
 const PORT = process.env.PORT || 3000;
 
-// app.listen(3000, () => {
-//   console.log(`Server is running on port ${PORT}.`);
-// });
 http.createServer(app).listen(process.env.PORT)
 https.createServer({ key, cert }, app).listen(process.env.PORHTTPS || 3001);

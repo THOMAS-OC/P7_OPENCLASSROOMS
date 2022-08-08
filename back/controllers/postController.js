@@ -15,6 +15,11 @@ const createPost = (req, res) => {
     );
 }
 
+const photo = (req, res) => {
+    console.log(req.body.pathImage);
+    res.send("envoi d'une photo")
+}
+
 
 
 // LIKE NEW SYSTEM
@@ -307,5 +312,6 @@ module.exports = {
     readOnePost,
     updatePost,
     deletePost,
-    like
+    like,
+    photo
 }

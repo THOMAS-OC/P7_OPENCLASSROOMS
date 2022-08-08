@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
 
 module.exports = (req, res, next) => {
-    const token = req.cookies.auth || false
 
+    const token = req.cookies.auth || false
     // Présence d'un token
     if (!token) {
         return res.status(401).json({ userConnected: 'false' })

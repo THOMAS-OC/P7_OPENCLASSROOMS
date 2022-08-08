@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/loginController')
 const passValidator = require('../middleware/passValidator')
-
+const auth = require('../middleware/auth')
 const rateLimit = require('express-rate-limit')
 
 const AccountLimiter = rateLimit({
@@ -15,13 +15,18 @@ const AccountLimiter = rateLimit({
 })
 
 // CREATE ACCOUNT
-router.post('/signup', passValidator, AccountLimiter, controller.createUser)
+// router.post('/signup', passValidator, AccountLimiter, controller.createUser)
+
+router.post('/signup', controller.createUser)
 
 // CONNECT *
 router.post('/login', AccountLimiter, controller.loginUser)
 
 // READ
 router.post('/checkemail', controller.checkEmail)
+
+// CHECK CONNECTION
+router.get('/checkconnect', auth, controller.checkConnected)
 
 // DELETE
 router.get('/logout', controller.logoutUser)

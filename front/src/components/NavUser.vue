@@ -4,15 +4,32 @@
     <nav>
       <router-link to="/home"><i class="fa-solid fa-comments"></i></router-link>
       <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
-      <router-link to="/connect"><i class="fa-solid fa-right-from-bracket"></i></router-link>
+      <router-link @click.native.capture="disconnect()" to="/connect"><i class="fa-solid fa-right-from-bracket"></i></router-link>
+      <!-- <button v-on:click="test()">test</button> -->
     </nav>
     
   </div>
 </template>
 
 <script>
+
 export default {
- 
+
+  name: 'NavUser',
+  methods:{
+
+    disconnect(){
+      this.$http.get("https://localhost:3001/api/auth/logout") // Suppression du cookie d'authentification
+      .then(res => {
+        console.log(res);
+        window.localStorage.clear() // Vidage de vueX
+        this.$router.push("connect")
+      })
+      .catch(err => console.log(err))
+    },
+
+  }
+
 }
 
 </script>

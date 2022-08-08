@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/postController')
 const auth = require('../middleware/auth')
+const multer = require("multer")
+const path = require("path")
 
 // Limitation du nombre de requete pour une même ip
 const rateLimit = require('express-rate-limit')
@@ -14,6 +16,24 @@ const createPostLimiter = rateLimit({
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
+
+// GESTION DES FICHIERS IMAGES
+const upload = multer(
+    {
+      storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+          cb(null, path.join( __dirname, '../images'));
+        },
+        filename: (req, file, cb) => {
+          req.body.pathImage = Date.now() + '-' + file.originalname
+          cb(null, Date.now() + '-' + file.originalname);
+        }
+      })
+    }
+);
+
+// IMAGE
+router.post('/photo', upload.single('image'), controller.photo)
 
 // CREATE A POST
 router.post('/', auth, createPostLimiter, controller.createPost)

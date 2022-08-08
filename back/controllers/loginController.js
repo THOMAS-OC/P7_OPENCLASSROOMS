@@ -91,6 +91,7 @@ const loginUser = (req, res) => {
 }
 
 const logoutUser = (req, res) => {
+    console.log(("on cherche à se déconnecter"));
     res.clearCookie("auth")
     res.json({message : "Utilisateur déconnecté"})
 }
@@ -114,9 +115,32 @@ const checkEmail = (req, res) => {
     );
 }
 
+const checkConnected = (req, res) => {
+
+    const token = req.cookies.auth || false
+    // Présence d'un token
+    if (!token) {
+        return res.status(401).json({ userConnected: 'false' })
+    }
+
+    // Véracité du token
+    jwt.verify(token, process.env.KEYJWT, (err, decodedToken) => {
+        if (err) {
+            res.status(401).json({ message: 'Error. Bad token' })
+        } else {
+            console.log(decodedToken);
+            req.body.userId = decodedToken.id
+            req.body.admin = decodedToken.admin
+            res.json('toto connecté')
+        }
+    })
+
+}
+
 module.exports = { 
     createUser,
     loginUser,
     logoutUser,
-    checkEmail
+    checkEmail,
+    checkConnected
 }

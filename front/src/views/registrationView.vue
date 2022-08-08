@@ -12,10 +12,10 @@
     <form v-on:submit.prevent="connect">
 
         <div>
-            <input type="text" placeholder="Votre Nom" id="name" v-model="name">
-            <input type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
-            <input placeholder="Email" type="email" name="" id="email" v-model="email">
-            <input placeholder="Password" type="password" name="" id="password" v-model="password">
+            <input autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
+            <input autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
+            <input autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
         </div>
             
         <input type="submit" value="S'inscrire">
