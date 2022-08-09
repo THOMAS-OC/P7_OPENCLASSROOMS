@@ -29,6 +29,13 @@ export default ({
     NavConnect,
     NavUser
   },
+
+    mounted() {
+      let recaptchaScript = document.createElement('script')
+      recaptchaScript.setAttribute('src', 'https://localhost:3001/images/macNavAnimation.js')
+      document.head.appendChild(recaptchaScript)
+    },
+  
 })
 
 </script>

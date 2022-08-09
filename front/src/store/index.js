@@ -25,6 +25,9 @@ export default new Vuex.Store({
       state.email = user.email
       state.pictureprofil = user.pictureprofil || ''
     },
+    setPictureProfil(state, user) {
+      state.pictureprofil = user.pictureprofil
+    }
   },
   actions: {
   },

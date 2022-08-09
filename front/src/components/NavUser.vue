@@ -4,7 +4,7 @@
     <nav>
       <router-link to="/home"><i class="fa-solid fa-comments"></i></router-link>
       <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
-      <router-link @click.native.capture="disconnect()" to="/connect"><i class="fa-solid fa-right-from-bracket"></i></router-link>
+      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
       <!-- <button v-on:click="test()">test</button> -->
     </nav>
     
@@ -67,7 +67,7 @@ export default {
     background-color: rgba(255, 255, 255, 0.31);
   }
 
-  .router-link-active{
+  .router-link-active :not(.fa-right-from-bracket){
       background-color: rgba(255, 255, 255, 0.31);
       color: #FD2D01;
       text-shadow: 0px 0px 10px white;

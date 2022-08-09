@@ -88,7 +88,7 @@ const addProfilPicture = (req, res) => {
             }
             else {
                 console.log(results); 
-                res.status(201).json({message : "Add picture profil"})
+                res.status(201).json({pictureProfil : fullPath})
             }
             
         }

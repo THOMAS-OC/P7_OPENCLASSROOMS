@@ -200,7 +200,9 @@ export default {
           formData.append('ProfilPicture', this.pictureProfil)
           this.$http.post('https://localhost:3001/api/user/32', formData, {})
           .then((response) => {
-            console.log(response)
+            console.log(response.data.pictureProfil);
+            this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})
+
           })
           .catch(err => console.log(err))
     }
