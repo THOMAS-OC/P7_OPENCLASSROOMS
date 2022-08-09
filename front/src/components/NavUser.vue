@@ -2,6 +2,7 @@
   <div class="NavUser">
 
     <nav>
+      
       <router-link to="/home"><i class="fa-solid fa-comments"></i></router-link>
       <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
       <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
@@ -44,9 +45,7 @@ export default {
     margin: 0px auto;
     width: 100vw;
     background-color: rgba(76, 76, 76, 0.603);
-    border: 2px solid white;
-    border-left: none;
-    border-right: none;
+    border-bottom: 2px solid white;
     font-size: 50px;
     color: white;
     justify-content: space-around;

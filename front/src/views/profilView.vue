@@ -70,7 +70,6 @@ export default {
     onChange(event) {
         this.pictureProfil = event.target.files[0]
         this.updatePictureProfil()
-        alert(this.pictureProfil)
     },
 
 
@@ -201,7 +200,7 @@ export default {
           .then((response) => {
             console.log(response.data.pictureProfil);
             this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})
-
+            window.location.reload()
           })
           .catch(err => console.log(err))
     }
@@ -229,7 +228,7 @@ export default {
     }
 
     .picture-profil img {
-        object-fit: contain;
+        object-fit: cover;
         height: 100%;
         width: 100%;
     }

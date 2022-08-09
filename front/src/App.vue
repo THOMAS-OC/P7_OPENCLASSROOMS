@@ -82,7 +82,7 @@ export default ({
 
 .title__page{
   width: 40vw;
-  height: 50px;
+  height: 70px;
   background-color: #FD2D01;
   color: white;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
@@ -94,7 +94,12 @@ export default ({
 }
 
 .title__page h1 {
-  line-height: 50px;
+  line-height: 70px;
+  letter-spacing: 10px;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 40px;
+  user-select: none;
 }
 
 .title-enter{
