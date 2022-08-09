@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Bienvenu sur le forum de Groupomania</h1>
+
 
     <div v-on:click="viewForm" class="btnCreatePost">
       <div></div>

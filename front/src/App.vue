@@ -14,6 +14,17 @@
 
     </template>
 
+    <div class="title__page">
+      <transition name="title">
+          <h1 key="connect" v-if="this.$router.history.current.name == 'connect'" >Connexion</h1>
+          <h1 key="register" v-else-if="this.$router.history.current.name == 'register'" >Inscription</h1>
+          <h1 key="home" v-else-if="this.$router.history.current.name == 'home'" >Forum</h1>
+          <h1 key="profil" v-else >Mon profil</h1>
+      </transition>
+    </div>
+
+
+
     <transition>
       <router-view/>
     </transition>
@@ -42,6 +53,44 @@ export default ({
 
 
 <style>
+
+.title__page{
+  width: 40vw;
+  height: 50px;
+  background-color: #FD2D01;
+  color: white;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+  margin: 50px auto;
+  overflow: hidden;
+}
+
+.title__page h1 {
+  line-height: 50px;
+}
+
+.title-enter{
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.title-enter-active {
+  transition-duration: 2s;
+}
+
+.title-enter-to{
+  transform: translateX(0%);
+}
+
+
+@keyframes title {
+  from{
+    transform: translateX(-100%);
+  }
+
+  to{
+    transform: translateX(0%);
+  }
+}
 
 *{
   box-sizing: border-box;

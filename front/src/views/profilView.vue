@@ -1,6 +1,5 @@
 <template>
   <div class="profil">
-    <h1>Mon profil </h1>
 
     <form class="picture-profil">
         <img :src="$store.state.pictureprofil" alt="">

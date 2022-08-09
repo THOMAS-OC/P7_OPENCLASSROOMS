@@ -1,14 +1,7 @@
 <template>
   <div class="TheRegistration">
 
-    <!-- <nav>
 
-      <router-link to="/connect">Connexion</router-link>
-      <router-link to="/register">Inscription</router-link>
-      
-    </nav> -->
-
-    <h1>S'inscrire sur groupomania</h1>
     <form v-on:submit.prevent="connect">
 
         <div>

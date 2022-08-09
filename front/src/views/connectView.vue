@@ -6,7 +6,7 @@
       <router-link to="/register">Inscription</router-link>
     </nav> -->
 
-    <h1>Se connecter sur groupomania</h1>
+
     <form class="form__connect" v-on:submit.prevent="connect">
       
 
