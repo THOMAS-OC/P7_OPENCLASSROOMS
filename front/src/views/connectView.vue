@@ -53,6 +53,7 @@ export default {
       this.$router.push("home")
     })
     .catch(err => {
+      localStorage.clear()
       console.log(err);
     })
   },

@@ -23,6 +23,7 @@ export default {
       .then(res => {
         console.log(res);
         window.localStorage.clear() // Vidage de vueX
+        this.$store.commit('clearUser')
         this.$router.push("connect")
       })
       .catch(err => console.log(err))
@@ -68,9 +69,9 @@ export default {
   }
 
   .router-link-active :not(.fa-right-from-bracket){
-      background-color: rgba(255, 255, 255, 0.31);
       color: #FD2D01;
       text-shadow: 0px 0px 10px white;
   }
+  
 /* FIN nav user */
 </style>

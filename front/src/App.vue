@@ -23,11 +23,13 @@
       </transition>
     </div>
 
-
-
     <transition>
       <router-view/>
     </transition>
+
+    <button v-on:click="scrollToTop" class="scrollToTop">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
   </div>
 </template>
 
@@ -41,11 +43,21 @@ export default ({
     NavUser
   },
 
-    mounted() {
+  mounted() {
       let recaptchaScript = document.createElement('script')
       recaptchaScript.setAttribute('src', 'https://localhost:3001/images/macNavAnimation.js')
       document.head.appendChild(recaptchaScript)
-    },
+  },
+
+  methods:{
+    scrollToTop(){
+      window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth"
+      })
+    }
+  }
   
 })
 
@@ -53,6 +65,20 @@ export default ({
 
 
 <style>
+
+.scrollToTop{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: #FD2D01;
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-size: 35px;
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
 
 .title__page{
   width: 40vw;
@@ -62,6 +88,9 @@ export default ({
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   margin: 50px auto;
   overflow: hidden;
+  border: 2px solid white;
+  border-left: none;
+  min-width: 350px;
 }
 
 .title__page h1 {
@@ -74,11 +103,20 @@ export default ({
 }
 
 .title-enter-active {
-  transition-duration: 2s;
+  transition-delay: 1.5s;
+  transition-duration: 1.5s;
 }
 
 .title-enter-to{
   transform: translateX(0%);
+}
+
+.title-leave-active {
+  transition-duration: 1.5s;
+}
+
+.title-leave-to{
+    transform: translateX(100%);
 }
 
 
@@ -101,11 +139,14 @@ export default ({
 
 .v-enter{
   opacity: 0;
+  transform: translate(-100vw);
 }
 
 .v-enter-to{
-  opacity: 1;
   transition-duration: 1.5s;
+  transition-delay: 1.5s;
+  transform: translate(0vw);
+  opacity: 1;
 }
 
 .v-leave{
@@ -115,7 +156,7 @@ export default ({
 .v-leave-to{
   transform: translate(100vw);
   opacity: 0;
-    transition-duration: 1.5s;
+  transition-duration: 1.5s;
 }
 
 body {

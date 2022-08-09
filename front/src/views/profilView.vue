@@ -197,7 +197,7 @@ export default {
     updatePictureProfil(){
           const formData = new FormData()
           formData.append('ProfilPicture', this.pictureProfil)
-          this.$http.post('https://localhost:3001/api/user/32', formData, {})
+          this.$http.post(`https://localhost:3001/api/user/${this.$store.state.id}`, formData, {})
           .then((response) => {
             console.log(response.data.pictureProfil);
             this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})

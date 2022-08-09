@@ -64,9 +64,10 @@ export default {
             })
 
             .then(response => {
-                console.log(response.data.token);
-                window.localStorage.setItem("jwt", response.data.token)
-                this.$router.push("home")
+              console.log(response);
+              alert("okay")
+              this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:this.email, pictureprofil:response.data.user.pictureprofil})
+              this.$router.push("home")
             })
 
             .catch(error => {
