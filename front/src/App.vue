@@ -166,6 +166,8 @@ body {
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 #app {
@@ -173,6 +175,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  overflow-x: hidden;
+
 }
 
 

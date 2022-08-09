@@ -1,7 +1,6 @@
 <template>
   <div class="TheRegistration">
 
-
     <form v-on:submit.prevent="connect">
 
         <div>
@@ -14,6 +13,7 @@
         <input type="submit" value="S'inscrire">
 
     </form>
+    
   </div>
 </template>
 
@@ -92,25 +92,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.TheRegistration{
-    height: 100vh;
-}
 
-
- form{
+form{
     background-image: url("../assets/logo.png");
     overflow: hidden;
     background-size: cover;
     background-position: top;
+    margin: 200px auto 0px auto;
+    position: relative;
     box-shadow: 0px 0px 15px black;
     text-align: center;
     width: 50vw;
     height: 30vw;
     border-radius: 20px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     overflow: hidden;
 }
 

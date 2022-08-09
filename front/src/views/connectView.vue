@@ -130,13 +130,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.TheConnection{
-    height: 100vh;
-}
 
 .form__connect{
     background-image: url("../assets/logo.png");
     overflow: hidden;
+    margin: 200px auto 0px auto;
     background-size: cover;
     background-position: top;
     box-shadow: 0px 0px 15px black;
@@ -145,14 +143,11 @@ export default {
     max-width: 90vw;
     height: 500px;
     border-radius: 20px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
 .form__connect__email{

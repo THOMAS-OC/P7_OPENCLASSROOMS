@@ -42,15 +42,15 @@ export default {
   nav{
     display: flex;
     margin: 0px auto;
-    width: 1000px;
+    width: 100vw;
     background-color: rgba(76, 76, 76, 0.603);
     border: 2px solid white;
+    border-left: none;
+    border-right: none;
     font-size: 50px;
-    border-radius: 15px;
     color: white;
     justify-content: space-around;
     min-height: 100px;
-    max-width: 90vw;
     align-items: center;
   }
 
