@@ -1,7 +1,13 @@
 <template>
 
   <article class="ThePost">
-    <header class="header__post">
+
+    <header v-bind:class="headerDelete">
+      <button v-on:click="deletePost($event)" class="header__delete__btn">Supprimer</button>
+      <button v-on:click="viewHeaderDelete" class="header__delete__btn">Annuler</button>
+    </header>
+
+    <header v-bind:class="headerPost">
 
       <div class="header__post__author">
         <img :src="pictureprofil" alt="test">
@@ -14,7 +20,7 @@
       </div>
 
       <div class="header__post__btn">
-        <button v-on:click="deletePost($event)" v-if="this.$store.state.id == userIdCreated || $store.state.admin == 1" class="delete-post">X</button>
+        <button v-on:click="viewHeaderDelete" v-if="this.$store.state.id == userIdCreated || $store.state.admin == 1" class="delete-post">X</button>
       </div>
 
     </header>
@@ -103,6 +109,9 @@ export default {
       comment : [],
       likes : [], // listes des identifiants utilisateurs ayant like
       newComment : '',
+      // class header delete
+      headerPost :  'header__post',
+      headerDelete : 'header__delete header__delete__hide',
       // class main post
       commentView : "comment comment-hide",
       contentView : "content",
@@ -154,6 +163,15 @@ export default {
         }
         // ! User not connected
       })
+    },
+
+    viewHeaderDelete(){
+      if (this.headerDelete == 'header__delete header__delete__hide') {
+        this.headerDelete = 'header__delete'
+      }
+      else {
+        this.headerDelete = 'header__delete header__delete__hide'
+      }
     },
 
     viewUpdate(){
@@ -427,6 +445,27 @@ export default {
     position: relative;
   }
   /* END HEADER POST */
+
+  /* HEADER DELETE */
+
+  .header__delete{
+    position: absolute;
+    height: 15%;
+    width: 100%;
+    background-color: red;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+  }
+
+  .header__delete__hide{
+    transform: translateX(-100%);
+  }
+
+  .header__delete__btn{
+    width: 50%;
+    height: 100%;
+  }
 
   /* FOOTER POST */
   .footer__post{
