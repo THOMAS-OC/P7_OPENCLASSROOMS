@@ -93,6 +93,7 @@ export default {
           this.$http.post(`https://localhost:3001/api/post/`, formData, {})
           .then(() => {
             alert("requete recu avec l'image")
+            this.refreshPosts()
           })
           .catch(err => console.log(err))
       }

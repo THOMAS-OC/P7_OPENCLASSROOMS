@@ -31,6 +31,8 @@
 
         <p>{{ content }}</p>
 
+        <img :src="picture" alt="Image du post">
+
       </section>
 
       <section v-bind:class="commentView">

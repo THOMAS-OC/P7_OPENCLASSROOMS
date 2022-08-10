@@ -19,12 +19,22 @@ const createPost = (req, res) => {
     }
 
     else{
-        console.log("Envoie d'un formulaire de type form data");
-        console.log(req.headers);
         console.log(req.body);
-        console.log("body");
-        console.log(req.body.dataPost);
-        res.send('toto')
+        let fullPath = "https://localhost:3001/images/" + req.body.pathImage
+        let userId = req.body.userId
+        let title = req.body.title
+        let content = req.body.content
+        console.log("Envoie d'un formulaire de type form data");
+
+        connection.query(
+            `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '${fullPath}', '${content}', NULL, ${userId})`,
+            function(err, results, fields) {
+                console.log(results); // results contains rows returned by server
+                console.log(err);
+                res.json(results)
+            }
+        );
+
     }
 
 }
