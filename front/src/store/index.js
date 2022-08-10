@@ -18,12 +18,12 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser(state, user) {
-      state.id = user.id,
-      state.admin = user.admin
-      state.name = user.name,
-      state.firstName = user.firstName,
-      state.email = user.email
-      state.pictureprofil = user.pictureprofil || ''
+      state.id = user.id || state.id
+      state.admin = user.admin || state.admin
+      state.name = user.name || state.name
+      state.firstName = user.firstName || state.firstName
+      state.email = user.email || state.email
+      state.pictureprofil = user.pictureprofil || state.pictureprofil
     },
     setPictureProfil(state, user) {
       state.pictureprofil = user.pictureprofil

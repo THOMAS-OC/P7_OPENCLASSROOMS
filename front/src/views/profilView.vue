@@ -127,11 +127,11 @@ export default {
     watchPassword(){
         let passwordAnalyze = this.password.split("")
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
-        console.log(passwordAnalyze);
         if (this.password.match(passwordRegex)){
             this.actionType()
             this.authorization = true
             document.querySelector("input[type='password'").className = "valid"
+            document.querySelector("input[type='submit'").removeAttribute("disabled")
         }
         else if (!this.password){
             this.actionType()
@@ -142,7 +142,7 @@ export default {
             this.authorization = false
             document.querySelector("input[type='password'").className = "invalid"
             document.querySelector("input[type='submit'").className = "submit-off"
-            document.querySelector("input[type='submit'").setAttribute("disabled")
+            document.querySelector("input[type='submit'").setAttribute("disabled", "")
         }
 
     },
@@ -152,10 +152,19 @@ export default {
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (this.email.match(emailRegex)){
-            this.actionType()
-            this.authorization = true
-            document.querySelector("input[type='email'").className = "valid"
+            if (this.email == this.$store.state.email){
+                document.querySelector("input[type='submit'").className = "submit-off"
+                document.querySelector("input[type='email'").className = "invalid"
+                this.authorization = false
+            }
+            else {
+                this.actionType()
+                this.authorization = true
+                document.querySelector("input[type='email'").className = "valid"
+                document.querySelector("input[type='submit'").removeAttribute("disabled")
+            }
         }
+
         else if (!this.email){
             this.actionType()
         }
@@ -165,7 +174,7 @@ export default {
             this.action = "Modification impossible"
             document.querySelector("input[type='email'").className = "invalid"
             document.querySelector("input[type='submit'").className = "submit-off"
-            document.querySelector("input[type='submit'").setAttribute("disabled")
+            document.querySelector("input[type='submit'").setAttribute("disabled", "")
         }
     },
 
@@ -177,7 +186,7 @@ export default {
             })
             .then(response => {
                 alert(response.data.message);
-                this.$store.commit('setUser', {id: this.$store.state.id, name:this.$store.state.name, firstName:this.$store.state.firstname, email:this.email})
+                this.$store.commit('setUser', {email:this.email})
 
             })
             .catch(error => {
@@ -287,6 +296,7 @@ export default {
         align-items: center;
         border-radius: 15px;
         justify-content: space-around;
+        max-width: 90vw;
     }
 
     .form__update div {

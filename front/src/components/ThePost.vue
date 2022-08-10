@@ -519,6 +519,8 @@ export default {
     border: none;
   }
 
+  /* END FOOTER POST */
+
   /* footer update post */
 
   .footer__post__update{
@@ -594,7 +596,7 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 
   .updateView-show{
