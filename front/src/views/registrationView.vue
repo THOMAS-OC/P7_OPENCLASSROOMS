@@ -5,25 +5,25 @@
 
         <div class="form__register__name">
             <label for="name">Nom</label>
-            <input v-on:keyup="watchName" autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
+            <input v-on:input="watchName" v-on:keyup="watchName" autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
             <i v-if="nameValid" :class="classIcone"></i>
         </div>
 
         <div class="form__register__firstname">
             <label for="firstname">Prénom</label>
-            <input v-on:keyup="watchFirstName" autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
+            <input v-on:input="watchFirstName" v-on:keyup="watchFirstName" autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
             <i v-if="firstNameValid" :class="classIcone"></i>
         </div>
 
         <div class="form__register__email">
             <label for="email">Email</label>
-            <input v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input v-on:input="watchEmail" v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i v-if="emailValid" :class="classIcone"></i>
         </div>
 
         <div class="form__register__password">
             <label for="password">Password</label>
-            <input v-on:keyup="watchPassword" autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
+            <input v-on:input="watchPassword" v-on:keyup="watchPassword" autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
             <i v-if="passwordValid" :class="classIcone"></i>
         </div>
             
