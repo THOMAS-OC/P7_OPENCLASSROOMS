@@ -50,7 +50,6 @@ export default {
           firstname : this.firstname
       })
       .then(response => {
-        console.log("okay");
         if(response.data.userExist){
             alert("Vous êtes déjà inscrit sur groupomania.fr, redirection vers la page de connexion")
             this.$router.push("connect")
@@ -64,14 +63,8 @@ export default {
             })
 
             .then(response => {
-              console.log(response);
-              alert("okay")
               this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:this.email, pictureprofil:response.data.user.pictureprofil})
               this.$router.push("home")
-            })
-
-            .catch(error => {
-              alert(error)
             })
             
         }

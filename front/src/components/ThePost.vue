@@ -132,12 +132,10 @@ export default {
   methods:{
 
     refreshPost(){
-      console.log(this.postId); // !!!!!!!!!! lecture d'une props
+      console.log(this.postId); // !! lecture d'une props
 
       this.$http.get(`http://localhost:3000/api/post/${this.postId}`)
       .then(response => {
-        console.log("ADMIN ?");
-        console.log(response.data.admin)
         this.ID = response.data.ID
         this.admin = response.data.admin
         this.name = response.data.name
@@ -223,8 +221,6 @@ export default {
         comment : this.newComment
       })
       .then(response => {
-        console.log(this.ID);
-        console.log(response);
         this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
         this.newComment = ''
       })
@@ -244,29 +240,24 @@ export default {
 
     onInput(e) {
       this.textUpdateComment = e.target.innerText;
-      console.log(e.target.innerText);
     },
 
     updateComment($event, id){
       if (this.clsUpdateComment == 'false'){
-        alert("On modifie")
-        console.log($event.target);
         this.clsUpdateComment = 'true'
       }
 
       else {
-        alert("On enregistre")
         this.clsUpdateComment = 'false'
         this.$http.put("http://localhost:3000/api/comment/" + id, {
           comment : this.textUpdateComment
         })
-        .then(response => {
-          console.log(response);
+        // eslint-disable-next-line
+        .then( () => {
           this.refreshPost()
         })
         .catch(error => {
           // User not connected
-          console.log(error.response.data.userConnected)
           if (error.response.data.userConnected == 'false') {
               alert("Veuillez vous connecter svp")
               this.$router.push("connect")
@@ -279,13 +270,12 @@ export default {
     deleteComment($event, id){
 
       this.$http.delete("http://localhost:3000/api/comment/" + id)
-      .then(response => {
-        console.log(response);
+        // eslint-disable-next-line
+      .then( () => {
         this.refreshPost()
       })
       .catch(error => {
         // User not connected
-        console.log(error.response.data.userConnected)
         if (error.response.data.userConnected == 'false') {
             alert("Veuillez vous connecter svp")
             this.$router.push("connect")
@@ -300,8 +290,8 @@ export default {
         newContent: this.content,
         newTitle: this.title
       })
-      .then(response => {
-        console.log(response);
+
+      .then( () => {
         this.refreshPost()
         this.viewComment()
       })
@@ -317,12 +307,9 @@ export default {
     },
 
     deletePost($event){
-      console.log($event.target.parentNode.parentNode.parentNode);
       $event.target.parentNode.parentNode.parentNode.style.display = "none"
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
-      .then(response => {
-        console.log(response);
-      })
+      .then()
       .catch(error => {
         // User not connected
         console.log(error.response.data.userConnected)
@@ -340,8 +327,7 @@ export default {
           postId : this.ID,
 
       })
-      .then(response => {
-          console.log(response);
+      .then(() => {
           this.refreshPost()
       })
       .catch(error => {
@@ -361,7 +347,6 @@ export default {
   },
 
   mounted() {
-
     this.refreshPost()
   }
 

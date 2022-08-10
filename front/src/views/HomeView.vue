@@ -62,7 +62,6 @@ export default {
       this.$http.get("https://localhost:3001/api/post")
       .then(response => {
           this.posts = response.data
-          console.log(response.data);
       })
       .catch(error => {
         // User not connected
@@ -79,15 +78,12 @@ export default {
     },
 
     createPost(){
-      console.log(this.title, this.content);
       // REQUETE POST
       this.$http.post("https://localhost:3001/api/post/", {
         title : this.title,
         content : this.content,
       })
-      .then(response => {
-        console.log(response);
-        // window.location.reload()
+      .then(() => {
         this.refreshPosts()
       })
       .catch(error => {
@@ -99,7 +95,7 @@ export default {
         // ! User not connected
       })
 
-      // RESET ET DISPARITION
+      // RESET FORM
       this.title = ""
       this.content = ""
       window.setTimeout(this.hideForm, 500)

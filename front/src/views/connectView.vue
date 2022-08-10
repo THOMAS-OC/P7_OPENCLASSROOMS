@@ -48,8 +48,7 @@ export default {
   created: function () {
     document.title = "Connexion / GROUPOMANIA";
     this.$http.get("https://localhost:3001/api/auth/checkconnect")
-    .then(res => {
-      console.log(res);
+    .then(() => {
       this.$router.push("home")
     })
     .catch(err => {
@@ -81,7 +80,6 @@ export default {
           }
         })
         .catch(err => console.log(err))
-        console.log(this.email);
 
       }
 
@@ -89,7 +87,6 @@ export default {
         this.emailValid = "fa-solid fa-check op0"
         target.target.style.borderColor = "#FD2D01"
       }
-
 
     },
 
@@ -103,16 +100,13 @@ export default {
       })
 
       .then(response => {
-            console.log(response.data);
-            console.log(response.data.token);
             this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:this.email, pictureprofil:response.data.user.pictureprofil})
             this.$router.push("home")
       })
 
       .catch(error => {
             if(error.response.data.message == "Utilisateur introuvable"){
-              alert("redirection page d'inscription")
-              this.$router.push("register")
+              alert("Votre email est introuvable, veuillez vérifire votre saisie.")
             }
             else {
               alert("Votre mot de passe est incorrecte")

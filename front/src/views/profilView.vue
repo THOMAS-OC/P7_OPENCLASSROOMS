@@ -54,11 +54,7 @@ export default {
   // Modification de balise title  
   mounted: function () {
     document.title = "Mon profil / GROUPOMANIA"
-    console.log(this);
     this.$http.get("https://localhost:3001/api/auth/checkconnect")
-    .then(res => {
-        console.log(res);
-    })
     .catch(err => {
         console.log(err);
         alert('Veuillez vous connecter svp.')
@@ -82,10 +78,7 @@ export default {
         if(confirm){
 
             this.$http.delete("https://localhost:3001/api/user", { data: {} })
-            .then(response => {
-                console.log(response);
-                this.$router.push('connect')
-            })
+            .then(() => this.$router.push('connect'))
             .catch(error => {
                 console.log(error)
             })
@@ -125,7 +118,6 @@ export default {
     },
 
     watchPassword(){
-        let passwordAnalyze = this.password.split("")
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
         if (this.password.match(passwordRegex)){
             this.actionType()
@@ -148,7 +140,6 @@ export default {
     },
 
     watchEmail(){
-        console.log(this.email);
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (this.email.match(emailRegex)){
@@ -199,7 +190,7 @@ export default {
             })
         }
         else {
-            alert("Champs mal renseignés")
+            alert("Veuillez renseigner correctement les champs de formulaire svp")
         }
     },
 
@@ -208,7 +199,6 @@ export default {
           formData.append('ProfilPicture', this.pictureProfil)
           this.$http.post(`https://localhost:3001/api/user/${this.$store.state.id}`, formData, {})
           .then((response) => {
-            console.log(response.data.pictureProfil);
             this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})
             window.location.reload()
           })
