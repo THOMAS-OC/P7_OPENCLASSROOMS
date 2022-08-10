@@ -107,6 +107,7 @@ export default {
       pictureprofil : '',
       content : '',
       comment : [],
+      
       likes : [], // listes des identifiants utilisateurs ayant like
       newComment : '',
       // class header delete

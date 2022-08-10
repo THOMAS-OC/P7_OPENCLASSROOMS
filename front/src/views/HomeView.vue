@@ -10,7 +10,7 @@
     <form v-on:submit.prevent="createPost" class="createPost formInvisible">
       <input required v-model="title" placeholder="Titre" type="text">
       <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
-      <input type="file" name="" id="">
+      <input type="file" name="" id="" @change="onChange">
       <input type="submit" value="Poster">
       <!-- Bouton d'affichage -->
       <button v-on:click.prevent="hideForm">X</button>
@@ -39,7 +39,8 @@ export default {
     return {
       posts : [],
       title : "",
-      content : ""
+      content : "",
+      picturePost : null
     }
   },
 
@@ -56,6 +57,10 @@ export default {
   },
 
   methods:{
+
+    onChange(event) {
+        this.picturePost = event.target.files[0]
+    },
 
     refreshPosts(){
       // this.posts = []
@@ -78,24 +83,40 @@ export default {
     },
 
     createPost(){
-      // REQUETE POST
-      this.$http.post("https://localhost:3001/api/post/", {
-        title : this.title,
-        content : this.content,
-      })
-      .then(() => {
-        this.refreshPosts()
-      })
-      .catch(error => {
-        // User not connected
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        // ! User not connected
-      })
+
+      if (this.picturePost){
+          alert("on envoie avec une image")
+          const formData = new FormData()
+          formData.append('picturePost', this.picturePost)
+          formData.append('title', `${this.title}`)
+          formData.append('content', `${this.content}`)
+          this.$http.post(`https://localhost:3001/api/post/`, formData, {})
+          .then(() => {
+            alert("requete recu avec l'image")
+          })
+          .catch(err => console.log(err))
+      }
+
+      // REQUETE POST WITHOUT PICTURE
+      else {
+        alert("on envoie sans image")
+        this.$http.post("https://localhost:3001/api/post/", {
+          title : this.title,
+          content : this.content,
+        })
+        .then(() => this.refreshPosts())
+        .catch(error => {
+          // User not connected
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
+          }
+          // ! User not connected
+        })
+      }
 
       // RESET FORM
+      this.picturePost = null
       this.title = ""
       this.content = ""
       window.setTimeout(this.hideForm, 500)

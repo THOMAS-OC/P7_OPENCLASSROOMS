@@ -19,8 +19,10 @@ const createPost = (req, res) => {
     }
 
     else{
+        console.log("Envoie d'un formulaire de type form data");
         console.log(req.headers);
         console.log(req.body);
+        console.log("body");
         console.log(req.body.dataPost);
         res.send('toto')
     }

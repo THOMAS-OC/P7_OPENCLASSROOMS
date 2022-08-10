@@ -12,7 +12,7 @@
 
           <div class="form__connect__email">
 
-            <input v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i v-if="emailValid" :class="emailValid"></i>
           
           </div>

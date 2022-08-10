@@ -13,11 +13,11 @@
         
         <div>
             <label for="email">Email</label>
-            <input v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
+            <input v-on:input="watchEmail" v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
         </div>
         <div>
             <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
-            <input v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
+            <input v-on:input="watchPassword" v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
         </div>
 
         <input type="submit" v-bind:value="action">

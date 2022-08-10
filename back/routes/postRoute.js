@@ -39,7 +39,7 @@ router.get('/test', controller.test)
 router.post('/photo', upload.single('image'), controller.photo)
 
 // CREATE A POST
-router.post('/', auth, createPostLimiter, controller.createPost)
+router.post('/', upload.single('picturePost'), auth, createPostLimiter, controller.createPost)
 
 // SYSTEME DE LIKE
 router.post('/like', auth, controller.like)
