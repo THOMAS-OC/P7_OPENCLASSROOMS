@@ -43,12 +43,6 @@ export default ({
     NavUser
   },
 
-  mounted() {
-      let recaptchaScript = document.createElement('script')
-      recaptchaScript.setAttribute('src', 'https://localhost:3001/images/macNavAnimation.js')
-      document.head.appendChild(recaptchaScript)
-  },
-
   methods:{
     scrollToTop(){
       window.scrollTo({
@@ -83,7 +77,7 @@ export default ({
 .title__page{
   width: 40vw;
   height: 70px;
-  background-color: #FD2D01;
+  background-color: #fd2b01ac;
   color: white;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   margin: 50px auto;

@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser')
 const cryptojs = require("crypto-js")
 const dotenv = require("dotenv")
 const path = require("path")
+const fs = require('fs')
 dotenv.config()
 
 // UPDATE INFORMATIONS : 
@@ -47,26 +48,50 @@ const updateUser = (req, res) => {
 // DELETE USER : testé et ok
 const deleteUser = (req, res) => {
     let userId = req.body.userId
+    console.log("user id delete");
     console.log(userId);
-
+    console.log("user id delete");
     if (req.body.admin == 1){
         res.status(401).json({message: "Vous ne pouvez pas supprimer le compte administrateur"})
     }
 
     else {
         connection.query(
-            `DELETE FROM users WHERE ID = ${userId}`,
+            `SELECT pictureprofil FROM users WHERE ID = ${userId}`,
             function(err, results, fields) {
                 if (err){
                     res.json("err")
                 }
                 else {
-                    console.log(results); 
-                    res.clearCookie("auth")
-                    res.json({message : "User delete"})
+                    // DELETE IMAGE
+                    let urlImage = results[0]["pictureprofil"]
+                    indexSlash = urlImage.lastIndexOf('/') + 1
+                    urlImage = urlImage.slice(indexSlash,);
+                    let pathImage = path.join(process.cwd(), 'images', urlImage)
+                    console.log(pathImage);
+                    if (urlImage != "profil_vierge.jpg"){
+                        console.log("delete picture profil");
+                        fs.unlinkSync(pathImage)
+                    }
+                    // DELETE IN BDD
+                    connection.query(
+                        `DELETE FROM users WHERE ID = ${userId}`,
+                        function(err, results, fields) {
+                            if (err){
+                                res.json("err")
+                            }
+                            else {
+                                console.log(results); 
+                                res.clearCookie("auth")
+                                res.json({message : "User delete"})
+                            }
+                        }
+                    );
                 }
             }
         );
+
+
     }
     
 }

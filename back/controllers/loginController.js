@@ -10,7 +10,7 @@ const createUser = (req, res) =>{
     console.log(req.body);
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     let password = req.body.password
-    let name = req.body.name
+    let name = req.body.name.toUpperCase()
     let firstname = req.body.firstname
 
     let userExist = false
@@ -91,7 +91,6 @@ const loginUser = (req, res) => {
 }
 
 const logoutUser = (req, res) => {
-    console.log(("on cherche à se déconnecter"));
     res.clearCookie("auth")
     res.json({message : "Utilisateur déconnecté"})
 }

@@ -58,8 +58,7 @@
 
       <div v-bind:class="footerBtn">
 
-        <button v-on:click="like(arg = 1)"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
-        <button v-on:click="like(arg = -1)"><i class="fa-solid fa-thumbs-down"></i>{{ dislikes.length }}</button>
+        <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
         <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
         <button v-on:click="viewUpdate" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
 
@@ -103,7 +102,6 @@ export default {
       content : '',
       comment : [],
       likes : [], // listes des identifiants utilisateurs ayant like
-      dislikes : [], // listes des identifiants utilisateurs ayant dislike
       newComment : '',
       // class main post
       commentView : "comment comment-hide",
@@ -143,8 +141,7 @@ export default {
         this.content = response.data.content
         this.comment = response.data.comment
         this.likes = response.data.likes
-        this.dislikes = response.data.dislikes
-        
+      
       })
       .catch(error => {
         // User not connected
@@ -320,10 +317,10 @@ export default {
 
     },
 
-    like(arg){
+    like(){
       this.$http.post("http://localhost:3000/api/post/like", {
           postId : this.ID,
-          valueLike : arg
+
       })
       .then(response => {
           console.log(response);
@@ -657,7 +654,7 @@ export default {
 
   article footer button{
     height: 100%;
-    width: 33.3%;
+    width: 50%;
     cursor: pointer;
     font-size: 30px;
   }

@@ -2,17 +2,29 @@ const connection = require("../db")
 
 // CREATE POST
 const createPost = (req, res) => {
-    let userId = req.body.userId
-    let title = req.body.title
-    let content = req.body.content
-    connection.query(
-        `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
-        function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(err);
-            res.json(results)
-        }
-    );
+
+    if (req.headers['content-type'] == 'application/json'){
+        console.log('data en json');
+        let userId = req.body.userId
+        let title = req.body.title
+        let content = req.body.content
+        connection.query(
+            `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
+            function(err, results, fields) {
+                console.log(results); // results contains rows returned by server
+                console.log(err);
+                res.json(results)
+            }
+        );
+    }
+
+    else{
+        console.log(req.headers);
+        console.log(req.body);
+        console.log(req.body.dataPost);
+        res.send('toto')
+    }
+
 }
 
 const photo = (req, res) => {
@@ -27,17 +39,17 @@ const like = (req, res) => {
 
     let userId = req.body.userId
     let postId = req.body.postId
-    let valueLike = req.body.valueLike
+    let valueLike = 1
     
     connection.query(
 
         `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
         function(err, results, fields) {
 
-            // SI LE LIKE OU DISLIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
+            // SI LE LIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
             if (results[0] && results[0]["value"] == valueLike){
                 connection.query(
-                    // Suppression du like ou du dislike
+                    // Suppression du like
                     `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
                     function(err, results, fields) {
                         if(err){
@@ -49,7 +61,7 @@ const like = (req, res) => {
                 );
             }
 
-            // SI AUCUN LIKE OU DISLIKE N'EXISTE, ON AJOUTE LE LIKE OU LE DISLIKE
+            // SI AUCUN LIKE N'EXISTE, ON AJOUTE LE LIKE
             else if(!results[0]){
                 connection.query(
         
@@ -60,24 +72,6 @@ const like = (req, res) => {
                         }
                         console.log("Ajout de like ou de dislike");
                         res.json(results)
-                    }
-                );
-            }
-
-            // SI ON ENVOIE UNE VALUE LIKE DIFFERENTE DE CELLE EN BDD ON SUPPRIME ET ON REMPLACE
-            else if (results[0]["value"] != valueLike){
-                connection.query(
-                    // Suppression du like ou du dislike
-                    `UPDATE likes SET value = ${valueLike} WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
-                    function(err, results, fields) {
-                        if(err){
-                            res.json(err)
-                        }
-
-                        else {
-                            res.json(results)
-                        }
-
                     }
                 );
             }
@@ -126,7 +120,6 @@ const readOnePost = (req, res) => {
         commentOnly : [], // commentaire seul sans info user
         comment : [],
         likes : [], // listes des identifiants utilisateurs ayant like
-        dislikes : [] // listes des identifiants utilisateurs ayant dislike
     }
 
     const queryPromise = () => {
@@ -169,7 +162,7 @@ const readOnePost = (req, res) => {
         
                     }
         
-                    // Récupération des likes et dislikes
+                    // Récupération des likes
                     for (let like of results){
                         if (like.value_like){
                             if (like.value_like == 1){
@@ -177,13 +170,7 @@ const readOnePost = (req, res) => {
                                     bddFront.likes.push(like.like_user_id)                   
                                 }
                             }
-                            else {
-                                if (!bddFront.dislikes.includes(like.like_user_id)) {
-                                    bddFront.dislikes.push(like.like_user_id)                   
-                                }
-                            }
                         }
-        
                     }
                     return resolve(bddFront)
                 }
@@ -224,7 +211,6 @@ const readOnePost = (req, res) => {
         }
 
         else {
-            console.log('Pas de commentaires sur ce post');
             res.json(resultats)
         }
  
