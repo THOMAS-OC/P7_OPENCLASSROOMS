@@ -1,13 +1,26 @@
 <template>
   <div class="TheRegistration">
 
-    <form v-on:submit.prevent="connect">
+    <form class="form__register" v-on:submit.prevent="connect">
 
-        <div>
+        <div class="form__register__name">
             <input autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
+            <i v-if="emailValid" :class="nameValid"></i>
+        </div>
+
+        <div class="form__register__firstname">
             <input autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
+            <i v-if="emailValid" :class="firstNameValid"></i>
+        </div>
+
+        <div class="form__register__email">
             <input autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <i v-if="emailValid" :class="emailValid"></i>
+        </div>
+
+        <div class="form__register__password">
             <input autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
+            <i v-if="emailValid" :class="passwordValid"></i>
         </div>
             
         <input type="submit" value="S'inscrire">
@@ -86,9 +99,8 @@ export default {
 <style scoped>
 
 
-form{
+.form__register{
     background-image: url("../assets/logo.png");
-    overflow: hidden;
     background-size: cover;
     background-position: top;
     margin: 200px auto 0px auto;
@@ -96,37 +108,35 @@ form{
     box-shadow: 0px 0px 15px black;
     text-align: center;
     width: 50vw;
-    height: 30vw;
+    height: 600px;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 100px;
     overflow: hidden;
 }
 
-form:hover input[type="submit"]{
-    transform: translateY(0%);
-}
-
-form div{
+.form__register div{
     width: 70%;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    height: 40%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 50px;
     background-color: rgba(255, 255, 255, 0.588);
 }
 
+/*
 input:not(input[type="submit"]){
     border: none;
     border-bottom: 2px solid #FD2D01;
     width: 100%;
-    height: 50px;
+    height: 100%;
     font-size: 35px;
     background-color: transparent;
-}
+} */
 
+/* SUBMIT BUTTON */
 
 input[type="submit"]{
     position: absolute;
@@ -136,17 +146,16 @@ input[type="submit"]{
     color: black;
     cursor: pointer;
     width: 100%;
-    height: 20%;
+    height: 100px;
     border-top: 2px solid #FD2D01;
     font-size: 30px;
     font-weight: bolder;
-    transition-duration: 0.5s;
-    transition-property: transform;
-    transform: translateY(100%);
     background-color: white;
 }
 
 input[type="submit"]:hover{
     background-color: rgb(212, 212, 212);
 }
+
+/* END SUBMIT BUTTON */
 </style>
