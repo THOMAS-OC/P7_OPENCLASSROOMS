@@ -85,14 +85,12 @@ export default {
     createPost(){
 
       if (this.picturePost){
-          alert("on envoie avec une image")
           const formData = new FormData()
           formData.append('picturePost', this.picturePost)
           formData.append('title', `${this.title}`)
           formData.append('content', `${this.content}`)
           this.$http.post(`https://localhost:3001/api/post/`, formData, {})
           .then(() => {
-            alert("requete recu avec l'image")
             this.refreshPosts()
           })
           .catch(err => console.log(err))

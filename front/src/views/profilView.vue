@@ -78,7 +78,7 @@ export default {
         if(confirm){
 
             this.$http.delete("https://localhost:3001/api/user", { data: {} })
-            .then(() => this.$router.push('connect'))
+            .then(() => this.$router.push('home'))
             .catch(error => {
                 console.log(error)
             })
