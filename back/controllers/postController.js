@@ -1,5 +1,6 @@
 const connection = require("../db")
-
+const path = require('path')
+const fs = require('fs')
 // CREATE POST
 const createPost = (req, res) => {
 
@@ -20,7 +21,7 @@ const createPost = (req, res) => {
 
     else{
         console.log(req.body);
-        let fullPath = "https://localhost:3001/images/" + req.body.pathImage
+        let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
         let userId = req.body.userId
         let title = req.body.title
         let content = req.body.content
@@ -286,6 +287,16 @@ const deletePost = (req, res) => {
 
             else {
                 if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
+
+                    // DELETE IMAGE
+                    let urlImage = results[0]["picture"]
+                    indexSlash = urlImage.lastIndexOf('/') + 1
+                    urlImage = urlImage.slice(indexSlash,);
+                    let pathImage = path.join(process.cwd(), 'images/post', urlImage)
+                    console.log(pathImage);
+                    console.log("delete picture post");
+                    fs.unlinkSync(pathImage)
+
                     connection.query(
                         `DELETE FROM posts WHERE ID = ${postId}`,
                         function(err, results, fields) {
