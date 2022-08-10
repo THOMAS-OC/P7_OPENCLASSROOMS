@@ -37,9 +37,9 @@
 
       <section v-bind:class="commentView">
 
-        <article v-for="com in comment" :key="com.id" class="comment__child">
+        <article v-for="com in comment" :key="com.id" v-on:click="updateComment2($event, com.commentaire)" class="comment__child">
           <img :src="com.pictureprofil" alt="test">
-          <p v-on:keyup="onInput" :contenteditable="clsUpdateComment" class="comment__child__text">
+          <p v-on:keyup="onInput" :contenteditable="clsUpdateComment"  class="comment__child__text">
             {{ com.commentaire }}
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
@@ -184,8 +184,6 @@ export default {
 
     },
 
-
-
     viewComment(){
 
       // Affichage de la section comment et de l'input comment
@@ -268,6 +266,10 @@ export default {
           // ! User not connected
         })
       }
+    },
+
+    updateComment2($event, commentaire){
+      this.newComment = commentaire
     },
 
     deleteComment($event, id){
@@ -635,6 +637,7 @@ export default {
     margin-bottom: 5px;
     text-align: left;
     width: 80%;
+    height: 100%;
   }
   /* FIN Affichage d'un commentaire */
 
