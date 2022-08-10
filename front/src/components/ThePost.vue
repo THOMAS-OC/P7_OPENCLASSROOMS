@@ -452,19 +452,20 @@ export default {
     position: absolute;
     height: 15%;
     width: 100%;
-    background-color: red;
     z-index: 5;
     display: flex;
     justify-content: center;
+    transition-duration: 0.3s;
   }
 
   .header__delete__hide{
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 
   .header__delete__btn{
     width: 50%;
     height: 100%;
+    cursor: pointer;
   }
 
   /* FOOTER POST */

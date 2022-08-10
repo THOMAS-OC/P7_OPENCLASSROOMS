@@ -1,9 +1,10 @@
 <template>
   <div class="profil">
 
-    <form class="picture-profil">
-        <img :src="$store.state.pictureprofil" alt="">
-        <input type="file" class="add" name="pictureProfil" @change="onChange">
+    <form class="picture__profil">
+        <img :src="$store.state.pictureprofil" alt="Photo de profil">
+        <input type="file" class="picture__profil__submit" name="pictureProfil" @change="onChange">
+        <i class="picture__profil__icon fa-solid fa-file-arrow-up"></i>
     </form>
 
     <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
@@ -214,42 +215,61 @@ export default {
 
 <style scoped>
 
-    .picture-profil {
+    .picture__profil {
         width: 200px;
         height: 200px;
         border-radius: 50%;
         margin: 20px auto;
         overflow: hidden;
-        background-image: url('../assets/profil_vierge.jpg');
-        background-size: 100%;
-        background-position: center;
         position: relative;
         cursor: pointer;
     }
 
-    .picture-profil img {
+    .picture__profil img {
         object-fit: cover;
         height: 100%;
         width: 100%;
     }
 
-    .add{
-        opacity: 0;
-        background-color: rgb(161, 161, 161);
+    .picture__profil__submit{
         position: absolute;
+        width: 100%;
+        height: 100%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        font-size: 50px;
-        line-height: 200px;
-        transition-duration: 0.7s;
+        z-index: 2;
+        opacity: 0;
+        cursor: pointer;
     }
 
-    .add:hover{
-        opacity: 0.8;
+    .picture__profil__icon{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.1);
+        z-index: 1;
+        border-radius: 50%;
+        font-size: 50px;
+        line-height: 200px;
+        transition-duration: 0.5s;
+        background-color: #FD2D01;
+        opacity: 0;
+        color: white;
     }
+
+    .picture__profil:hover .picture__profil__icon{
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+        text-shadow: 0px 0px 20px#000000;
+    }
+
+    .picture__profil:hover img{
+        filter:brightness(0.7)
+    }
+
 
     h2{
         background-color: #fff;
