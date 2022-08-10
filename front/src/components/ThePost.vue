@@ -216,7 +216,8 @@ export default {
 
     createComment(){
 
-      if (this.selectedComment){
+      // UPDATE COMMENT
+      if (this.selectedComment && this.newComment){
         this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
           comment : this.newComment
         })
@@ -233,7 +234,8 @@ export default {
         })
       }
 
-      else {
+      // CREATE COMMENT 
+      else if (this.newComment){
         this.$http.post("http://localhost:3000/api/comment/", {
           postId : this.ID,
           comment : this.newComment
