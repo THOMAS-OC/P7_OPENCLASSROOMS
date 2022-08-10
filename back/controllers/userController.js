@@ -9,17 +9,25 @@ dotenv.config()
 
 // UPDATE INFORMATIONS : 
 const updateUser = (req, res) => {
+
     let {userId, newEmail, newPassword} = req.body
     const emailCrypt = cryptojs.HmacSHA256(newEmail, process.env.CRYPTOEMAIL).toString()
 
     // update email and password
     if (newEmail && newPassword) {
-        connection.query(
-            `UPDATE users SET email = "${emailCrypt}", password = "${newPassword}" WHERE users.ID = ${userId}`,
-            function(err, results, fields) {
-                res.json({message : "Votre email et votre mot de passe ont bien été mis à jour"})
-            }
-        );
+
+        bcrypt.hash(newPassword, 5)
+        .then(hash => {
+            connection.query(
+                `UPDATE users SET email = "${emailCrypt}", password = "${hash}" WHERE users.ID = ${userId}`,
+                function(err, results, fields) {
+                    res.json({message : "Votre email et votre mot de passe ont bien été mis à jour"})
+                }
+            );
+        })
+
+        .catch(err => res.json(err))
+
     }
 
     // update email
@@ -32,17 +40,20 @@ const updateUser = (req, res) => {
         );
     }
 
-    // update password
+    // update password only
+
     else {
-        connection.query(
-            `UPDATE users SET password = "${newPassword}" WHERE users.ID = ${userId}`,
-            function(err, results, fields) {
-                res.json({message : "Votre mot de passe a bien été mis à jour"})
-            }
-        );
+        bcrypt.hash(newPassword, 5)
+        .then(hash => {
+            connection.query(
+                `UPDATE users SET password = "${hash}" WHERE users.ID = ${userId}`,
+                function(err, results, fields) {
+                    res.json({message : "Votre mot de passe a bien été mis à jour"})
+                }
+            );
+        })
+        .catch(err => res.json(err))
     }
-
-
 }
 
 // DELETE USER : testé et ok

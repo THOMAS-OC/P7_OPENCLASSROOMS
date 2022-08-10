@@ -140,6 +140,7 @@ export default {
     },
 
     watchEmail(){
+        alert("test watch email")
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (this.email.match(emailRegex)){
