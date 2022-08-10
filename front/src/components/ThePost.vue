@@ -31,22 +31,20 @@
 
         <p>{{ content }}</p>
 
-        <img :src="picture" alt="Image du post">
+        <img class="content__picture" :src="picture" alt="Image du post">
 
       </section>
 
       <section v-bind:class="commentView">
 
-        <article v-for="com in comment" :key="com.id" v-on:click="updateComment2($event, com.commentaire)" class="comment__child">
+        <article v-for="com in comment" :key="com.id" v-on:click.self="selectComment($event, com.commentaire, com.id, com.userId)" class="comment__child">
           <img :src="com.pictureprofil" alt="test">
-          <p v-on:keyup="onInput" :contenteditable="clsUpdateComment"  class="comment__child__text">
+          <p class="comment__child__text">
             {{ com.commentaire }}
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
 
-          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="updateComment($event, com.id)" class="comment__edit comment__edit--update"><i class="fa-solid fa-pencil"></i></button>
-
-          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
+          <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
 
@@ -126,7 +124,8 @@ export default {
       // class update comment
       clsUpdateComment : 'false',
       // variable update comment
-      textUpdateComment : ""
+      textUpdateComment : "",
+      selectedComment : null
     }
   },
 
@@ -216,44 +215,11 @@ export default {
     },
 
     createComment(){
-      
-      this.$http.post("http://localhost:3000/api/comment/", {
-        postId : this.ID,
-        comment : this.newComment
-      })
-      .then(response => {
-        this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
-        this.newComment = ''
-      })
-      .catch(error => {
-        // User not connected
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        else {
-            console.log(error);
-        }
-        // ! User not connected
+
+      if (this.selectedComment){
+        this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
+          comment : this.newComment
         })
-
-    },
-
-    onInput(e) {
-      this.textUpdateComment = e.target.innerText;
-    },
-
-    updateComment($event, id){
-      if (this.clsUpdateComment == 'false'){
-        this.clsUpdateComment = 'true'
-      }
-
-      else {
-        this.clsUpdateComment = 'false'
-        this.$http.put("http://localhost:3000/api/comment/" + id, {
-          comment : this.textUpdateComment
-        })
-        // eslint-disable-next-line
         .then( () => {
           this.refreshPost()
         })
@@ -266,10 +232,56 @@ export default {
           // ! User not connected
         })
       }
+
+      else {
+        this.$http.post("http://localhost:3000/api/comment/", {
+          postId : this.ID,
+          comment : this.newComment
+        })
+        .then(response => {
+          this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
+          this.newComment = ''
+        })
+        .catch(error => {
+          // User not connected
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
+          }
+          else {
+              console.log(error);
+          }
+          // ! User not connected
+          })
+      }
+
     },
 
-    updateComment2($event, commentaire){
-      this.newComment = commentaire
+    selectComment($event, commentaire, id, userId){
+      
+      if (this.$store.state.id == userId) {
+        // deselect
+        if (this.selectedComment == id) {
+          $event.target.className = "comment__child"
+          this.newComment = ""
+          this.selectedComment = null
+        }
+
+        // Comment already selected
+        else if (this.selectedComment){
+          document.querySelector('.selectComment').className = "comment__child"
+          $event.target.className = "comment__child selectComment"
+          this.selectedComment = id
+          this.newComment = commentaire
+        }
+
+        else {
+          $event.target.className = "comment__child selectComment"
+          this.selectedComment = id
+          this.newComment = commentaire
+        }
+      }
+
     },
 
     deleteComment($event, id){
@@ -568,6 +580,12 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
+    overflow-y: scroll;
+  }
+
+  .content__picture{
+    width: 50%;
+    height: auto;
   }
 
   .content-hide{
@@ -639,6 +657,10 @@ export default {
     width: 80%;
     height: 100%;
   }
+
+  .selectComment{
+    border: 3px solid red;
+  }
   /* FIN Affichage d'un commentaire */
 
   /* affichage auteur d'un commentaire */
@@ -653,16 +675,13 @@ export default {
 
   /* Suppression d'un commentaire */
 
-  .comment__edit{
+  .comment__edit--delete {
     position: absolute;
-    right: -30px;
+    right: -40px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-  }
-
-  .comment__edit--delete {
-    right: -60px;
+    font-size: 20px;
   }
 
   /* Suppression d'un commentaire */
