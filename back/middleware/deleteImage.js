@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
          next()
     }
         
-    // IF INFO AND IMAGE : DELETE
+    // ELSE IF INFO AND IMAGE : DELETE
     else {
         connection.query(
             `SELECT * FROM posts WHERE ID= ${postId}`,

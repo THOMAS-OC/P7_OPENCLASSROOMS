@@ -237,33 +237,48 @@ const updatePost = (req, res) => {
     let newTitle = req.body.newTitle
     let newContent = req.body.newContent
 
-    connection.query(
-        `SELECT * FROM posts WHERE ID= ${postId}`,
-        function(err, results, fields) {
-
-            if (!results[0]){
-                res.status(404).json({message: "Post introuvable"})
-            }
-
-            else {
-                if (results[0]["user_id"] == req.body.userId){
-                    connection.query(
-                        `UPDATE posts SET title = '${newTitle}', content = '${newContent}' WHERE posts.ID = ${postId}`,
-                        function(err, results, fields) {
-                            console.log(results);
-                            res.json(results)
-                        }
-                    );
-                }
-                else {
-                    res.status(401).json({message: "Modification non autorisée"})
-                }
-            }
-
-        }
-    );
-
+    // UPDATE WITHOUT PICTURE
+    if(req.headers['content-type'] == "application/json"){
+        connection.query(
+            `SELECT * FROM posts WHERE ID= ${postId}`,
+            function(err, results, fields) {
     
+                if (!results[0]){
+                    res.status(404).json({message: "Post introuvable"})
+                }
+    
+                else {
+                    if (results[0]["user_id"] == req.body.userId){
+                        connection.query(
+                            `UPDATE posts SET title = '${newTitle}', content = '${newContent}' WHERE posts.ID = ${postId}`,
+                            function(err, results, fields) {
+                                console.log(results);
+                                res.json(results)
+                            }
+                        );
+                    }
+                    else {
+                        res.status(401).json({message: "Modification non autorisée"})
+                    }
+                }
+    
+            }
+        );
+    }
+
+    // UPDATE WITH PICTURE
+    else {
+        let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
+        console.log('update avec image');
+        connection.query(
+            `UPDATE posts SET title = '${newTitle}', content = '${newContent}', picture = '${fullPath}' WHERE posts.ID = ${postId}`,
+            function(err, results, fields) {
+                console.log(results);
+                res.json(results)
+            }
+        );
+    }
+   
 }
 
 // DELETE POST : testé et ok

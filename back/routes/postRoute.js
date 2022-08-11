@@ -26,6 +26,7 @@ const upload = multer(
           cb(null, path.join( __dirname, '../images/post'));
         },
         filename: (req, file, cb) => {
+          console.log("tes");
           req.body.pathImage = Date.now() + '-' + file.originalname
           cb(null, Date.now() + '-' + file.originalname);
         }
@@ -44,7 +45,7 @@ router.get('/', auth, controller.readAllPosts)
 router.get('/:postId', auth, controller.readOnePost)
 
 // UPDATE
-router.put('/:postId', auth, controller.updatePost)
+router.put('/:postId', auth, deleteImage, upload.single('picturePost'), auth, controller.updatePost)
 
 // DELETE : testé et ok
 router.delete('/:postId', auth, deleteImage, controller.deletePost)
