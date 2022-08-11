@@ -40,13 +40,6 @@ const createPost = (req, res) => {
 
 }
 
-const photo = (req, res) => {
-    console.log(req.body.pathImage);
-    res.send("envoi d'une photo")
-}
-
-
-
 // LIKE NEW SYSTEM
 const like = (req, res) => {
 
@@ -289,20 +282,9 @@ const deletePost = (req, res) => {
                 if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
 
                     // DELETE IMAGE
-                    let urlImage = results[0]["picture"]
-                    console.log(urlImage);
-                    
-                    if (urlImage){
-                        let indexSlash = urlImage.lastIndexOf('/') + 1
-                        urlImage = urlImage.slice(indexSlash,);
-                        let pathImage = path.join(process.cwd(), 'images/post', urlImage)
-                        fs.unlinkSync(pathImage)
-                    }
-
                     connection.query(
                         `DELETE FROM posts WHERE ID = ${postId}`,
                         function(err, results, fields) {
-                            console.log(results);
                             res.json(results)
                         }
                     );
@@ -317,10 +299,6 @@ const deletePost = (req, res) => {
 
 }
 
-const test = (req, res) => {
-    res.json("le test fonctionne")
-}
-
 module.exports = { 
     createPost,
     readAllPosts,
@@ -328,6 +306,4 @@ module.exports = {
     updatePost,
     deletePost,
     like,
-    photo,
-    test
 }

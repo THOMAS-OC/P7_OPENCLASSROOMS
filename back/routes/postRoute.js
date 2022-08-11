@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/postController')
 const auth = require('../middleware/auth')
+const deleteImage = require('../middleware/deleteImage')
 const multer = require("multer")
 const path = require("path")
 
@@ -32,12 +33,6 @@ const upload = multer(
     }
 );
 
-// ROUTE DE TEST
-router.get('/test', controller.test)
-
-// IMAGE
-router.post('/photo', upload.single('image'), controller.photo)
-
 // CREATE A POST
 router.post('/', upload.single('picturePost'), auth, createPostLimiter, controller.createPost)
 
@@ -52,6 +47,6 @@ router.get('/:postId', auth, controller.readOnePost)
 router.put('/:postId', auth, controller.updatePost)
 
 // DELETE : testé et ok
-router.delete('/:postId', auth, controller.deletePost)
+router.delete('/:postId', auth, deleteImage, controller.deletePost)
 
 module.exports = router;

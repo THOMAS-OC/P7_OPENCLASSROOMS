@@ -67,6 +67,8 @@ export default {
 
   .router-link-active :not(.fa-right-from-bracket){
     background-color: #fd2b01a3;
+    border-right: 2px solid white;
+    border-left: 2px solid white;
     width: 100%;
     height: 100%;
     line-height: 100px;
