@@ -10,7 +10,7 @@
       <input required v-model="title" placeholder="Titre" type="text">
       <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
       <input type="file" name="" id="" @change="onChange">
-      <input type="submit" value="Poster">
+      <input class="create__post__submit" type="submit" value="Poster">
       <!-- Bouton d'affichage -->
       <button v-on:click.prevent="hideForm">X</button>
     </form>
@@ -209,7 +209,7 @@ export default {
 
   .createPost{
     width: 500px;
-    height: 500px;
+    height: 600px;
     background-color: #fff;
     margin: 50px auto;
     border-radius: 15px;
@@ -223,12 +223,14 @@ export default {
     transition-duration: 1s;
     opacity: 0;
     transform: scale(0.2);
+    overflow: hidden;
+    padding-bottom: 50px;
   }
 
   .createPost button{
     position: absolute;
-    right: -10px;
-    top: -10px;
+    right: 5px;
+    top: 5px;
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -237,6 +239,28 @@ export default {
     font-weight: bold;
     cursor: pointer;
     font-size: 20px;
+  }
+
+  .create__post__submit{
+    cursor: pointer;
+    background: rgb(253,45,1);
+    background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
+    transition-duration: 1s;
+    transform: translateX(-2.5%);
+    border: none;
+    width: 105%;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    text-shadow: 0px 0px 3px white;
+    font-size: 25px;
+    letter-spacing: 10px;
+  }
+
+  .create__post__submit:hover{
+    letter-spacing: 15px;
   }
 
   textarea{
