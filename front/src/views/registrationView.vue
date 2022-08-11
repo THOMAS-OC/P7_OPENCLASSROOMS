@@ -166,7 +166,7 @@ export default {
     background-image: url("../assets/logo.png");
     background-size: cover;
     background-position: top;
-    margin: 200px auto 0px auto;
+    margin: 200px auto 200px auto;
     position: relative;
     box-shadow: 0px 0px 15px black;
     text-align: center;

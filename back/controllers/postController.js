@@ -222,11 +222,10 @@ const readOnePost = (req, res) => {
  
         
     })
+    
     .catch(error => {
-        console.log("On log l'erreur");
         console.log(error);
     })
-
 
 }
 

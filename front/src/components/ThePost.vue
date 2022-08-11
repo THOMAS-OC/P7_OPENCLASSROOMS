@@ -38,7 +38,7 @@
       <section v-bind:class="commentView">
 
         <article v-for="com in comment" :key="com.id" v-on:click.self="selectComment($event, com.commentaire, com.id, com.userId)" class="comment__child">
-          <img :src="com.pictureprofil" alt="test">
+          <img :src="com.pictureprofil" alt="Photo de profil">
           <p class="comment__child__text">
             {{ com.commentaire }}
           </p>
@@ -56,6 +56,9 @@
 
         <label for="content">Contenu</label>
         <textarea v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
+
+        <label for="file">file</label>
+        <input @change="onChange" type="file" name="file" id="file">
       </section>
 
     </main>
@@ -107,8 +110,8 @@ export default {
       pictureprofil : '',
       content : '',
       comment : [],
-      
       likes : [], // listes des identifiants utilisateurs ayant like
+
       newComment : '',
       // class header delete
       headerPost :  'header__post',
@@ -124,7 +127,9 @@ export default {
       // class update comment
       clsUpdateComment : 'false',
       // variable update comment
-      selectedComment : null
+      selectedComment : null,
+      // image input file
+      picturePost : null
     }
   },
 
@@ -307,24 +312,41 @@ export default {
 
     updatePost(){
 
-      this.$http.put("http://localhost:3000/api/post/" + this.ID, {
-        newContent: this.content,
-        newTitle: this.title
-      })
+      // UPDATE WITH IMAGE
+      if (this.picturePost){
+        const formData = new FormData()
+        formData.append('picturePost', this.picturePost)
+        formData.append('newTitle', `${this.title}`)
+        formData.append('newContent', `${this.content}`)
+        this.$http.put(`https://localhost:3001/api/post/${this.ID}`, formData, {})
+        .then(() => {
+          this.refreshPosts()
+          this.picturePost = null
+        })
+        .catch(err => console.log(err))
+      }
 
-      .then( () => {
-        this.refreshPost()
-        this.viewComment()
-      })
-      .catch(error => {
-        // User not connected
-        console.log(error.response.data.userConnected)
-        if (error.response.data.userConnected == 'false') {
-            alert("Veuillez vous connecter svp")
-            this.$router.push("connect")
-        }
-        // ! User not connected
-      })
+      else {
+        this.$http.put("http://localhost:3000/api/post/" + this.ID, {
+          newContent: this.content,
+          newTitle: this.title
+        })
+
+        .then( () => {
+          this.refreshPost()
+          this.viewComment()
+        })
+        .catch(error => {
+          // User not connected
+          console.log(error.response.data.userConnected)
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
+          }
+          // ! User not connected
+        })
+      }
+
     },
 
     deletePost($event){
@@ -363,6 +385,10 @@ export default {
           // ! User not connected
         })
 
+    },
+
+    onChange(event) {
+      this.picturePost = event.target.files[0]
     },
 
   },

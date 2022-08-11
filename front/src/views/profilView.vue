@@ -76,9 +76,8 @@ export default {
 
     deleteAccount(confirm){
         if(confirm){
-
             this.$http.delete("https://localhost:3001/api/user", { data: {} })
-            .then(() => this.$router.push('home'))
+            .then(() => this.$router.push('register'))
             .catch(error => {
                 console.log(error)
             })

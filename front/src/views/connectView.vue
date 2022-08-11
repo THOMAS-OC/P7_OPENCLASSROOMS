@@ -42,15 +42,10 @@ export default {
     .then(() => {
       this.$router.push("home")
     })
-    .catch(err => {
-      localStorage.clear()
-      console.log(err);
-    })
   },
 
   methods:{
     
-
     checkBDD(target){
       let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -119,7 +114,7 @@ export default {
 .form__connect{
     background-image: url("../assets/logo.png");
     overflow: hidden;
-    margin: 200px auto 0px auto;
+    margin: 200px auto 200px auto;
     background-size: cover;
     background-position: top;
     box-shadow: 0px 0px 15px black;
