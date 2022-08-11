@@ -1,5 +1,4 @@
 <template>
-  <div class="NavUser">
 
     <nav>
       
@@ -8,8 +7,7 @@
       <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
       <!-- <button v-on:click="test()">test</button> -->
     </nav>
-    
-  </div>
+
 </template>
 
 <script>
@@ -44,7 +42,7 @@ export default {
     display: flex;
     margin: 0px auto;
     width: 100vw;
-    background-color: rgba(76, 76, 76, 0.603);
+    background-color: #a9a9a9a5;
     border-bottom: 2px solid white;
     font-size: 50px;
     color: white;
@@ -64,12 +62,16 @@ export default {
   }
 
   nav a:hover{
-    background-color: rgba(255, 255, 255, 0.31);
+    background-color: #fd2b01a3;
   }
 
   .router-link-active :not(.fa-right-from-bracket){
-      color: #FD2D01;
-      text-shadow: 0px 0px 10px white;
+    background-color: #fd2b01a3;
+    width: 100%;
+    height: 100%;
+    line-height: 100px;
+      color: white;
+      text-shadow: 0px 0px 10px #FFD7D7;
   }
   
 /* FIN nav user */

@@ -1,15 +1,7 @@
 <template>
-  <div class="TheConnection">
-
-    <!-- <nav>
-      <router-link to="/connect">Connexion</router-link>
-      <router-link to="/register">Inscription</router-link>
-    </nav> -->
-
 
     <form class="form__connect" v-on:submit.prevent="connect">
       
-
           <div class="form__connect__email">
 
             <input v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
@@ -29,7 +21,6 @@
 
     </form>
 
-  </div>
 </template>
 
 <script>

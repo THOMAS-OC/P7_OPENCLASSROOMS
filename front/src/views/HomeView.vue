@@ -1,6 +1,5 @@
 <template>
-  <div class="home">
-
+  <section class="home">
 
     <div v-on:click="viewForm" class="btnCreatePost">
       <div></div>
@@ -16,7 +15,7 @@
       <button v-on:click.prevent="hideForm">X</button>
     </form>
 
-    <section>
+    <section class="post__list">
 
       <article class="post" v-for="post in posts" :key="post">
 
@@ -26,7 +25,7 @@
 
     </section>
 
-  </div>
+  </section>
 </template>
 
 <script>
@@ -154,7 +153,7 @@ export default {
     color: red;
   }
 
-  section {
+  .post__list {
     height: auto;
     transition-duration: 1s;
     transform: translateY(-500px);

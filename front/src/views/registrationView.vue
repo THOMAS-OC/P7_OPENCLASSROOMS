@@ -1,5 +1,5 @@
 <template>
-  <div class="TheRegistration">
+
 
     <form class="form__register" v-on:submit.prevent="register">
 
@@ -31,7 +31,7 @@
 
     </form>
     
-  </div>
+
 </template>
 
 <script>

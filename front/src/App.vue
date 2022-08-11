@@ -14,18 +14,20 @@
 
     </template>
 
-    <div class="title__page">
+    <section class="title__page">
       <transition name="title">
           <h1 key="connect" v-if="this.$router.history.current.name == 'connect'" >Connexion</h1>
           <h1 key="register" v-else-if="this.$router.history.current.name == 'register'" >Inscription</h1>
           <h1 key="home" v-else-if="this.$router.history.current.name == 'home'" >Forum</h1>
           <h1 key="profil" v-else >Mon profil</h1>
       </transition>
-    </div>
+    </section>
 
     <transition>
       <router-view/>
     </transition>
+
+    <the-footer></the-footer>
 
     <button v-on:click="scrollToTop" class="scrollToTop">
       <i class="fa-solid fa-arrow-up"></i>
@@ -36,11 +38,13 @@
 <script>
 import NavConnect from './components/NavConnect'
 import NavUser from './components/NavUser'
+import TheFooter from './components/TheFooter'
 
 export default ({
   components: {
     NavConnect,
-    NavUser
+    NavUser,
+    TheFooter
   },
 
   methods:{
@@ -77,7 +81,7 @@ export default ({
 .title__page{
   width: 40vw;
   height: 70px;
-  background-color: #fd2b01ac;
+  background-color: #fd2b01a5;
   color: white;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   margin: 50px auto;
