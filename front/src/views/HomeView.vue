@@ -242,6 +242,7 @@ export default {
   textarea{
     height: 80%;
     width: 100%;
+    resize: none;
   }
 
   .formVisible{
