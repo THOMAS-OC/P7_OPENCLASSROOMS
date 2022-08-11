@@ -9,8 +9,11 @@
     <form v-on:submit.prevent="createPost" class="createPost formInvisible">
       <input required v-model="title" placeholder="Titre" type="text">
       <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
-      <label aria-label="append image file" class="create__post__file" for="file"><i class="fa-solid fa-arrow-up-from-bracket"></i></label>
-      <input type="file" name="file" id="file" @change="onChange">
+      <label aria-label="append image file" class="create__post__file" for="file"><i :class="buttonFile"></i></label>
+      <input v-if="!picturePost" type="file" name="file" id="file" @change="appendPicture">
+      <input id="file" type="file" v-else-if="picturePost" @click.prevent="deletePicture">
+
+      <p>{{ nameFile }}</p>
       <input class="create__post__submit" type="submit" value="Poster">
       <!-- Bouton d'affichage -->
       <button v-on:click.prevent="hideForm">X</button>
@@ -40,7 +43,10 @@ export default {
       posts : [],
       title : "",
       content : "",
-      picturePost : null
+      picturePost : null,
+      nameFile : null,
+      // class button file in form
+      buttonFile : "fa-solid fa-arrow-up-from-bracket",
     }
   },
 
@@ -65,8 +71,17 @@ export default {
 
   methods:{
 
-    onChange(event) {
-        this.picturePost = event.target.files[0]
+    appendPicture(event) {
+      this.picturePost = event.target.files[0]
+      this.nameFile = event.target.files[0].name
+      this.buttonFile = "fa-solid fa-ban"
+    },
+
+    deletePicture(){
+    // delete picture post
+      this.picturePost = null
+      this.nameFile = null
+      this.buttonFile = "fa-solid fa-arrow-up-from-bracket"
     },
 
     refreshPosts(){
@@ -100,6 +115,8 @@ export default {
           .then(() => {
             this.refreshPosts()
             this.picturePost = null
+            this.nameFile = null
+            this.buttonFile = "fa-solid fa-arrow-up-from-bracket"
           })
           .catch(err => console.log(err))
       }
@@ -284,7 +301,7 @@ export default {
   }
 
   textarea{
-    height: 80%;
+    height: 70%;
     width: 100%;
     resize: none;
   }

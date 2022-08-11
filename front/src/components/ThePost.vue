@@ -350,9 +350,10 @@ export default {
     },
 
     deletePost($event){
-      $event.target.parentNode.parentNode.parentNode.style.display = "none"
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
-      .then()
+      .then(() => {
+        $event.target.parentNode.parentNode.parentNode.style.display = "none"
+      })
       .catch(error => {
         // User not connected
         console.log(error.response.data.userConnected)
