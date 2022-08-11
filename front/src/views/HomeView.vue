@@ -128,18 +128,20 @@ export default {
 
 
     viewForm(){
+      // HIDE
       if (document.querySelector("form").className == "createPost formVisible"){
         this.hideForm()
       }
+      // SHOW
       else {
         document.querySelector("form").className = "createPost formVisible"
-        document.querySelector("section").className = "section-replace"
+        document.querySelector(".post__list").className = "post__list section-replace"
       }
     },
 
     hideForm(){
       document.querySelector("form").className = "createPost formInvisible"
-      document.querySelector("section").className = ""
+      document.querySelector(".post__list").className = "post__list"
     }
 
   }
@@ -158,7 +160,7 @@ export default {
     transition-duration: 1s;
     transform: translateY(-500px);
   }
-  /* classe pour déplacer section vers le bas */
+  /* classe pour déplacer la section des posts vers le bas */
 
   .section-replace {
     transform: translateY(0px);
