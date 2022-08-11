@@ -64,7 +64,6 @@ const loginUser = (req, res) => {
                 };
 
                 const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '5400s'})
-
                 
                 const userInDb = results[0]
                 bcrypt.compare(req.body.password, userInDb.password)

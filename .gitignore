@@ -1,4 +1,5 @@
 .env
+.zip
 back/node_modules
 back/.env
 back/images
@@ -6,3 +7,7 @@ back/images
 front/node_modules
 front/.env
 routes.xlsx
+
+identifiants_admin.txt
+routes.xlsx
+secure_route.txt

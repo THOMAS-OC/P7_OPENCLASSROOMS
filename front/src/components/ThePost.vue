@@ -10,7 +10,7 @@
     <header v-bind:class="headerPost">
 
       <div class="header__post__author">
-        <img :src="pictureprofil" alt="test">
+        <img :src="pictureprofil" alt="photo de profil">
         <p> {{ name }} {{ firstname }} </p>
       </div>
 
@@ -31,7 +31,7 @@
 
         <p>{{ content }}</p>
 
-        <img class="content__picture" :src="picture" alt="Image du post">
+        <img v-if="picture" class="content__picture" :src="picture" alt="Image du post">
 
       </section>
 

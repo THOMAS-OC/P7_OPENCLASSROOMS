@@ -10,7 +10,7 @@ const createPost = (req, res) => {
         let title = req.body.title
         let content = req.body.content
         connection.query(
-            `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '/images/test.jpg', '${content}', NULL, ${userId})`,
+            `INSERT INTO posts (date, title, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '${content}', NULL, ${userId})`,
             function(err, results, fields) {
                 console.log(results); // results contains rows returned by server
                 console.log(err);
@@ -290,12 +290,14 @@ const deletePost = (req, res) => {
 
                     // DELETE IMAGE
                     let urlImage = results[0]["picture"]
-                    indexSlash = urlImage.lastIndexOf('/') + 1
-                    urlImage = urlImage.slice(indexSlash,);
-                    let pathImage = path.join(process.cwd(), 'images/post', urlImage)
-                    console.log(pathImage);
-                    console.log("delete picture post");
-                    fs.unlinkSync(pathImage)
+                    console.log(urlImage);
+                    
+                    if (urlImage){
+                        let indexSlash = urlImage.lastIndexOf('/') + 1
+                        urlImage = urlImage.slice(indexSlash,);
+                        let pathImage = path.join(process.cwd(), 'images/post', urlImage)
+                        fs.unlinkSync(pathImage)
+                    }
 
                     connection.query(
                         `DELETE FROM posts WHERE ID = ${postId}`,

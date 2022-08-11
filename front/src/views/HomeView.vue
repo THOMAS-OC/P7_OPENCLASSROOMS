@@ -49,7 +49,14 @@ export default {
   },
 
   mounted(){
-    this.refreshPosts()
+    this.$http.get("https://localhost:3001/api/auth/checkconnect")
+    .then(()=>this.refreshPosts())
+    .catch(err => {
+        console.log(err);
+        alert('Veuillez vous connecter svp.')
+        this.$router.push('connect')
+    })
+    
   },
 
   created: function () {
@@ -98,7 +105,6 @@ export default {
 
       // REQUETE POST WITHOUT PICTURE
       else {
-        alert("on envoie sans image")
         this.$http.post("https://localhost:3001/api/post/", {
           title : this.title,
           content : this.content,
