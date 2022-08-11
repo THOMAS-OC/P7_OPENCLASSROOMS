@@ -9,7 +9,8 @@
     <form v-on:submit.prevent="createPost" class="createPost formInvisible">
       <input required v-model="title" placeholder="Titre" type="text">
       <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
-      <input type="file" name="" id="" @change="onChange">
+      <label aria-label="append image file" class="create__post__file" for="file"><i class="fa-solid fa-arrow-up-from-bracket"></i></label>
+      <input type="file" name="file" id="file" @change="onChange">
       <input class="create__post__submit" type="submit" value="Poster">
       <!-- Bouton d'affichage -->
       <button v-on:click.prevent="hideForm">X</button>
@@ -98,6 +99,7 @@ export default {
           this.$http.post(`https://localhost:3001/api/post/`, formData, {})
           .then(() => {
             this.refreshPosts()
+            this.picturePost = null
           })
           .catch(err => console.log(err))
       }
@@ -241,6 +243,23 @@ export default {
     font-size: 20px;
   }
 
+  input[type="file"]{
+    display: none;
+  }
+
+  .create__post__file{
+    cursor: pointer;
+    line-height: 50px;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    color: white;
+    text-shadow: 0px 0px 3px white;
+    border-radius: 50%;
+    background: rgb(253,45,1);
+    background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
+  }
+
   .create__post__submit{
     cursor: pointer;
     background: rgb(253,45,1);
@@ -257,6 +276,7 @@ export default {
     text-shadow: 0px 0px 3px white;
     font-size: 25px;
     letter-spacing: 10px;
+    box-shadow: 0px -3px 3px rgb(123, 123, 123);
   }
 
   .create__post__submit:hover{

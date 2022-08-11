@@ -124,7 +124,6 @@ export default {
       // class update comment
       clsUpdateComment : 'false',
       // variable update comment
-      textUpdateComment : "",
       selectedComment : null
     }
   },
@@ -216,13 +215,16 @@ export default {
 
     createComment(){
 
-      // UPDATE COMMENT
+      // IF UPDATE COMMENT
       if (this.selectedComment && this.newComment){
         this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
           comment : this.newComment
         })
         .then( () => {
           this.refreshPost()
+          document.querySelector('.selectComment').className = "comment__child"
+          this.selectedComment = null
+          this.newComment = ""
         })
         .catch(error => {
           // User not connected
