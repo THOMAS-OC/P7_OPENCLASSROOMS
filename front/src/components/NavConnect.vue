@@ -21,13 +21,14 @@
     width: 1000px;
     background-color: rgba(76, 76, 76, 0.603);
     border: 2px solid white;
-    font-size: 50px;
-    border-radius: 15px;
+    font-size: 30px;
+    border-top: none;
     color: white;
     justify-content: space-around;
     height: 100px;
     align-items: center;
-    max-width: 90vw;
+    max-width: 95vw;
+    overflow: hidden;
   }
 
   nav a {
@@ -40,12 +41,19 @@
     cursor: pointer;
   }
 
+  nav a:nth-child(1) {
+    border-right: 2px solid white;
+  }
+
   nav a:hover{
-    background-color: rgba(255, 255, 255, 0.31);
+    background-color: #fd2b01a3;
   }
 
   .router-link-active{
-      background-color: rgba(255, 255, 255, 0.31);
+    background-color: #fd2b01a3;
+    line-height: 100px;
+    color: white;
+    text-shadow: 0px 0px 10px #FFD7D7;
   }
 /* FIN nav connexion et inscription */
 </style>

@@ -7,8 +7,10 @@
     </div>
 
     <form v-on:submit.prevent="createPost" class="createPost formInvisible">
-      <input required v-model="title" placeholder="Titre" type="text">
-      <textarea required v-model="content" placeholder="Contenu de votre post" name="" id="" cols="30" rows="10"></textarea>
+      <label for="title">Titre</label>
+      <input maxlength="70" id="title" name="title" required v-model="title" placeholder="Titre" type="text">
+      <label for="content">Message</label>
+      <textarea maxlength="500" required v-model="content" placeholder="Contenu de votre post" name="content" id="content" cols="30" rows="10"></textarea>
       <label aria-label="append image file" class="create__post__file" for="file"><i :class="buttonFile"></i></label>
       <input v-if="!picturePost" type="file" name="file" id="file" @change="appendPicture">
       <input id="file" type="file" v-else-if="picturePost" @click.prevent="deletePicture">

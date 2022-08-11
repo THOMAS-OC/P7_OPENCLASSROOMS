@@ -3,14 +3,14 @@
     <form class="form__connect" v-on:submit.prevent="connect">
       
           <div class="form__connect__email">
-
+            <label for="email">Email</label>
             <input v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i v-if="emailValid" :class="emailValid"></i>
           
           </div>
 
           <div class="form__connect__password">
-
+            <label for="password">Mot de passe</label>
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
             <i style="opacity : 0" v-if="emailValid" :class="emailValid"></i>
 
