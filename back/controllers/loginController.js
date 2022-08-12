@@ -19,11 +19,9 @@ const createUser = (req, res) =>{
         `SELECT ID FROM users WHERE email = '${emailCrypt}'`,
         function(err, results, fields) {
             if (results[0]){
-                console.log("Utilisateur existant");
                 res.json({userExist : true})
             }
             else {
-                console.log("Utilisateur inexistant");
                 bcrypt.hash(password, 5)
                 .then(hash => {
                     console.log(hash);
