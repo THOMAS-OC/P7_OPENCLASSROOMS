@@ -184,8 +184,10 @@ const readOnePost = (req, res) => {
             
                         // Récupération des likes
                         for (let like of results){
-                            if (!bddFront.likes.includes(like.like_user_id)) {
-                                bddFront.likes.push(like.like_user_id)                   
+                            if (like.like_user_id){
+                                if (!bddFront.likes.includes(like.like_user_id)) {
+                                    bddFront.likes.push(like.like_user_id)           
+                                }
                             }
                         }
                         return resolve(bddFront)
