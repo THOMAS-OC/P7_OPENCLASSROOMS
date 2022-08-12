@@ -189,6 +189,8 @@ export default {
 
     viewComment(){
 
+      alert([null, null].length)
+
       // Affichage de la section comment et de l'input comment
       if (this.commentView == 'comment comment-hide') {
 
@@ -369,10 +371,9 @@ export default {
     like(){
       this.$http.post("http://localhost:3000/api/post/like", {
           postId : this.ID,
-
       })
-      .then(() => {
-          this.refreshPost()
+      .then( () => {
+        this.refreshPost()
       })
       .catch(error => {
         // User not connected
