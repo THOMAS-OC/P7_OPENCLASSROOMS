@@ -16,8 +16,9 @@ const createUser = (req, res) =>{
     let userExist = false
 
     connection.query(
-        `SELECT ID FROM users WHERE email = '${emailCrypt}'`,
+        `SELECT ID FROM users WHERE email = '${emailCrypt}' OR ( name = '${name}' AND firstname = '${firstname}' )`,
         function(err, results, fields) {
+            console.log(err);
             if (results[0]){
                 res.json({userExist : true})
             }
@@ -29,10 +30,11 @@ const createUser = (req, res) =>{
                         `INSERT INTO users (name, firstname, email, password, ID) VALUES ('${name}', '${firstname}', '${emailCrypt}', '${hash}', NULL)`,
                         function(err, results, fields) {
                             if (err){
-                                console.log(err);
+                                res.status(400).json(err);
                             }
-                            console.log(results);
-                            res.json({userCreate : true})
+                            else {
+                                res.json({userCreate : true})
+                            }
                         }
                     )
                 })

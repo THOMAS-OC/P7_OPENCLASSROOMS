@@ -42,8 +42,6 @@ export default {
   data(){
     return {
         email : "",
-        name : "",
-        firstname : "",
         password : "",
         action : "Modifier mon email",
         authorization : false,
