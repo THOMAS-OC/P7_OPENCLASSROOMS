@@ -5,6 +5,7 @@ const auth = require('../middleware/auth')
 const deleteImage = require('../middleware/deleteImage')
 const multer = require("multer")
 const path = require("path")
+const postValidator = require('../middleware/postValidator')
 
 // Limitation du nombre de requete pour une même ip
 const rateLimit = require('express-rate-limit')
@@ -34,7 +35,7 @@ const upload = multer(
 );
 
 // CREATE A POST
-router.post('/', upload.single('picturePost'), auth, createPostLimiter, controller.createPost)
+router.post('/', upload.single('picturePost'), auth, createPostLimiter, postValidator, controller.createPost)
 
 // SYSTEME DE LIKE
 router.post('/like', auth, controller.like)
