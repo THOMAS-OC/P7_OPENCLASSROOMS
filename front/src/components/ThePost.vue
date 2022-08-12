@@ -316,8 +316,8 @@ export default {
       if (this.picturePost){
         const formData = new FormData()
         formData.append('picturePost', this.picturePost)
-        formData.append('newTitle', `${this.title}`)
-        formData.append('newContent', `${this.content}`)
+        formData.append('title', `${this.title}`)
+        formData.append('content', `${this.content}`)
         this.$http.put(`https://localhost:3001/api/post/${this.ID}`, formData, {})
         .then(() => {
           this.refreshPosts()
@@ -328,8 +328,8 @@ export default {
 
       else {
         this.$http.put("http://localhost:3000/api/post/" + this.ID, {
-          newContent: this.content,
-          newTitle: this.title
+          content: this.content,
+          title: this.title
         })
 
         .then( () => {

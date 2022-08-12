@@ -37,17 +37,17 @@ const upload = multer(
 // CREATE A POST
 router.post('/', upload.single('picturePost'), auth, createPostLimiter, postValidator, controller.createPost)
 
-// SYSTEME DE LIKE
+// LIKE SYSTEM
 router.post('/like', auth, controller.like)
 
-// READ
+// READ A POST
 router.get('/', auth, controller.readAllPosts)
 router.get('/:postId', auth, controller.readOnePost)
 
-// UPDATE
-router.put('/:postId', auth, deleteImage, upload.single('picturePost'), auth, controller.updatePost)
+// UPDATE A POST
+router.put('/:postId', auth, deleteImage, upload.single('picturePost'), auth, postValidator, controller.updatePost)
 
-// DELETE
+// DELETE A POST
 router.delete('/:postId', auth, deleteImage, controller.deletePost)
 
 module.exports = router;

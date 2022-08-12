@@ -45,7 +45,6 @@ const like = (req, res) => {
 
     let userId = req.body.userId
     let postId = req.body.postId
-    let valueLike = 1
     
     connection.query(
 
@@ -53,16 +52,16 @@ const like = (req, res) => {
         function(err, results, fields) {
 
             // SI LE LIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
-            if (results[0] && results[0]["value"] == valueLike){
+            if (results[0]){
                 connection.query(
                     // Suppression du like
                     `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
                     function(err, results, fields) {
                         if(err){
-                            res.json(err)
+                            res.status(500).json(err)
                         }
 
-                        res.json(results)
+                        res.status(201).json(results)
                     }
                 );
             }
@@ -71,13 +70,12 @@ const like = (req, res) => {
             else if(!results[0]){
                 connection.query(
         
-                    `INSERT INTO likes (post_id, user_id, ID, value) VALUES (${postId}, ${userId}, NULL, ${valueLike})`,
+                    `INSERT INTO likes (post_id, user_id) VALUES (${postId}, ${userId})`,
                     function(err, results, fields) {
                         if(err){
-                            res.json(err)
+                            res.status(500).json(err)
                         }
-                        console.log("Ajout de like ou de dislike");
-                        res.json(results)
+                        res.status(201).json(results)
                     }
                 );
             }
@@ -139,19 +137,21 @@ const readOnePost = (req, res) => {
 
         return new Promise((resolve, reject) => {
             connection.query(
-                `SELECT users.name, users.admin, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, likes.VALUE as value_like, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
+                `SELECT users.name, users.admin, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
                 LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
                 LEFT JOIN likes ON posts.ID = likes.post_id 
                 LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
         
                 function(err, results, fields) {
 
-                    if (!results[0]){
-                        res.status(404).json({message: "post introuvable"})
+                    console.log(err);
+
+                    if (err){
+                        res.status(500).json(err)
                     }
 
-                    else if (err){
-                        res.status(500).json(err)
+                    else if (!results[0]){
+                        res.status(404).json({message: "post introuvable"})
                     }
 
                     else {
@@ -184,12 +184,8 @@ const readOnePost = (req, res) => {
             
                         // Récupération des likes
                         for (let like of results){
-                            if (like.value_like){
-                                if (like.value_like == 1){
-                                    if (!bddFront.likes.includes(like.like_user_id)) {
-                                        bddFront.likes.push(like.like_user_id)                   
-                                    }
-                                }
+                            if (!bddFront.likes.includes(like.like_user_id)) {
+                                bddFront.likes.push(like.like_user_id)                   
                             }
                         }
                         return resolve(bddFront)
@@ -247,8 +243,8 @@ const readOnePost = (req, res) => {
 const updatePost = (req, res) => {
 
     let postId = req.params.postId
-    let newTitle = req.body.newTitle
-    let newContent = req.body.newContent
+    let newTitle = req.body.title
+    let newContent = req.body.content
 
     // UPDATE WITHOUT PICTURE
     if(req.headers['content-type'] == "application/json"){
