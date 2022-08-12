@@ -3,16 +3,15 @@
     <form class="form__connect" v-on:submit.prevent="connect">
       
           <div class="form__connect__email">
-            <label for="email">Email</label>
+            <label class="form__connect__label" for="email">Email</label>
             <input v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i v-if="emailValid" :class="emailValid"></i>
           
           </div>
 
           <div class="form__connect__password">
-            <label for="password">Mot de passe</label>
+            <label class="form__connect__label" for="password">Mot de passe</label>
             <input placeholder="Password" type="password" name="" id="password" v-model="password">
-            <i style="opacity : 0" v-if="emailValid" :class="emailValid"></i>
 
           </div>
 
@@ -132,14 +131,14 @@ export default {
 
 .form__connect__email{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100px;
 }
 
 .form__connect__password{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100px;
 }
@@ -151,9 +150,14 @@ input[type="email"], input[type="password"]{
   border: 1px solid gray;
   font-size: 30px;
   border-bottom: 2px solid #FD2D01;
-
 }
 
+.form__connect__label{
+  height: 100%;
+  width: 20%;
+  line-height: 100px;
+  font-style: italic;
+}
 
 i{
   margin-left: 20px;
