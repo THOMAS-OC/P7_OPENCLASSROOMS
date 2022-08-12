@@ -26,7 +26,6 @@ const upload = multer(
           cb(null, path.join( __dirname, '../images/post'));
         },
         filename: (req, file, cb) => {
-          console.log("tes");
           req.body.pathImage = Date.now() + '-' + file.originalname
           cb(null, Date.now() + '-' + file.originalname);
         }
@@ -40,14 +39,14 @@ router.post('/', upload.single('picturePost'), auth, createPostLimiter, controll
 // SYSTEME DE LIKE
 router.post('/like', auth, controller.like)
 
-// READ : testé et ok
+// READ
 router.get('/', auth, controller.readAllPosts)
 router.get('/:postId', auth, controller.readOnePost)
 
 // UPDATE
 router.put('/:postId', auth, deleteImage, upload.single('picturePost'), auth, controller.updatePost)
 
-// DELETE : testé et ok
+// DELETE
 router.delete('/:postId', auth, deleteImage, controller.deletePost)
 
 module.exports = router;

@@ -6,9 +6,6 @@ const auth = require('../middleware/auth')
 // CREATE
 router.post('/', auth, controller.createComment)
 
-// READ
-router.get('/:postId', controller.readComment)
-
 // UPDATE
 router.put('/:commentId', auth, controller.updateComment)
 

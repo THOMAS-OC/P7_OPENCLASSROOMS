@@ -21,12 +21,17 @@ const updateUser = (req, res) => {
             connection.query(
                 `UPDATE users SET email = "${emailCrypt}", password = "${hash}" WHERE users.ID = ${userId}`,
                 function(err, results, fields) {
-                    res.json({message : "Votre email et votre mot de passe ont bien été mis à jour"})
+                    if (err) {
+                        res.status(500).json(err)
+                    }
+                    else {
+                        res.json({message : "Votre email et votre mot de passe ont bien été mis à jour"})
+                    }
                 }
             );
         })
 
-        .catch(err => res.json(err))
+        .catch(err => res.status(500).json(err))
 
     }
 
@@ -35,7 +40,12 @@ const updateUser = (req, res) => {
         connection.query(
             `UPDATE users SET email = "${emailCrypt}" WHERE users.ID = ${userId}`,
             function(err, results, fields) {
-                res.json({message : "Votre email a bien été mis à jour"})
+                if (err) {
+                    res.status(500).json(err)
+                }
+                else {
+                    res.json({message : "Votre email a bien été mis à jour"})
+                }
             }
         );
     }
@@ -48,20 +58,22 @@ const updateUser = (req, res) => {
             connection.query(
                 `UPDATE users SET password = "${hash}" WHERE users.ID = ${userId}`,
                 function(err, results, fields) {
-                    res.json({message : "Votre mot de passe a bien été mis à jour"})
+                    if (err) {
+                        res.status(500).json(err)
+                    }
+                    else {
+                        res.json({message : "Votre mot de passe a bien été mis à jour"})
+                    }
                 }
             );
         })
-        .catch(err => res.json(err))
+        .catch(err => res.status(500).json(err))
     }
 }
 
 // DELETE USER : testé et ok
 const deleteUser = (req, res) => {
     let userId = req.body.userId
-    console.log("user id delete");
-    console.log(userId);
-    console.log("user id delete");
     if (req.body.admin == 1){
         res.status(401).json({message: "Vous ne pouvez pas supprimer le compte administrateur"})
     }
@@ -71,7 +83,7 @@ const deleteUser = (req, res) => {
             `SELECT pictureprofil FROM users WHERE ID = ${userId}`,
             function(err, results, fields) {
                 if (err){
-                    res.json("err")
+                    res.status(500).json("err")
                 }
                 else {
                     // DELETE IMAGE
@@ -89,7 +101,7 @@ const deleteUser = (req, res) => {
                         `DELETE FROM users WHERE ID = ${userId}`,
                         function(err, results, fields) {
                             if (err){
-                                res.json("err")
+                                res.status(500).json("err")
                             }
                             else {
                                 console.log(results); 
@@ -120,7 +132,7 @@ const addProfilPicture = (req, res) => {
         function(err, results, fields) {
 
             if (err){
-                res.json(err)
+                res.status(500).json(err)
             }
             else {
                 console.log(results); 

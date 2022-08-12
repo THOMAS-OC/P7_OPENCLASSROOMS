@@ -9,27 +9,17 @@ const createComment = (req, res) => {
     connection.query(
         `INSERT INTO commentaires (ID, comment, post_id, user_id) VALUES (NULL, "${comment}", ${postId}, ${userId})`,
         function(err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(err);
-            res.json(results)
+            if (err){
+                res.status(404).json({message : "Post introuvable"})
+            }
+            else {
+                res.status(201).json(results)
+            }
+       
         }
     );
 }
 
-// READ ALL COMMENTS FOR ONE POST : testé et ok
-const readComment = (req, res) => {
-
-    let postId = req.params.postId
-    connection.query(
-        `SELECT * FROM commentaires WHERE post_id = ${postId}`,
-        function(err, results, fields) {
-            
-            console.log(results); // results contains rows returned by server
-            res.json(results)
-        }
-    );
-
-}
 
 // UPDATE COMMENT
 const updateComment = (req, res) => {
@@ -50,7 +40,12 @@ const updateComment = (req, res) => {
                     connection.query(
                         `UPDATE commentaires SET comment = "${newComment}" WHERE commentaires.ID = ${commentId}`,
                         function(err, results, fields) {
-                            res.json(results)
+                            if (err){
+                                res.status(500).json(err)
+                            }
+                            else {
+                                res.status(201).json(results)
+                            }
                         }
                     );
                 }
@@ -82,8 +77,12 @@ const deleteComment = (req, res) => {
                     connection.query(
                         `DELETE FROM commentaires WHERE commentaires.ID = ${commentId}`,
                         function(err, results, fields) {
-                            console.log(results); // results contains rows returned by server
-                            res.json(results)
+                            if (err) {
+                                res.status(500).json(err)
+                            }
+                            else {
+                                res.status(204).json(results)
+                            }
                         }
                     );
                 }
@@ -100,7 +99,6 @@ const deleteComment = (req, res) => {
 
 module.exports = { 
     createComment,
-    readComment,
     updateComment,
     deleteComment
 }

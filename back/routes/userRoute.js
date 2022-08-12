@@ -17,7 +17,6 @@ const upload = multer(
           extensionFile = extensionFile.slice(6,)
           req.body.extensionFile = extensionFile
           req.body.nameImage = 'picture_profil_'
-
           cb(null, 'picture_profil_' + req.params.id + '.' + extensionFile);
         }
       })
@@ -28,7 +27,7 @@ const upload = multer(
 router.put('/', auth, controller.updateUser)
 
 // UPDATE PICTURE PROFIL : en cours
-router.post('/:id', upload.single('ProfilPicture'), auth, controller.addProfilPicture)
+router.post('/:id', auth, upload.single('ProfilPicture'), auth, controller.addProfilPicture)
 
 // DELETE USER : testé et ok
 router.delete('/', auth, controller.deleteUser)
