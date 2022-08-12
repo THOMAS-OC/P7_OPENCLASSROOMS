@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/userController')
+const passValidator = require('../middleware/passValidator')
+const updateUserValidator = require('../middleware/updateUserValidator')
 const auth = require('../middleware/auth')
 const multer = require("multer")
 const path = require("path")
@@ -24,7 +26,7 @@ const upload = multer(
 );
 
 // UPDATE PERSONAL INFORMATIONS : testé et ok
-router.put('/', auth, controller.updateUser)
+router.put('/', auth, passValidator, updateUserValidator, controller.updateUser)
 
 // UPDATE PICTURE PROFIL : en cours
 router.post('/:id', auth, upload.single('ProfilPicture'), auth, controller.addProfilPicture)
