@@ -97,11 +97,19 @@ const readAllPosts = (req, res) => {
 
         `SELECT posts.ID FROM posts ORDER BY date DESC`,
         function(err, results, fields) {
-            for (let id of results){
-                listIds.push(id.ID)
+
+            if (!results[0]){
+                res.status(404).json({message: "BDD VIDE"})
             }
-            console.log(listIds);
-            res.json(listIds)
+
+            else {
+                for (let id of results){
+                    listIds.push(id.ID)
+                }
+                console.log(listIds);
+                res.json(listIds)
+            }
+
         }
     );
 
@@ -109,7 +117,6 @@ const readAllPosts = (req, res) => {
 
 // READ ONE POST
 const readOnePost = (req, res) => {
-    console.log("on lit un post");
     let postId = req.params.postId
 
     let bddFront = {
@@ -138,53 +145,60 @@ const readOnePost = (req, res) => {
                 LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
         
                 function(err, results, fields) {
-                    if (err){
-                        console.log(err);
+
+                    if (!results[0]){
+                        res.status(404).json({message: "post introuvable"})
                     }
-                    bddFront.ID = results[0]["postId"]
-                    console.log("ADMIN ?");
-                    bddFront.admin = results[0]["admin"]
-                    console.log(results[0]["admin"]);
-                    console.log("ADMIN ?");
-                    bddFront.userIdCreated = results[0]["user_id"]
-                    bddFront.title = results[0]["title"]
-                    bddFront.date = results[0]["date"]
-                    bddFront.picture = results[0]["picture"]
-                    bddFront.content = results[0]["content"]
-                    bddFront.name = results[0]["name"]
-                    bddFront.firstname = results[0]["firstname"]
-                    bddFront.pictureprofil = results[0]["pictureprofil"]
-                    // récupération des commentaires
-                    for (let comment of results) {
-        
-                        if (comment.comment){
-        
-                            if (!bddFront.commentOnly.includes(comment.comment)){
-                                bddFront.comment.push({auteur : '', pictureprofil : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
-                                bddFront.commentOnly.push(comment.comment)
+
+                    else if (err){
+                        res.status(500).json(err)
+                    }
+
+                    else {
+                        bddFront.ID = results[0]["postId"]
+                        console.log("ADMIN ?");
+                        bddFront.admin = results[0]["admin"]
+                        console.log(results[0]["admin"]);
+                        console.log("ADMIN ?");
+                        bddFront.userIdCreated = results[0]["user_id"]
+                        bddFront.title = results[0]["title"]
+                        bddFront.date = results[0]["date"]
+                        bddFront.picture = results[0]["picture"]
+                        bddFront.content = results[0]["content"]
+                        bddFront.name = results[0]["name"]
+                        bddFront.firstname = results[0]["firstname"]
+                        bddFront.pictureprofil = results[0]["pictureprofil"]
+                        // récupération des commentaires
+                        for (let comment of results) {
+            
+                            if (comment.comment){
+            
+                                if (!bddFront.commentOnly.includes(comment.comment)){
+                                    bddFront.comment.push({auteur : '', pictureprofil : '', commentaire : comment.comment, id : comment.comment_id, userId : comment.comment_user_id})
+                                    bddFront.commentOnly.push(comment.comment)
+                                }
+            
                             }
-        
+            
                         }
-        
-                    }
-        
-                    // Récupération des likes
-                    for (let like of results){
-                        if (like.value_like){
-                            if (like.value_like == 1){
-                                if (!bddFront.likes.includes(like.like_user_id)) {
-                                    bddFront.likes.push(like.like_user_id)                   
+            
+                        // Récupération des likes
+                        for (let like of results){
+                            if (like.value_like){
+                                if (like.value_like == 1){
+                                    if (!bddFront.likes.includes(like.like_user_id)) {
+                                        bddFront.likes.push(like.like_user_id)                   
+                                    }
                                 }
                             }
                         }
+                        return resolve(bddFront)
                     }
-                    return resolve(bddFront)
                 }
             );
         })
-
     }
-
+    
     queryPromise()
     .then(resultats => {
         console.log(resultats.comment[0]);

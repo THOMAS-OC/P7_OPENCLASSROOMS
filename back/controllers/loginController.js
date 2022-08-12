@@ -101,12 +101,16 @@ const checkEmail = (req, res) => {
         `SELECT * FROM users WHERE email = "${emailCrypt}"`,
         function(err, results, fields) {
 
-            if(results[0]) {
+            if (err) {
+                res.status(500).json(err)
+            }
+
+            else if(results[0]) {
                 res.status(200).json({userExist : true})
             }
 
             else {
-                res.status(200).json({userExist : false})
+                res.status(404).json({userExist : false})
             }
 
         }
@@ -126,10 +130,9 @@ const checkConnected = (req, res) => {
         if (err) {
             res.status(401).json({ message: 'Error. Bad token' })
         } else {
-            console.log(decodedToken);
-            req.body.userId = decodedToken.id
-            req.body.admin = decodedToken.admin
-            res.json('toto connecté')
+            // req.body.userId = decodedToken.id
+            // req.body.admin = decodedToken.admin
+            res.status(200).json({ userConnected: true })
         }
     })
 

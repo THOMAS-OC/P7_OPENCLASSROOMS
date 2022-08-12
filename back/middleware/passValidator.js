@@ -20,6 +20,7 @@ module.exports = (req, res, next) => {
     if (passwordSchema.validate(password)){
         next()
     }
+    
     else {
         res.status(400).json({message : "Mot de passe non conforme aux règles de sécurité !"})
     }
