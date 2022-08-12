@@ -1,27 +1,27 @@
 <template>
   <section class="home">
 
-    <div v-on:click="viewForm" class="btnCreatePost">
+    <div v-on:click="viewForm" class="btn__view__form">
       <div></div>
       <div></div>
     </div>
 
-    <form v-on:submit.prevent="createPost" class="createPost formInvisible">
+    <form v-on:submit.prevent="createPost" :class="classForm">
       <label for="title">Titre</label>
       <input maxlength="70" id="title" name="title" required v-model="title" placeholder="Titre" type="text">
       <label for="content">Message</label>
-      <textarea maxlength="500" required v-model="content" placeholder="Contenu de votre post" name="content" id="content" cols="30" rows="10"></textarea>
-      <label aria-label="append image file" class="create__post__file" for="file"><i :class="buttonFile"></i></label>
+      <textarea class="form__post__content" maxlength="500" required v-model="content" placeholder="Contenu de votre post" name="content" id="content" cols="30" rows="10"></textarea>
+      <label aria-label="append image file" class="form__post__file" for="file"><i :class="buttonFile"></i></label>
       <input v-if="!picturePost" type="file" name="file" id="file" @change="appendPicture">
       <input id="file" type="file" v-else-if="picturePost" @click.prevent="deletePicture">
       <p>jpg, png, gif, webp</p>
       <p>{{ nameFile }}</p>
-      <input class="create__post__submit" type="submit" value="Poster">
+      <input class="form__post__submit" type="submit" value="Poster">
       <!-- Bouton d'affichage -->
       <button v-on:click.prevent="hideForm">X</button>
     </form>
 
-    <section class="post__list">
+    <section :class="postList">
 
       <article class="post" v-for="post in posts" :key="post">
 
@@ -46,9 +46,10 @@ export default {
       title : "",
       content : "",
       picturePost : null,
-      nameFile : null,
-      // class button file in form
-      buttonFile : "fa-solid fa-arrow-up-from-bracket",
+      nameFile : null, // name file of picture
+      buttonFile : "fa-solid fa-arrow-up-from-bracket", // class button file in form
+      classForm : "form__post form__post--hide", // class button file in form
+      postList : "post__list" // class list of posts
     }
   },
 
@@ -158,19 +159,19 @@ export default {
 
     viewForm(){
       // HIDE
-      if (document.querySelector("form").className == "createPost formVisible"){
+      if (this.classForm == "form__post formVisible"){
         this.hideForm()
       }
       // SHOW
       else {
-        document.querySelector("form").className = "createPost formVisible"
-        document.querySelector(".post__list").className = "post__list section-replace"
+        this.classForm = "form__post formVisible"
+        this.postList = "post__list post__list--replace"
       }
     },
 
     hideForm(){
-      document.querySelector("form").className = "createPost formInvisible"
-      document.querySelector(".post__list").className = "post__list"
+      this.classForm = "form__post form__post--hide"
+      this.postList = "post__list"
     }
 
   }
@@ -191,14 +192,13 @@ export default {
   }
   /* classe pour déplacer la section des posts vers le bas */
 
-  .section-replace {
+  .post__list--replace {
     transform: translateY(0px);
   }
 
-
   /* BOUTTON CREATION DE POSTE */
 
-  .btnCreatePost{
+  .btn__view__form{
     cursor: pointer;
     margin: 50px auto;
     width: 250px;
@@ -210,12 +210,12 @@ export default {
     transition-duration: 0.5s;
   }
 
-  .btnCreatePost:hover{
+  .btn__view__form:hover{
     transform: scale(1.1);
     box-shadow: 0px 0px 30px #FD2D01;
   }
 
-  .btnCreatePost div{
+  .btn__view__form div{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -228,7 +228,7 @@ export default {
     box-shadow: 0px 0px 30px #494949;
   }
 
-  .btnCreatePost div:nth-child(2){
+  .btn__view__form div:nth-child(2){
     transform: translate(-50%, 50%) rotate(90deg) scale(0.8);
   }
 
@@ -236,7 +236,7 @@ export default {
 
   /* FORMULAIRE CREATION DE POSTE */
 
-  .createPost{
+  .form__post{
     width: 500px;
     height: 600px;
     background-color: #fff;
@@ -250,13 +250,13 @@ export default {
     padding: 10px 20px;
     position: relative;
     transition-duration: 1s;
-    opacity: 0;
-    transform: scale(0.2);
+    opacity: 1;
+    transform: scale(1);
     overflow: hidden;
     padding-bottom: 50px;
   }
 
-  .createPost button{
+  .form__post button{
     position: absolute;
     right: 5px;
     top: 5px;
@@ -268,13 +268,15 @@ export default {
     font-weight: bold;
     cursor: pointer;
     font-size: 20px;
+    transform: scaleY(1);
+    transition-duration: 1s;
   }
 
   input[type="file"]{
     display: none;
   }
 
-  .create__post__file{
+  .form__post__file{
     cursor: pointer;
     line-height: 50px;
     width: 50px;
@@ -287,7 +289,7 @@ export default {
     background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
   }
 
-  .create__post__submit{
+  .form__post__submit{
     cursor: pointer;
     background: rgb(253,45,1);
     background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
@@ -306,23 +308,17 @@ export default {
     box-shadow: 0px -3px 3px rgb(123, 123, 123);
   }
 
-  .create__post__submit:hover{
+  .form__post__submit:hover{
     letter-spacing: 15px;
   }
 
-  textarea{
+  .form__post__content{
     height: 70%;
     width: 100%;
     resize: none;
   }
 
-  .formVisible{
-    opacity: 1;
-    transform: scaleY(1);
-    transition-duration: 1s;
-  }
-
-  .formInvisible{
+  .form__post--hide{
     opacity: 0;
     transform: scaleY(0);
     transition-duration: 1s;
