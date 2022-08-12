@@ -181,10 +181,6 @@ export default {
 
 <style scoped>
 
-  h2{
-    color: red;
-  }
-
   .post__list {
     height: auto;
     transition-duration: 1s;

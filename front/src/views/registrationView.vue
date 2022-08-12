@@ -3,31 +3,31 @@
 
     <form class="form__register" v-on:submit.prevent="register">
 
-        <div class="form__register__name">
-            <label for="name">Nom</label>
-            <input v-on:input="watchName" v-on:keyup="watchName" autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
-            <i v-if="nameValid" :class="classIcone"></i>
+        <div class="form__register__box">
+            <label class="form__register__label" for="name">Nom</label>
+            <input class="form__register__input" v-on:input="watchName" v-on:keyup="watchName" autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
+            <i class="form__register__icon" v-if="nameValid" :class="classIcone"></i>
         </div>
 
-        <div class="form__register__firstname">
-            <label for="firstname">Prénom</label>
-            <input v-on:input="watchFirstName" v-on:keyup="watchFirstName" autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
-            <i v-if="firstNameValid" :class="classIcone"></i>
+        <div class="form__register__box">
+            <label class="form__register__label" for="firstname">Prénom</label>
+            <input class="form__register__input" v-on:input="watchFirstName" v-on:keyup="watchFirstName" autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
+            <i class="form__register__icon" v-if="firstNameValid" :class="classIcone"></i>
         </div>
 
-        <div class="form__register__email">
-            <label for="email">Email</label>
-            <input v-on:input="watchEmail" v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
-            <i v-if="emailValid" :class="classIcone"></i>
+        <div class="form__register__box">
+            <label class="form__register__label" for="email">Email</label>
+            <input class="form__register__input" v-on:input="watchEmail" v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <i class="form__register__icon" v-if="emailValid" :class="classIcone"></i>
         </div>
 
-        <div class="form__register__password">
-            <label for="password">Password</label>
-            <input v-on:input="watchPassword" v-on:keyup="watchPassword" autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
-            <i v-if="passwordValid" :class="classIcone"></i>
+        <div class="form__register__box">
+            <label class="form__register__label" for="password">Password</label>
+            <input class="form__register__input" v-on:input="watchPassword" v-on:keyup="watchPassword" autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
+            <i class="form__register__icon" v-if="passwordValid" :class="classIcone"></i>
         </div>
             
-        <input type="submit" value="S'inscrire">
+        <input class="form__register__submit" type="submit" value="S'inscrire">
 
     </form>
     
@@ -161,7 +161,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
 .form__register{
     background-image: url("../assets/logo.png");
     background-size: cover;
@@ -182,29 +181,22 @@ export default {
     overflow: hidden;
 }
 
-.form__register div{
+.form__register__box{
     width: 100%;
     display: flex;
     height: 60px;
     background-color: rgba(255, 255, 255, 0.588);
 }
 
-.form__register label{
+.form__register__label{
   font-style: italic;
   text-align: center;
   line-height: 60px;
   width: 15%;
 }
 
-.form__register i {
-  font-style: italic;
-  text-align: center;
-  line-height: 60px;
-  width: 15%;
-}
-
-input:not(input[type="submit"]){
-    border: none;
+.form__register__input{
+  border: none;
     border: 1.5px solid gray;
     border-bottom: 2.5px solid #FD2D01;
     width: 70%;
@@ -212,9 +204,16 @@ input:not(input[type="submit"]){
     font-size: 35px;
 }
 
+.form__register__icon {
+    font-style: italic;
+    text-align: center;
+    line-height: 60px;
+    width: 15%;
+}
+
 /* SUBMIT BUTTON */
 
-input[type="submit"]{
+.form__register__submit{
     position: absolute;
     bottom: 0;
     left: 0;
@@ -229,7 +228,7 @@ input[type="submit"]{
     background-color: white;
 }
 
-input[type="submit"]:hover{
+.form__register__submit:hover{
     background-color: rgb(212, 212, 212);
 }
 
