@@ -2,17 +2,16 @@
 
     <form class="form__connect" v-on:submit.prevent="connect">
       
-          <div class="form__connect__email">
+          <div class="form__connect__box">
             <label class="form__connect__label" for="email">Email</label>
-            <input v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
+            <input :class="classBorderEmail" v-on:input="checkBDD($event)" v-on:keyup="checkBDD($event)" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i v-if="emailValid" :class="emailValid"></i>
           
           </div>
 
-          <div class="form__connect__password">
+          <div class="form__connect__box">
             <label class="form__connect__label" for="password">Mot de passe</label>
-            <input v-on:input="checkPassword" v-on:keyup="checkPassword" placeholder="Password" type="password" name="" id="password" v-model="password">
-
+            <input class="form__connect__password" v-on:input="checkPassword" v-on:keyup="checkPassword" placeholder="Password" type="password" name="" id="password" v-model="password">
           </div>
 
                     
@@ -33,6 +32,7 @@ export default {
         password : "",
         emailValid : "fa-solid fa-check op0",
         classSubmit : "form__connect__submit form__connect__submit--hide",
+        classBorderEmail : "form__connect__email form__connect__email--invalid",
         emailInBDD : false
     }
   },
@@ -52,17 +52,20 @@ export default {
             this.emailInBDD = true
             this.emailValid = "fa-solid fa-check op1"
             console.log("email ok");
+            this.classBorderEmail = "form__connect__email"
             this.viewSubmit()
           }
           else {
             this.emailInBDD = false
             this.emailValid = "fa-solid fa-check op0"
+            this.classBorderEmail = "form__connect__email form__connect__email--invalid"
             this.viewSubmit()
           }
         })
         .catch(() => {
             this.emailInBDD = false
             this.emailValid = "fa-solid fa-check op0"
+            this.classBorderEmail = " form__connect__email form__connect__email--invalid"
             this.viewSubmit()
         })
 
@@ -141,26 +144,24 @@ export default {
     position: relative;
 }
 
-.form__connect__email{
+.form__connect__box{
   display: flex;
   justify-content: flex-start;
   align-items: center;
   height: 100px;
 }
 
-.form__connect__password{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100px;
-}
 
-input[type="email"], input[type="password"]{
+.form__connect__email, .form__connect__password{
   width: 60%;
   height: 60%;
   background-color: rgba(255, 255, 255, 0.817);
   border: 1px solid gray;
   font-size: 30px;
+  border-bottom: 2px solid #4e5166bb;;
+}
+
+.form__connect__email--invalid{
   border-bottom: 2px solid #FD2D01;
 }
 

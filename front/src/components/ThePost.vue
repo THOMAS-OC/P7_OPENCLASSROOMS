@@ -707,6 +707,8 @@ export default {
   }
 
   .comment__child__counter{
+    color: #FD2D01;
+    text-shadow: 0px 0px 5px white;
     position: absolute;
     bottom: 5%;
     right: 5%;

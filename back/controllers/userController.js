@@ -121,27 +121,39 @@ const deleteUser = (req, res) => {
 
 const addProfilPicture = (req, res) => {
 
-    let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
-    console.log(fullPath);
+    authorizationFile = ["jpeg", "jpg", "gif", "webp"]
 
-    console.log(req.body.extensionFile);
+    if (authorizationFile.includes(req.body.extensionFile)){
+        console.log("test depuis le controller");
 
-    connection.query(
-
-        `UPDATE users SET pictureprofil = "${fullPath}" WHERE users.ID = ${req.body.userId}`,
-        function(err, results, fields) {
-
-            if (err){
-                res.status(500).json(err)
+        let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
+        console.log(fullPath);
+    
+        console.log(req.body.extensionFile);
+    
+        connection.query(
+    
+            `UPDATE users SET pictureprofil = "${fullPath}" WHERE users.ID = ${req.body.userId}`,
+            function(err, results, fields) {
+    
+                if (err){
+                    res.status(500).json(err)
+                }
+                else {
+                    console.log(results); 
+                    res.status(201).json({pictureProfil : fullPath})
+                }
+                
             }
-            else {
-                console.log(results); 
-                res.status(201).json({pictureProfil : fullPath})
-            }
-            
-        }
+    
+        );
+    }
 
-    );
+    else {
+        res.status(400).json({message : "Format non accepté"})
+        console.log("pas autorisé !");
+    }
+
 }
 
 module.exports = { 

@@ -24,8 +24,16 @@ export default {
   methods:{
 
     onChange(event) {
-        this.pictureProfil = event.target.files[0]
-        this.updatePictureProfil()
+        let extension = event.target.files[0].type.slice(6,)
+        let extensionsAuthorize = ["jpeg", "png", "gif", "jpg", "webp"]
+        if (extensionsAuthorize.includes(extension)){
+            this.pictureProfil = event.target.files[0]
+            this.updatePictureProfil()
+        }
+        else {
+            alert("Format non accepté !")
+        }
+
     },
 
     updatePictureProfil(){

@@ -81,7 +81,7 @@ export default ({
 .title__page{
   width: 40vw;
   height: 70px;
-  background-color: #fd2b01a5;
+  background-color: #4e5166bb;
   color: white;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   margin: 50px auto;

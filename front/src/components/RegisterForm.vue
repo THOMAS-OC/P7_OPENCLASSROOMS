@@ -77,10 +77,12 @@ data(){
 
         if (this.name.toLowerCase().match(nameRegex)){
           this.nameValid = true
+          this.name = this.name.toUpperCase()
           this.watchAll()
         }
 
         else {
+          this.name = this.name.toUpperCase()
           this.nameValid = false
           this.watchAll()
         }
@@ -217,7 +219,7 @@ data(){
   border: none;
     border: 1.5px solid gray;
     border-bottom: 2.5px solid #FD2D01;
-    width: 70%;
+    width: 75%;
     height: 100%;
     font-size: 35px;
 }
@@ -234,7 +236,7 @@ data(){
     font-style: italic;
     text-align: center;
     line-height: 60px;
-    width: 15%;
+    width: 10%;
 }
 
 /* SUBMIT BUTTON */
