@@ -71,21 +71,21 @@
       <div v-bind:class="footerBtn">
 
         <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
-        <button v-on:click="viewComment"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
-        <button v-on:click="viewUpdate" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button v-on:click="viewCommentFromContent"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
+        <button v-on:click="viewUpdateFromContent" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
 
       </div>
 
       <div v-bind:class="footerInput">
 
-        <button v-on:click="viewComment"><i class="fa-solid fa-arrow-left"></i></button>
+        <button><i class="fa-solid fa-arrow-left"></i></button>
         <textarea v-model="newComment" maxlength="300" name="" id="" cols="30" rows="10"></textarea>
         <button v-on:click="createComment" class="comment__send"> <i class="fa-solid fa-comment-dots"></i> </button>
 
       </div>
 
       <div v-bind:class="footerUpdate">
-        <button v-on:click="viewComment"><i class="fa-solid fa-arrow-left"></i></button>
+        <button><i class="fa-solid fa-arrow-left"></i></button>
         <button v-on:click="updatePost" class="comment__send"> <i class="fa-solid fa-pen-to-square"></i> </button>
       </div>
 
@@ -120,9 +120,9 @@ export default {
       headerPost :  'header__post',
       headerDelete : 'header__delete header__delete__hide',
       // class main post
-      commentView : "comment comment-hide",
-      contentView : "content",
-      updateView : "update__view",
+      commentView : "comment__view comment__view--hide",
+      contentView : "content__view",
+      updateView : "update__view update__view--hide",
       // class footer post
       footerBtn : 'footer__post__btn footer__post__visible',
       footerInput : 'footer__post__comment',
@@ -181,45 +181,20 @@ export default {
       }
     },
 
-    viewUpdate(){
-      
-      this.contentView = "content content-hide"
-      this.updateView = "update__view update__view--show"
-      this.footerBtn = "footer__post__btn"
-      this.footerUpdate += "footer__post__visible"
-
+    viewCommentFromContent(){
+      // MAIN
+      this.commentView = "comment__view"
+      this.contentView = "content__view content__view--right"
+      // FOOTER
     },
 
-    viewComment(){
-
-      // Affichage de la section comment et de l'input comment
-      if (this.commentView == 'comment comment-hide') {
-
-        // MAIN
-        this.commentView = "comment"
-        this.contentView = "content content-hide"
-        this.updateView = "update__view"
-
-        // FOOT
-        this.footerBtn = "footer__post__btn"
-        this.footerInput = "footer__post__comment footer__post__visible"
-        this.footerUpdate = "footer__post__update"
-
-      }
-
-      // Affichage de la section content
-      else {
-
-        // MAIN
-        this.commentView = "comment comment-hide"
-        this.contentView = "content"
-
-        // FOOT
-        this.footerBtn = "footer__post__btn footer__post__visible"
-        this.footerInput = "footer__post__comment"
-      }
-
+    viewUpdateFromContent(){
+      // MAIN
+      this.updateView = "update__view"
+      this.contentView = "content__view content__view--hide"
+      // FOOT
     },
+
 
     createComment(){
 
@@ -406,6 +381,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+
   .ThePost{
     opacity: 1;
     transition-duration: 0.5s;
@@ -416,8 +392,8 @@ export default {
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: visible;
+    overflow-x: visible;
     display: flex;
     flex-direction: column;
     animation-name: fondu;
@@ -605,7 +581,7 @@ export default {
     border-top: 2px solid red;
   }
 
-  .content{
+  .content__view{
     position: absolute;
     z-index: 1;
     left: 0;
@@ -614,6 +590,8 @@ export default {
     width: 100%;
     transition-duration: 0.5s;
     overflow-y: scroll;
+    background-color: red;
+    transition-duration: 0.5s;
   }
 
   .content__picture{
@@ -621,9 +599,12 @@ export default {
     height: auto;
   }
 
-  .content-hide{
-    transition-duration: 0.5s;
+  .content__view--hide{
     transform: translateX(-100%);
+  }
+
+  .content__view--right{
+    transform: translateX(100%);
   }
 
   .update__view{
@@ -637,15 +618,16 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
+    transform: translateX(0%);
+    background-color: blue;
+  }
+
+  .update__view--hide{
+    z-index: 3;
     transform: translateX(100%);
   }
 
-  .update__view--show{
-    z-index: 3;
-    transform: translateX(0%);
-  }
-
-  .comment{
+  .comment__view{
     z-index: 2;
     position: absolute;
     left: 0;
@@ -656,11 +638,12 @@ export default {
     overflow-y: scroll;
     padding-left: 3%;
     padding-top: 1%;
+    background-color: green;
   }
 
-  .comment-hide{
+  .comment__view--hide{
     transition-duration: 0.5s;
-    transform: translateX(100%);
+    transform: translateX(-100%);
   }
 
   /* Affichage d'un commentaire */
