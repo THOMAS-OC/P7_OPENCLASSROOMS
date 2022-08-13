@@ -293,6 +293,40 @@ const updatePost = (req, res) => {
 }
 
 // DELETE POST : testé et ok
+const deleteImage = (req, res) => {
+    let postId = req.params.postId
+
+    connection.query(
+        `SELECT * FROM posts WHERE ID= ${postId}`,
+        function(err, results, fields) {
+
+            if (err) res.status(500).json(err)
+
+            else if (!results[0]){
+                res.status(404).json({message: "Post introuvable"})
+            }
+
+            else {
+                if (results[0]["user_id"] == req.body.userId){
+                    connection.query(
+                        `UPDATE posts SET picture = NULL WHERE posts.ID = ${postId}`,
+                        function(err, results, fields) {
+                            console.log(results);
+                            res.json(results)
+                        }
+                    );
+                }
+                else {
+                    res.status(401).json({message: "Modification non autorisée"})
+                }
+            }
+
+        }
+    );
+
+}
+
+// DELETE POST : testé et ok
 const deletePost = (req, res) => {
     let postId = req.params.postId
 
@@ -331,5 +365,6 @@ module.exports = {
     readOnePost,
     updatePost,
     deletePost,
+    deleteImage,
     like,
 }
