@@ -7,9 +7,9 @@
     </div>
 
     <form v-on:submit.prevent="createPost" :class="classForm">
-      <label for="title">Titre</label>
+      <label for="title">Titre {{ title.length }} / 70</label>
       <input maxlength="70" id="title" name="title" required v-model="title" placeholder="Titre" type="text">
-      <label for="content">Message</label>
+      <label for="content">Message {{ content.length }} / 500</label>
       <textarea class="form__post__content" maxlength="500" required v-model="content" placeholder="Contenu de votre post" name="content" id="content" cols="30" rows="10"></textarea>
       <label aria-label="append image file" class="form__post__file" for="file"><i :class="buttonFile"></i></label>
       <input v-if="!picturePost" type="file" name="file" id="file" @change="appendPicture">
