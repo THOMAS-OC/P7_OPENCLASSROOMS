@@ -68,7 +68,7 @@
     
     <footer class="footer__post">
 
-      <div v-bind:class="footerBtn">
+      <div v-bind:class="footerContent">
 
         <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
         <button v-on:click="viewCommentFromContent"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
@@ -76,16 +76,16 @@
 
       </div>
 
-      <div v-bind:class="footerInput">
+      <div v-bind:class="footerComment">
 
-        <button><i class="fa-solid fa-arrow-left"></i></button>
+        <button v-on:click="viewContentFromContent"><i class="fa-solid fa-arrow-left"></i></button>
         <textarea v-model="newComment" maxlength="300" name="" id="" cols="30" rows="10"></textarea>
         <button v-on:click="createComment" class="comment__send"> <i class="fa-solid fa-comment-dots"></i> </button>
 
       </div>
 
       <div v-bind:class="footerUpdate">
-        <button><i class="fa-solid fa-arrow-left"></i></button>
+        <button v-on:click="viewContentFromUpdate"><i class="fa-solid fa-arrow-left"></i></button>
         <button v-on:click="updatePost" class="comment__send"> <i class="fa-solid fa-pen-to-square"></i> </button>
       </div>
 
@@ -120,13 +120,13 @@ export default {
       headerPost :  'header__post',
       headerDelete : 'header__delete header__delete__hide',
       // class main post
-      commentView : "comment__view comment__view--hide",
       contentView : "content__view",
-      updateView : "update__view update__view--hide",
+      commentView : "comment__view to-left",
+      updateView : "update__view to-right",
       // class footer post
-      footerBtn : 'footer__post__btn footer__post__visible',
-      footerInput : 'footer__post__comment',
-      footerUpdate : 'footer__post__update',
+      footerContent : 'footer__content',
+      footerComment : 'footer__comment to-left',
+      footerUpdate : 'footer__update to-right',
       // class update comment
       clsUpdateComment : 'false',
       // variable update comment
@@ -184,8 +184,19 @@ export default {
     viewCommentFromContent(){
       // MAIN
       this.commentView = "comment__view"
-      this.contentView = "content__view content__view--right"
+      this.contentView = "content__view to-right"
       // FOOTER
+      this.footerComment = 'footer__comment'
+      this.footerContent = 'footer__content to-right'
+    },
+
+    viewContentFromContent(){
+      // MAIN
+      this.commentView = "comment__view to-left"
+      this.contentView = "content__view"
+      // FOOTER
+      this.footerComment = 'footer__comment to-left'
+      this.footerContent = 'footer__content'
     },
 
     viewUpdateFromContent(){
@@ -193,6 +204,17 @@ export default {
       this.updateView = "update__view"
       this.contentView = "content__view content__view--hide"
       // FOOT
+      this.footerUpdate = "footer__update"
+      this.footerContent = 'footer__content to-left'
+    },
+
+    viewContentFromUpdate(){
+      // MAIN
+      this.updateView = "update__view to-right"
+      this.contentView = "content__view"
+      // FOOT
+      this.footerUpdate = "footer__update to-right"
+      this.footerContent = 'footer__content'
     },
 
 
@@ -392,8 +414,7 @@ export default {
     width: 800px;
     border: 2px solid black;
     background-color: rgba(240, 248, 255, 0.768);
-    overflow: visible;
-    overflow-x: visible;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     animation-name: fondu;
@@ -484,7 +505,7 @@ export default {
     position: relative;
   }
 
-  .footer__post__btn{
+  .footer__content{
     height: 100%;
     width: 100%;
     position: absolute;
@@ -492,23 +513,21 @@ export default {
     left: 0;
     display: flex;
     transition-duration: 0.5s;
-    transform: translateX(-100%);
   }
 
-  .footer__post__comment{
+  .footer__comment{
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     transition-duration: 0.5s;
-    transform: translateX(100%);
     display: flex;
     justify-content: space-around;
     align-items: center;
   }
 
-  .footer__post__comment button{
+  .footer__comment button{
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -518,11 +537,11 @@ export default {
     text-align: center;
   }
 
-  .footer__post__comment button:hover{
+  .footer__comment button:hover{
     color: #FD2D01;
   }
 
-  .footer__post__comment textarea{
+  .footer__comment textarea{
     width: 70%;
     height: 80%;
     border-radius: 15px;
@@ -534,14 +553,13 @@ export default {
 
   /* footer update post */
 
-  .footer__post__update{
+  .footer__update{
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     transition-duration: 0.5s;
-    transform: translateX(100%);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -549,9 +567,7 @@ export default {
 
   /* END footer update post */
 
-  .footer__post__visible{
-      transform: translateX(0%);
-  }
+
   /* END FOOTER POST */
 
     /* bouton delete-post */
@@ -590,7 +606,6 @@ export default {
     width: 100%;
     transition-duration: 0.5s;
     overflow-y: scroll;
-    background-color: red;
     transition-duration: 0.5s;
   }
 
@@ -603,7 +618,11 @@ export default {
     transform: translateX(-100%);
   }
 
-  .content__view--right{
+  .to-left{
+    transform: translateX(-100%);
+  }
+
+  .to-right{
     transform: translateX(100%);
   }
 
@@ -618,13 +637,6 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
-    transform: translateX(0%);
-    background-color: blue;
-  }
-
-  .update__view--hide{
-    z-index: 3;
-    transform: translateX(100%);
   }
 
   .comment__view{
@@ -638,13 +650,8 @@ export default {
     overflow-y: scroll;
     padding-left: 3%;
     padding-top: 1%;
-    background-color: green;
   }
 
-  .comment__view--hide{
-    transition-duration: 0.5s;
-    transform: translateX(-100%);
-  }
 
   /* Affichage d'un commentaire */
   .comment__child{
