@@ -13,7 +13,7 @@
 <script>
 
 export default {
-  name: 'LoginForm',
+  name: 'PictureProfil',
 
   data(){
     return {
