@@ -6,27 +6,32 @@
             <label class="form__register__label" for="name">Nom</label>
             <input class="form__register__input" v-on:input="watchName" v-on:keyup="watchName" autocomplete="off" type="text" placeholder="Votre Nom" id="name" v-model="name">
             <i class="form__register__icon" v-if="nameValid" :class="classIcone"></i>
+            <p v-if="!nameValid && name.length>=1" class="form__register__box__error">Attention, le nom ne doit contenir que des lettres et contenir plus de 3 caractères</p>
         </div>
 
         <div class="form__register__box">
             <label class="form__register__label" for="firstname">Prénom</label>
             <input class="form__register__input" v-on:input="watchFirstName" v-on:keyup="watchFirstName" autocomplete="off" type="text" placeholder="Votre prénom" id="firstname" v-model="firstname">
             <i class="form__register__icon" v-if="firstNameValid" :class="classIcone"></i>
+            <p v-if="!firstNameValid && firstname.length>=1" class="form__register__box__error">Attention, le prénom ne doit contenir que des lettres et contenir plus de 3 caractères</p>
         </div>
 
         <div class="form__register__box">
             <label class="form__register__label" for="email">Email</label>
             <input class="form__register__input" v-on:input="watchEmail" v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i class="form__register__icon" v-if="emailValid" :class="classIcone"></i>
+            <p v-if="!emailValid && email.length>=1" class="form__register__box__error">Email invalide</p>
+
         </div>
 
         <div class="form__register__box">
             <label class="form__register__label" for="password">Password</label>
             <input class="form__register__input" v-on:input="watchPassword" v-on:keyup="watchPassword" autocomplete="off" placeholder="Password" type="password" name="" id="password" v-model="password">
             <i class="form__register__icon" v-if="passwordValid" :class="classIcone"></i>
+            <p v-if="!passwordValid && password.length>=1" class="form__register__box__error">Attention, le mot de passe doit contenir une majuscule, une minuscule et mesurer entre 8 et 20 caractères.</p>
         </div>
             
-        <input class="form__register__submit" type="submit" value="S'inscrire">
+        <input :class="classSubmit" type="submit" value="S'inscrire">
 
     </form>
     
@@ -44,24 +49,40 @@ data(){
         name : "",
         firstname : "",
         classIcone : 'fa-solid fa-check op0',
+
         nameValid : false,
         firstNameValid : false,
         emailValid : false,
         passwordValid : false,
+
+        classSubmit : "form__register__submit form__register__submit--hide",
     }
   },
 
   methods:{
+
+    watchAll(){
+
+      if (this.nameValid && this.firstNameValid && this.emailValid && this.passwordValid) {
+        this.classSubmit = "form__register__submit"
+      }
+      else {
+        this.classSubmit = "form__register__submit form__register__submit--hide"
+      }
+
+    },
 
     watchName(){
         let nameRegex = /^[A-Za-zéàèêëï]{3,30}$/
 
         if (this.name.toLowerCase().match(nameRegex)){
           this.nameValid = true
+          this.watchAll()
         }
 
         else {
           this.nameValid = false
+          this.watchAll()
         }
     },
 
@@ -70,10 +91,12 @@ data(){
 
         if (this.firstname.toLowerCase().match(FirstNameRegex)){
           this.firstNameValid = true
+          this.watchAll()
         }
 
         else {
           this.firstNameValid = false
+          this.watchAll()
         }
     },
 
@@ -82,21 +105,25 @@ data(){
 
         if (this.email.match(emailRegex)){
           this.emailValid = true
+          this.watchAll()
         }
 
         else {
           this.emailValid = false
+          this.watchAll()
         }
 
     },
 
     watchPassword(){
-        let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+        let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,20}$/
         if (this.password.match(passwordRegex)){
             this.passwordValid = true
+            this.watchAll()
         }
         else {
             this.passwordValid = false
+            this.watchAll()
         }
     },
 
@@ -162,6 +189,7 @@ data(){
     height: 600px;
     border-radius: 20px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -172,7 +200,9 @@ data(){
 .form__register__box{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     height: 60px;
+    position: relative;
     background-color: rgba(255, 255, 255, 0.588);
 }
 
@@ -190,6 +220,14 @@ data(){
     width: 70%;
     height: 100%;
     font-size: 35px;
+}
+
+.form__register__box__error{
+  width: 85%;
+  margin-left: 15%;
+  text-align: left;
+  color: #FD2D01;
+  text-shadow: 0px 0px 1px red;
 }
 
 .form__register__icon {
@@ -214,7 +252,13 @@ data(){
     font-size: 30px;
     font-weight: bolder;
     background-color: white;
+    transition-duration: 0.5s;
 }
+
+.form__register__submit--hide{
+  transform: translateY(100%)
+}
+
 
 .form__register__submit:hover{
     background-color: rgb(212, 212, 212);
