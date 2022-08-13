@@ -44,9 +44,12 @@
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
 
+          
+
           <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
+        <p class="comment__child__counter"> {{ newComment.length }} /300</p>
 
       </section>
 
@@ -76,7 +79,7 @@
       <div v-bind:class="footerInput">
 
         <button v-on:click="viewComment"><i class="fa-solid fa-arrow-left"></i></button>
-        <textarea v-model="newComment" name="" id="" cols="30" rows="10"></textarea>
+        <textarea v-model="newComment" maxlength="300" name="" id="" cols="30" rows="10"></textarea>
         <button v-on:click="createComment" class="comment__send"> <i class="fa-solid fa-comment-dots"></i> </button>
 
       </div>
@@ -119,7 +122,7 @@ export default {
       // class main post
       commentView : "comment comment-hide",
       contentView : "content",
-      updateView : "updateView",
+      updateView : "update__view",
       // class footer post
       footerBtn : 'footer__post__btn footer__post__visible',
       footerInput : 'footer__post__comment',
@@ -181,7 +184,7 @@ export default {
     viewUpdate(){
       
       this.contentView = "content content-hide"
-      this.updateView = "updateView updateView-show"
+      this.updateView = "update__view update__view--show"
       this.footerBtn = "footer__post__btn"
       this.footerUpdate += "footer__post__visible"
 
@@ -195,7 +198,7 @@ export default {
         // MAIN
         this.commentView = "comment"
         this.contentView = "content content-hide"
-        this.updateView = "updateView"
+        this.updateView = "update__view"
 
         // FOOT
         this.footerBtn = "footer__post__btn"
@@ -623,7 +626,7 @@ export default {
     transform: translateX(-100%);
   }
 
-  .updateView{
+  .update__view{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -637,7 +640,7 @@ export default {
     transform: translateX(100%);
   }
 
-  .updateView-show{
+  .update__view--show{
     z-index: 3;
     transform: translateX(0%);
   }
@@ -701,6 +704,12 @@ export default {
     transform: translateY(-50%);
     font-size: 12px;
     font-style: italic;
+  }
+
+  .comment__child__counter{
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
   }
 
   /* Suppression d'un commentaire */
