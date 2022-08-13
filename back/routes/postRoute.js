@@ -48,7 +48,7 @@ router.get('/:postId', auth, controller.readOnePost)
 router.put('/:postId', auth, deleteImage, upload.single('picturePost'), auth, postValidator, controller.updatePost)
 
 // DELETE IMAGE A POST
-router.put('/delpicture/:postId', auth, controller.deleteImage)
+router.put('/delpicture/:postId', auth, deleteImage, controller.deleteImage)
 
 // DELETE A POST
 router.delete('/:postId', auth, deleteImage, controller.deletePost)

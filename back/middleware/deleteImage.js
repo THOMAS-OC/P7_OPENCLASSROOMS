@@ -14,11 +14,21 @@ module.exports = (req, res, next) => {
         connection.query(
             `SELECT * FROM posts WHERE ID= ${postId}`,
             function(err, results, fields) {
-    
-                if (!results[0]){
-                    res.status(404).json({message: "Post introuvable"})
+
+                if (err) {
+                    res.status(500).json(err)
                 }
     
+                else if (!results[0]){
+                    res.status(404).json({message: "Post introuvable"})
+                }
+
+                // POST WITHOUT IMAGE
+                else if (!results[0]["picture"]) {
+                    next()
+                }
+
+                // POST WITH IMAGE
                 else {
                     if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
     
@@ -29,7 +39,12 @@ module.exports = (req, res, next) => {
                             let indexSlash = urlImage.lastIndexOf('/') + 1
                             urlImage = urlImage.slice(indexSlash,);
                             let pathImage = path.join(process.cwd(), 'images/post', urlImage)
-                            fs.unlinkSync(pathImage)
+                            try {
+                                console.log("suppression de l'image");
+                                fs.unlinkSync(pathImage)
+                            } catch (error) {
+                                console.log("image introuvable sur le disque");
+                            }
                         }
                         next()
                     }
