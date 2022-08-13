@@ -7,17 +7,39 @@ const createComment = (req, res) => {
     let comment = req.body.comment
 
     connection.query(
-        `INSERT INTO commentaires (ID, comment, post_id, user_id) VALUES (NULL, "${comment}", ${postId}, ${userId})`,
+        `SELECT * FROM posts WHERE ID= ${postId}`,
         function(err, results, fields) {
-            if (err){
-                res.status(404).json({message : "Post introuvable"})
+
+            if (err) {
+                res.status(500).json(err)
             }
+
+            else if (!results[0]){
+                res.status(404).json({message: "Post introuvable"})
+            }
+
             else {
-                res.status(201).json(results)
+                connection.query(
+                    `INSERT INTO commentaires (ID, comment, post_id, user_id) VALUES (NULL, "${comment}", ${postId}, ${userId})`,
+                    function(err, results, fields) {
+            
+                        console.log(err);
+            
+                        if (err){
+                            res.status(500).json(err)
+                        }
+                        else {
+                            res.status(201).json(results)
+                        }
+                   
+                    }
+                );
+                
             }
-       
+
         }
     );
+
 }
 
 
@@ -31,7 +53,11 @@ const updateComment = (req, res) => {
         `SELECT * FROM commentaires WHERE ID= ${commentId}`,
         function(err, results, fields) {
 
-            if (!results[0]){
+            if (err) {
+                res.status(500).json(err)
+            }
+
+            else if (!results[0]){
                 res.status(404).json({message: "Commentaire introuvable"})
             }
 
@@ -68,7 +94,11 @@ const deleteComment = (req, res) => {
         `SELECT * FROM commentaires WHERE ID= ${commentId}`,
         function(err, results, fields) {
 
-            if (!results[0]){
+            if (err) {
+                res.status(500).json(err)
+            }
+
+            else if (!results[0]){
                 res.status(404).json({message: "Commentaire introuvable"})
             }
 
