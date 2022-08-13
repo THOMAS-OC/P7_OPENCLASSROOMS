@@ -11,12 +11,12 @@
 
           <div class="form__connect__password">
             <label class="form__connect__label" for="password">Mot de passe</label>
-            <input placeholder="Password" type="password" name="" id="password" v-model="password">
+            <input v-on:input="checkPassword" v-on:keyup="checkPassword" placeholder="Password" type="password" name="" id="password" v-model="password">
 
           </div>
 
                     
-        <input type="submit" value="Se connecter">
+        <input :class="classSubmit" type="submit" value="Se connecter">
 
     </form>
     
@@ -31,13 +31,15 @@ export default {
     return {
         email : "",
         password : "",
-        emailValid : "fa-solid fa-check op0"
+        emailValid : "fa-solid fa-check op0",
+        classSubmit : "form__connect__submit form__connect__submit--hide",
+        emailInBDD : false
     }
   },
 
   methods:{
     
-    checkBDD(target){
+    checkBDD(){
       let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
       if (this.email.match(emailRegex)){
@@ -47,24 +49,42 @@ export default {
         })
         .then(res => {
           if (res.data.userExist){
-            console.log(target);
-            target.target.style.borderBottom = "2px solid green"
+            this.emailInBDD = true
             this.emailValid = "fa-solid fa-check op1"
+            console.log("email ok");
+            this.viewSubmit()
           }
           else {
+            this.emailInBDD = false
             this.emailValid = "fa-solid fa-check op0"
-            target.target.style.borderColor = "#FD2D01"
+            this.viewSubmit()
           }
         })
-        .catch(err => console.log(err))
+        .catch(() => {
+            this.emailInBDD = false
+            this.emailValid = "fa-solid fa-check op0"
+            this.viewSubmit()
+        })
 
       }
 
       else {
         this.emailValid = "fa-solid fa-check op0"
-        target.target.style.borderColor = "#FD2D01"
       }
 
+    },
+
+    checkPassword(){
+      this.viewSubmit()
+    },
+
+    viewSubmit(){
+      if (this.emailInBDD && this.password){
+          this.classSubmit = "form__connect__submit"
+      }
+      else {
+          this.classSubmit = "form__connect__submit form__connect__submit--hide"
+      }
     },
 
 
@@ -83,7 +103,7 @@ export default {
 
       .catch(error => {
             if(error.response.data.message == "Utilisateur introuvable"){
-              alert("Votre email est introuvable, veuillez vérifire votre saisie.")
+              alert("Votre email est introuvable, veuillez vérifier votre saisie.")
             }
             else {
               alert("Votre mot de passe est incorrecte")
@@ -164,8 +184,7 @@ i{
   opacity: 1;
 }
 
-
-input[type="submit"]{
+.form__connect__submit{
     position: absolute;
     bottom: 0;
     left: 0;
@@ -182,7 +201,12 @@ input[type="submit"]{
     background-color: white;
 }
 
-input[type="submit"]:hover{
+.form__connect__submit--hide {
+  transform: translateY(100%);
+}
+
+
+.form__connect__submit:hover{
     background-color: rgb(212, 212, 212);
 }
 </style>
