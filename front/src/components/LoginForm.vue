@@ -1,8 +1,6 @@
 <template>
 
-    <div>
-
-    <!-- <form class="form__connect" v-on:submit.prevent="connect">
+    <form class="form__connect" v-on:submit.prevent="connect">
       
           <div class="form__connect__email">
             <label class="form__connect__label" for="email">Email</label>
@@ -20,34 +18,83 @@
                     
         <input type="submit" value="Se connecter">
 
-    </form> -->
-
-    <login-form></login-form>
-
-    </div>
-
-
+    </form>
+    
 </template>
 
 <script>
 
-import LoginForm from '../components/LoginForm.vue';
-
 export default {
-  name: 'TheConnection',
+  name: 'LoginForm',
 
-  components: {
-    LoginForm
+  data(){
+    return {
+        email : "",
+        password : "",
+        emailValid : "fa-solid fa-check op0"
+    }
   },
 
-  created: function () {
-    document.title = "Connexion / GROUPOMANIA";
-    this.$http.get("https://localhost:3001/api/auth/checkconnect")
-    .then(() => {
-      this.$router.push("home")
-    })
-  },
+  methods:{
+    
+    checkBDD(target){
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+      if (this.email.match(emailRegex)){
+
+        this.$http.post("https://localhost:3001/api/auth/checkemail", {
+          email : this.email
+        })
+        .then(res => {
+          if (res.data.userExist){
+            console.log(target);
+            target.target.style.borderBottom = "2px solid green"
+            this.emailValid = "fa-solid fa-check op1"
+          }
+          else {
+            this.emailValid = "fa-solid fa-check op0"
+            target.target.style.borderColor = "#FD2D01"
+          }
+        })
+        .catch(err => console.log(err))
+
+      }
+
+      else {
+        this.emailValid = "fa-solid fa-check op0"
+        target.target.style.borderColor = "#FD2D01"
+      }
+
+    },
+
+
+    connect(){
+
+      if (this.email && this.password){
+            this.$http.post("https://localhost:3001/api/auth/login", {
+              password : this.password,
+              email : this.email
+      })
+
+      .then(response => {
+            this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:this.email, pictureprofil:response.data.user.pictureprofil})
+            this.$router.push("home")
+      })
+
+      .catch(error => {
+            if(error.response.data.message == "Utilisateur introuvable"){
+              alert("Votre email est introuvable, veuillez vérifire votre saisie.")
+            }
+            else {
+              alert("Votre mot de passe est incorrecte")
+            }
+      })
+
+      }
+
+    }
+
+  }
 }
 
 </script>
@@ -139,3 +186,4 @@ input[type="submit"]:hover{
     background-color: rgb(212, 212, 212);
 }
 </style>
+
