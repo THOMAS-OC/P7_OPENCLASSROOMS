@@ -20,7 +20,7 @@
             <label class="form__register__label" for="email">Email</label>
             <input class="form__register__input" v-on:input="watchEmail" v-on:keyup="watchEmail" autocomplete="off" placeholder="Email" type="email" name="" id="email" v-model="email">
             <i class="form__register__icon" v-if="emailValid" :class="classIcone"></i>
-            <p v-if="!emailValid && email.length>=1" class="form__register__box__error">Email invalide</p>
+            <p v-if="!emailValid && email.length>=1" class="form__register__box__error"> {{ emailError }} </p>
 
         </div>
 
@@ -52,8 +52,9 @@ data(){
 
         nameValid : false,
         firstNameValid : false,
-        emailValid : false,
         passwordValid : false,
+        emailValid : false,
+        emailError : "Syntaxe email invalide",
 
         classSubmit : "form__register__submit form__register__submit--hide",
     }
@@ -106,11 +107,25 @@ data(){
         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (this.email.match(emailRegex)){
-          this.emailValid = true
-          this.watchAll()
+            console.log("on test dans la bdd");
+            this.$http.post("https://localhost:3001/api/auth/checkemail", {
+              email : this.email
+            })
+            .then(res => {
+              if (res.data.userExist){
+                this.emailError = "Email déjà enregistré !"
+                this.emailValid = false
+                this.watchAll()
+              }
+            })
+            .catch(() => {
+              this.emailValid = true
+              this.watchAll()
+            })
         }
 
         else {
+          console.log("pas de match avec la regex");
           this.emailValid = false
           this.watchAll()
         }

@@ -202,7 +202,7 @@ export default {
     viewUpdateFromContent(){
       // MAIN
       this.updateView = "update__view"
-      this.contentView = "content__view content__view--hide"
+      this.contentView = "content__view to-left"
       // FOOT
       this.footerUpdate = "footer__update"
       this.footerContent = 'footer__content to-left'
@@ -612,10 +612,6 @@ export default {
   .content__picture{
     width: 50%;
     height: auto;
-  }
-
-  .content__view--hide{
-    transform: translateX(-100%);
   }
 
   .to-left{
