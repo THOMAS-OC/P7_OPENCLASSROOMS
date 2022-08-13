@@ -189,8 +189,6 @@ export default {
 
     viewComment(){
 
-      alert([null, null].length)
-
       // Affichage de la section comment et de l'input comment
       if (this.commentView == 'comment comment-hide') {
 
