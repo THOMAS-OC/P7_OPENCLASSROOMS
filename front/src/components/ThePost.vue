@@ -44,8 +44,6 @@
           </p>
           <p class="comment__child__author">{{ com.auteur }}</p>
 
-          
-
           <button v-if="$store.state.id == com.userId || $store.state.admin == 1" v-on:click="deleteComment($event, com.id)" class="comment__edit--delete"><i class="fa-solid fa-trash"></i></button>
 
         </article>
@@ -220,51 +218,58 @@ export default {
 
     createComment(){
 
-      // IF UPDATE COMMENT
-      if (this.selectedComment && this.newComment){
-        this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
-          comment : this.newComment
-        })
-        .then( () => {
-          this.refreshPost()
-          document.querySelector('.selectComment').className = "comment__child"
-          this.selectedComment = null
-          this.newComment = ""
-        })
-        .catch(error => {
-          // User not connected
-          if (error.response.data.userConnected == 'false') {
-              alert("Veuillez vous connecter svp")
-              this.$router.push("connect")
+      if (this.newComment.length <= 300 ) {
+        alert("okay")
+          // IF UPDATE COMMENT
+          if (this.selectedComment && this.newComment){
+            this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
+              comment : this.newComment
+            })
+            .then( () => {
+              this.refreshPost()
+              document.querySelector('.selectComment').className = "comment__child"
+              this.selectedComment = null
+              this.newComment = ""
+            })
+            .catch(error => {
+              // User not connected
+              if (error.response.data.userConnected == 'false') {
+                  alert("Veuillez vous connecter svp")
+                  this.$router.push("connect")
+              }
+              // ! User not connected
+            })
           }
-          // ! User not connected
-        })
+
+          // CREATE COMMENT 
+          else if (this.newComment){
+            this.$http.post("http://localhost:3000/api/comment/", {
+              postId : this.ID,
+              comment : this.newComment
+            })
+            .then(response => {
+              this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
+              this.newComment = ''
+            })
+            .catch(error => {
+              // User not connected
+              if (error.response.data.userConnected == 'false') {
+                  alert("Veuillez vous connecter svp")
+                  this.$router.push("connect")
+              }
+              else {
+                  console.log(error);
+              }
+              // ! User not connected
+              })
+          }
       }
 
-      // CREATE COMMENT 
-      else if (this.newComment){
-        this.$http.post("http://localhost:3000/api/comment/", {
-          postId : this.ID,
-          comment : this.newComment
-        })
-        .then(response => {
-          this.comment.push({ "auteur": this.$store.state.name + " " + this.$store.state.firstName, "pictureprofil":this.$store.state.pictureprofil, "commentaire": this.newComment, "id": response.data.insertId, "userId": this.$store.state.id } )
-          this.newComment = ''
-        })
-        .catch(error => {
-          // User not connected
-          if (error.response.data.userConnected == 'false') {
-              alert("Veuillez vous connecter svp")
-              this.$router.push("connect")
-          }
-          else {
-              console.log(error);
-          }
-          // ! User not connected
-          })
-      }
+     else {
+      alert("Veuillez ne pas dépasser 300 caractères par commentaire svp !")
+     } 
 
-    },
+  },
 
     selectComment($event, commentaire, id, userId){
       

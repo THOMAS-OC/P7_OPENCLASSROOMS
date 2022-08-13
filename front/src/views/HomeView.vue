@@ -117,44 +117,53 @@ export default {
 
     createPost(){
 
-      if (this.picturePost){
-          const formData = new FormData()
-          formData.append('picturePost', this.picturePost)
-          formData.append('title', `${this.title}`)
-          formData.append('content', `${this.content}`)
-          this.$http.post(`https://localhost:3001/api/post/`, formData, {})
-          .then(() => {
-            this.refreshPosts()
-            this.picturePost = null
-            this.nameFile = null
-            this.buttonFile = "fa-solid fa-arrow-up-from-bracket"
+      if (this.title.length <= 70 && this.content.length <= 500) {
+        alert("okay")
+        if (this.picturePost){
+            const formData = new FormData()
+            formData.append('picturePost', this.picturePost)
+            formData.append('title', `${this.title}`)
+            formData.append('content', `${this.content}`)
+            this.$http.post(`https://localhost:3001/api/post/`, formData, {})
+            .then(() => {
+              this.refreshPosts()
+              this.picturePost = null
+              this.nameFile = null
+              this.buttonFile = "fa-solid fa-arrow-up-from-bracket"
+            })
+            .catch(err => console.log(err))
+        }
+
+        // REQUETE POST WITHOUT PICTURE
+        else {
+          this.$http.post("https://localhost:3001/api/post/", {
+            title : this.title,
+            content : this.content,
           })
-          .catch(err => console.log(err))
+          .then(() => this.refreshPosts())
+          .catch(error => {
+            // User not connected
+            if (error.response.data.userConnected == 'false') {
+                alert("Veuillez vous connecter svp")
+                this.$router.push("connect")
+            }
+            // ! User not connected
+          })
+        }
+
+        // RESET FORM
+        this.picturePost = null
+        this.title = ""
+        this.content = ""
+        window.setTimeout(this.hideForm, 500)
       }
 
-      // REQUETE POST WITHOUT PICTURE
       else {
-        this.$http.post("https://localhost:3001/api/post/", {
-          title : this.title,
-          content : this.content,
-        })
-        .then(() => this.refreshPosts())
-        .catch(error => {
-          // User not connected
-          if (error.response.data.userConnected == 'false') {
-              alert("Veuillez vous connecter svp")
-              this.$router.push("connect")
-          }
-          // ! User not connected
-        })
+        alert("Veuillez respecter les conditions des champs svp")
       }
 
-      // RESET FORM
-      this.picturePost = null
-      this.title = ""
-      this.content = ""
-      window.setTimeout(this.hideForm, 500)
-    },
+
+  },
 
 
     viewForm(){

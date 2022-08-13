@@ -25,7 +25,6 @@ const createPost = (req, res) => {
         let userId = req.body.userId
         let title = req.body.title
         let content = req.body.content
-        console.log("Envoie d'un formulaire de type form data");
 
         connection.query(
             `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '${fullPath}', '${content}', NULL, ${userId})`,
@@ -60,7 +59,6 @@ const like = (req, res) => {
                         if(err){
                             res.status(500).json(err)
                         }
-
                         res.status(201).json(results)
                     }
                 );

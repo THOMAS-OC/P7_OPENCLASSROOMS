@@ -3,6 +3,7 @@ const router = express.Router()
 const controller = require('../controllers/loginController')
 const passValidator = require('../middleware/passValidator')
 const registerValidator = require('../middleware/registerValidator')
+const mailValidator = require('../middleware/mailValidator')
 const auth = require('../middleware/auth')
 const rateLimit = require('express-rate-limit')
 
@@ -22,7 +23,7 @@ const AccountLimiter = rateLimit({
 router.post('/signup', passValidator, registerValidator, controller.createUser)
 
 // CONNECT *
-router.post('/login', AccountLimiter, controller.loginUser)
+router.post('/login', AccountLimiter, mailValidator, controller.loginUser)
 
 // READ
 router.post('/checkemail', controller.checkEmail)
