@@ -19,7 +19,7 @@
     display: flex;
     margin: 0px auto;
     width: 1000px;
-    background-color: rgba(76, 76, 76, 0.603);
+    background-color: #a9a9a9a5;
     border: 2px solid white;
     font-size: 30px;
     border-top: none;

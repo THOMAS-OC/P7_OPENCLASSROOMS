@@ -52,11 +52,11 @@
       </section>
 
       <section v-bind:class="updateView">
-        <label for="titre">Titre du post</label>
-        <input v-model="title" id="titre" name="titre" type="text">
+        <label for="titre">Titre du post {{ title.length }} / 70</label>
+        <input maxlength="70" v-model="title" id="titre" name="titre" type="text">
 
-        <label for="content">Contenu</label>
-        <textarea v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
+        <label for="content">Contenu {{ content.length }} / 500</label>
+        <textarea maxlength="500" v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
 
         <label for="file">file</label>
         <input @change="onChange" type="file" name="file" id="file">
