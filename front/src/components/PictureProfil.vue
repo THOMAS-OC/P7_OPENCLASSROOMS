@@ -3,8 +3,12 @@
     <form class="picture__profil">
 
         <img :src="$store.state.pictureprofil" alt="Photo de profil">
-        <input type="file" class="picture__profil__submit" name="pictureProfil" @change="onChange">
-        <i class="picture__profil__icon fa-solid fa-file-arrow-up"></i>
+
+        <input v-if="currentPictureProfil == 'profil_vierge.jpg'" type="file" class="picture__profil__submit" name="pictureProfil" @change="onChange">
+        <input v-else class="picture__profil__submit" type="submit" value="" v-on:click="deletePictureProfil">
+
+        <i v-if="currentPictureProfil == 'profil_vierge.jpg'" class="picture__profil__icon fa-solid fa-file-arrow-up"></i>
+        <i v-else class="picture__profil__icon fa-solid fa-circle-minus"></i>
 
     </form>
     
@@ -17,7 +21,8 @@ export default {
 
   data(){
     return {
-        pictureProfil: null
+        pictureProfil: null,
+        currentPictureProfil : this.$store.state.pictureprofil.slice(30,)
     }
   },
 
@@ -42,6 +47,18 @@ export default {
         this.$http.post(`https://localhost:3001/api/user/${this.$store.state.id}`, formData, {})
         .then((response) => {
             this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})
+            this.currentPictureProfil = response.data.pictureProfil
+            window.location.reload()
+        })
+        .catch(err => console.log(err))
+    },
+
+    deletePictureProfil(){
+        this.$http.delete(`https://localhost:3001/api/user/pictureprofil`)
+        .then(() => {
+            this.$store.commit('setPictureProfil', {pictureprofil:"https://localhost:3001/images/profil_vierge.jpg"})
+            this.currentPictureProfil = "profil_vierge.jpg"
+            this.pictureProfil = null
             window.location.reload()
         })
         .catch(err => console.log(err))
