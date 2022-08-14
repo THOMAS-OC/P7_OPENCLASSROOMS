@@ -117,13 +117,13 @@ export default {
 
     createPost(){
 
-      if (this.title.length <= 70 && this.content.length <= 500) {
-        alert("okay")
+      if (this.title.trim() && this.title.length <= 70 &&  this.content.trim() && this.content.length <= 500) {
+        
         if (this.picturePost){
             const formData = new FormData()
             formData.append('picturePost', this.picturePost)
-            formData.append('title', `${this.title}`)
-            formData.append('content', `${this.content}`)
+            formData.append('title', `${this.title.trim()}`)
+            formData.append('content', `${this.content.trim()}`)
             this.$http.post(`https://localhost:3001/api/post/`, formData, {})
             .then(() => {
               this.refreshPosts()

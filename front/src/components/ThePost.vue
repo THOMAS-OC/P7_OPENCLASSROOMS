@@ -53,10 +53,10 @@
 
       <section v-bind:class="updateView">
         <label for="titre">Titre du post {{ title.length }} / 70</label>
-        <input maxlength="70" v-model="title" id="titre" name="titre" type="text">
+        <input required maxlength="70" v-model="title" id="titre" name="titre" type="text">
 
         <label for="content">Contenu {{ content.length }} / 500</label>
-        <textarea maxlength="500" v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
+        <textarea required maxlength="500" v-model="content" name="content" id="content" cols="30" rows="10"></textarea>
 
         <label for="file">file</label>
         <input @change="onChange" type="file" name="file" id="file">
@@ -316,7 +316,7 @@ export default {
     },
 
     updatePost(){
-
+    if (this.title.trim() && this.title.length <= 70 &&  this.content.trim() && this.content.length <= 500) {
       // UPDATE WITH IMAGE
       if (this.picturePost){
         const formData = new FormData()
@@ -351,8 +351,13 @@ export default {
           // ! User not connected
         })
       }
+    }
 
-    },
+    else {
+      alert("Veuillez respecter les conditions de chaque champs svp !")
+    }
+
+  },
 
     deletePost($event){
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
