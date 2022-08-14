@@ -1,15 +1,17 @@
 <template>
   <section class="home">
 
-    <form class="form__filter">
-      <label class="form__filter__label" for="filtre">Filtre</label>
-      <input placeholder="search" class="form__filter__input" v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" type="search" name="filtre" id="filtre">
-    </form>
+
 
     <div v-on:click="viewForm" class="btn__view__form">
       <div></div>
       <div></div>
     </div>
+
+    <form class="form__filter">
+      <label class="form__filter__label" for="filtre">Filtre</label>
+      <input placeholder="search" class="form__filter__input" v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" type="search" name="filtre" id="filtre">
+    </form>
 
     <form v-on:submit.prevent="createPost" :class="classForm">
       <label for="title">Titre {{ title.length }} / 70</label>
@@ -28,11 +30,7 @@
 
     <section :class="postList">
 
-      <article class="post" v-for="post in posts" :key="post">
-
-        <the-post :class='post' :postId="post"></the-post>
-
-      </article>
+        <the-post class="post" v-for="post in posts" :key="post" :class='post' :postId="post"></the-post>
 
     </section>
 

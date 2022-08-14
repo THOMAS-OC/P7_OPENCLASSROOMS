@@ -1,4 +1,4 @@
-<template>
+<template >
 
   <article class="ThePost">
 
@@ -220,8 +220,7 @@ export default {
 
     createComment(){
 
-      if (this.newComment.length <= 300 ) {
-        alert("okay")
+      if (this.newComment && this.newComment.length <= 300 ) {
           // IF UPDATE COMMENT
           if (this.selectedComment && this.newComment){
             this.$http.put("http://localhost:3000/api/comment/" + this.selectedComment, {
@@ -266,6 +265,10 @@ export default {
               })
           }
       }
+
+    else if (!this.newComment) {
+      alert("Commentaire vide !")
+    }
 
      else {
       alert("Veuillez ne pas dépasser 300 caractères par commentaire svp !")
@@ -421,11 +424,10 @@ export default {
     transition-duration: 0.5s;
     position: relative;
     margin: 50px auto;
-    height: 600px;
+    height: 700px;
     max-width: 90vw;
-    width: 800px;
-    border: 2px solid #FD2D01;
-    border-radius: 5px;
+    width: 900px;
+    border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.768);
     overflow: hidden;
     display: flex;
@@ -704,7 +706,7 @@ export default {
   }
 
   .selectComment{
-    border: 3px solid red;
+    border: 2px solid red;
   }
   /* FIN Affichage d'un commentaire */
 
@@ -749,10 +751,6 @@ export default {
     height: 100%;
   }
 
-  .comment_send{
-
-  }
-
   footer i{
     margin-right: 10px;
   }
@@ -761,7 +759,16 @@ export default {
     height: 100%;
     width: 50%;
     cursor: pointer;
+    color: black;
     font-size: 30px;
+    background: rgb(255,215,215);
+    background: linear-gradient(4deg, rgba(255,215,215,1) 0%, rgba(255,255,255,1) 100%); 
+  }
+
+  article footer button:hover{
+    color : #FD2D01;
+    background: rgb(255,255,255);
+    background: linear-gradient(4deg, rgba(255,255,255,1) 0%, rgba(255,215,215,1) 100%); 
   }
 
 

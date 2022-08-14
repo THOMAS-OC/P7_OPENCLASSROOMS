@@ -173,6 +173,10 @@ body {
     max-width: 100vw;
 }
 
+textarea{
+  resize: none;
+}
+
 #app {
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
