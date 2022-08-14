@@ -7,7 +7,6 @@ const dotenv = require("dotenv")
 dotenv.config()
 // CREATE : testé et ok
 const createUser = (req, res) =>{
-    console.log(req.body);
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     let password = req.body.password
     let name = req.body.name.toUpperCase()
@@ -19,14 +18,16 @@ const createUser = (req, res) =>{
         "SELECT ID FROM users WHERE email = ? OR ( name = ? AND firstname = ? )",
         [emailCrypt, name, firstname],
         function(err, results, fields) {
-            console.log(err);
-            if (results[0]){
+            if (err){
+                res.status(500).json(err)
+            }
+
+            else if (results[0]){
                 res.json({userExist : true})
             }
             else {
                 bcrypt.hash(password, 5)
                 .then(hash => {
-                    console.log(hash);
                     connection.query(
                         "INSERT INTO users (name, firstname, email, password) VALUES (?, ?, ?, ?)",
                         [name, firstname, emailCrypt, hash],

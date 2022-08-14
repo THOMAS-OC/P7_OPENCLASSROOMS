@@ -1,11 +1,8 @@
 const connection = require("../db")
-const path = require('path')
-const fs = require('fs')
 // CREATE POST
 const createPost = (req, res) => {
 
     if (req.headers['content-type'] == 'application/json'){
-        console.log('data en json');
         let userId = req.body.userId
         let title = req.body.title
         let content = req.body.content
@@ -13,15 +10,17 @@ const createPost = (req, res) => {
             "INSERT INTO posts (date, title, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, ?, ?, NULL, ?)",
             [title, content, userId],
             function(err, results, fields) {
-                console.log(results); // results contains rows returned by server
-                console.log(err);
-                res.json(results)
+                if(err) {
+                    res.status(500).json(err)
+                }
+                else {
+                    res.status(201).json(results)
+                }
             }
         );
     }
 
     else{
-        console.log(req.body);
         let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
         let userId = req.body.userId
         let title = req.body.title
@@ -31,9 +30,12 @@ const createPost = (req, res) => {
             "INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, ?, ?, ?, NULL, ?)",
             [title, fullPath, content, userId],
             function(err, results, fields) {
-                console.log(results); // results contains rows returned by server
-                console.log(err);
-                res.json(results)
+                if(err) {
+                    res.status(500).json(err)
+                }
+                else {
+                    res.status(201).json(results)
+                }
             }
         );
 
@@ -111,7 +113,6 @@ const readAllPosts = (req, res) => {
                 for (let id of results){
                     listIds.push(id.ID)
                 }
-                console.log(listIds);
                 res.json(listIds)
             }
 
@@ -130,7 +131,7 @@ const readFiltersPosts = (req, res) => {
         WHERE UPPER(posts.title) LIKE ? OR 
         UPPER(posts.content) LIKE ? OR 
         UPPER(users.name) LIKE ? OR
-        UPPER(users.firstname) LIKE ?`,
+        UPPER(users.firstname) LIKE ? ORDER BY date DESC`,
         ["%" + filterMaj + "%", "%" + filterMaj + "%", "%" + filterMaj + "%", "%" + filterMaj + "%"],
         function(err, results, fields) {
 
@@ -146,7 +147,6 @@ const readFiltersPosts = (req, res) => {
                 for (let id of results){
                     listIds.push(id.ID)
                 }
-                console.log(listIds);
                 res.json(listIds)
             }
 
@@ -187,8 +187,6 @@ const readOnePost = (req, res) => {
         
                 function(err, results, fields) {
 
-                    console.log(err);
-
                     if (err){
                         res.status(500).json(err)
                     }
@@ -199,10 +197,7 @@ const readOnePost = (req, res) => {
 
                     else {
                         bddFront.ID = results[0]["postId"]
-                        console.log("ADMIN ?");
                         bddFront.admin = results[0]["admin"]
-                        console.log(results[0]["admin"]);
-                        console.log("ADMIN ?");
                         bddFront.userIdCreated = results[0]["user_id"]
                         bddFront.title = results[0]["title"]
                         bddFront.date = results[0]["date"]
@@ -242,12 +237,9 @@ const readOnePost = (req, res) => {
     
     queryPromise()
     .then(resultats => {
-        console.log(resultats.comment[0]);
-        console.log(typeof resultats.comment);
         let i = 0
 
         if (resultats.comment[0]){
-            console.log("Gestion des commentaires");
             for (let resultat of resultats.comment){
 
                 connection.query(
@@ -261,7 +253,6 @@ const readOnePost = (req, res) => {
                         resultat.auteur = results[0]['name'] + " " + results[0]['firstname']
                         resultat.pictureprofil = results[0]['pictureprofil']
                         i += 1
-                        console.log(i);
                         if (i == resultats.comment.length){
                             res.json(resultats)
                         }
@@ -280,7 +271,7 @@ const readOnePost = (req, res) => {
     })
     
     .catch(error => {
-        console.log(error);
+        res.status(500).json(error)
     })
 
 }
@@ -309,7 +300,6 @@ const updatePost = (req, res) => {
                             "UPDATE posts SET title = ?, content = ? WHERE posts.ID = ?",
                             [newTitle, newContent, postId],
                             function(err, results, fields) {
-                                console.log(results);
                                 res.json(results)
                             }
                         );
@@ -326,12 +316,10 @@ const updatePost = (req, res) => {
     // UPDATE WITH PICTURE
     else {
         let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
-        console.log('update avec image');
         connection.query(
             `UPDATE posts SET title = ?, content = ?, picture = ? WHERE posts.ID = ?`,
             [newTitle, newContent, fullPath, postId],
             function(err, results, fields) {
-                console.log(results);
                 res.json(results)
             }
         );
@@ -360,7 +348,6 @@ const deleteImage = (req, res) => {
                         "UPDATE posts SET picture = NULL WHERE posts.ID = ?",
                         [postId],
                         function(err, results, fields) {
-                            console.log(results);
                             res.json(results)
                         }
                     );

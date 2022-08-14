@@ -95,9 +95,7 @@ const deleteUser = (req, res) => {
                     indexSlash = urlImage.lastIndexOf('/') + 1
                     urlImage = urlImage.slice(indexSlash,);
                     let pathImage = path.join(process.cwd(), 'images', urlImage)
-                    console.log(pathImage);
                     if (urlImage != "profil_vierge.jpg"){
-                        console.log("delete picture profil");
                         fs.unlinkSync(pathImage)
                     }
                     // DELETE IN BDD
@@ -109,7 +107,6 @@ const deleteUser = (req, res) => {
                                 res.status(500).json("err")
                             }
                             else {
-                                console.log(results); 
                                 res.clearCookie("auth")
                                 res.json({message : "User delete"})
                             }
@@ -131,9 +128,6 @@ const addProfilPicture = (req, res) => {
     if (authorizationFile.includes(req.body.extensionFile)){
 
         let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
-        console.log(fullPath);
-    
-        console.log(req.body.extensionFile);
     
         connection.query(
             `UPDATE users SET pictureprofil = ? WHERE users.ID = ?`,
@@ -144,7 +138,6 @@ const addProfilPicture = (req, res) => {
                     res.status(500).json(err)
                 }
                 else {
-                    console.log(results); 
                     res.status(201).json({pictureProfil : fullPath})
                 }
                 
@@ -155,7 +148,6 @@ const addProfilPicture = (req, res) => {
 
     else {
         res.status(400).json({message : "Format non accepté"})
-        console.log("pas autorisé !");
     }
 
 }
@@ -173,7 +165,6 @@ const delProfilPicture = (req, res) => {
                 res.status(500).json(err)
             }
             else {
-                console.log(results); 
                 res.status(201).json({pictureProfil : fullPath})
             }
                 

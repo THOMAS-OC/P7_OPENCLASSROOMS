@@ -24,9 +24,7 @@ const createComment = (req, res) => {
                     "INSERT INTO commentaires (comment, post_id, user_id) VALUES (?, ?, ?)",
                     [comment, postId, userId],
                     function(err, results, fields) {
-            
-                        console.log(err);
-            
+                       
                         if (err){
                             res.status(500).json(err)
                         }

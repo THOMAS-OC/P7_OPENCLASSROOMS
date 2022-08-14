@@ -1,7 +1,5 @@
 module.exports = (req, res, next) => {
-
-    console.log(req.body);
-    
+   
     let title = req.body.title.trim()
     let content = req.body.content.trim()
 

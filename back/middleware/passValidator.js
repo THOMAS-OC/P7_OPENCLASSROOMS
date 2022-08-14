@@ -25,7 +25,6 @@ module.exports = (req, res, next) => {
 
     // If the user does not want to change password 
     else if (req.method == "PUT" && !password){
-        console.log("l'utilisateur ne veut pas changer de mot de passe");
         next()
     }
     
