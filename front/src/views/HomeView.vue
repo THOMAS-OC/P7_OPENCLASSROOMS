@@ -1,6 +1,9 @@
 <template>
   <section class="home">
 
+    <label for="filtre">Filtrer posts</label>
+    <input v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" placeholder="filtre" type="search" name="filtre" id="filtre">
+
     <div v-on:click="viewForm" class="btn__view__form">
       <div></div>
       <div></div>
@@ -43,6 +46,7 @@ export default {
   data(){
     return {
       posts : [],
+      filter : "",
       title : "",
       content : "",
       picturePost : null,
@@ -109,6 +113,31 @@ export default {
         }
         // ! User not connected
       })
+    },
+
+    filterPost(){
+
+      if (this.filter) {
+        this.posts = []
+        // this.posts = []
+        this.$http.get(`https://localhost:3001/api/post/filter/${this.filter}`)
+        .then(response => {
+            this.posts = response.data
+        })
+        .catch(error => {
+          // User not connected
+          if (error.response.data.userConnected == 'false') {
+              alert("Veuillez vous connecter svp")
+              this.$router.push("connect")
+          }
+          // ! User not connected
+        })
+      }
+
+      else {
+        this.refreshPosts()
+      }
+      
     },
 
     returnUserId(){
