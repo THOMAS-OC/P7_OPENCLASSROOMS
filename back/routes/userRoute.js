@@ -25,13 +25,16 @@ const upload = multer(
     }
 );
 
-// UPDATE PERSONAL INFORMATIONS : testé et ok
+// UPDATE PERSONAL INFORMATIONS
 router.put('/', auth, passValidator, updateUserValidator, controller.updateUser)
 
-// UPDATE PICTURE PROFIL : en cours
+// UPDATE PICTURE PROFIL
 router.post('/:id', auth, upload.single('ProfilPicture'), auth, controller.addProfilPicture)
 
-// DELETE USER : testé et ok
+// DELETE USER
 router.delete('/', auth, controller.deleteUser)
+
+// DELETE USER
+router.delete('/pictureprofil', auth, controller.delProfilPicture)
 
 module.exports = router;

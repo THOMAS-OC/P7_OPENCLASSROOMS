@@ -434,6 +434,7 @@ export default {
     flex-direction: column;
     animation-name: fondu;
     animation-duration: 1s;
+    color: #4E5166;
   }
 
 
@@ -609,7 +610,6 @@ export default {
   article footer {
     width: 100%;
     height: 15%;
-    border-top: 2px solid red;
   }
 
   .content__view{
@@ -620,7 +620,7 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition-duration: 0.5s;
   }
 
@@ -671,7 +671,7 @@ export default {
     height: 100%;
     width: 100%;
     transition-duration: 0.5s;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-left: 3%;
     padding-top: 1%;
   }
@@ -759,7 +759,8 @@ export default {
     height: 100%;
     width: 50%;
     cursor: pointer;
-    color: black;
+    border: none;
+    border-right: 2px solid #FD2D01;;
     font-size: 30px;
     background: rgb(255,215,215);
     background: linear-gradient(4deg, rgba(255,215,215,1) 0%, rgba(255,255,255,1) 100%); 

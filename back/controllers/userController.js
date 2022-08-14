@@ -129,7 +129,6 @@ const addProfilPicture = (req, res) => {
     authorizationFile = ["jpeg", "jpg", "gif", "webp"]
 
     if (authorizationFile.includes(req.body.extensionFile)){
-        console.log("test depuis le controller");
 
         let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
         console.log(fullPath);
@@ -161,8 +160,32 @@ const addProfilPicture = (req, res) => {
 
 }
 
+const delProfilPicture = (req, res) => {
+
+    let fullPath = "https://localhost:3001/images/profil_vierge.jpg"
+    
+    connection.query(
+        `UPDATE users SET pictureprofil = ? WHERE users.ID = ?`,
+        [fullPath, req.body.userId],
+        function(err, results, fields) {
+    
+            if (err){
+                res.status(500).json(err)
+            }
+            else {
+                console.log(results); 
+                res.status(201).json({pictureProfil : fullPath})
+            }
+                
+        }
+    
+    );
+
+}
+
 module.exports = { 
     deleteUser,
     updateUser,
-    addProfilPicture
+    addProfilPicture,
+    delProfilPicture
 }
