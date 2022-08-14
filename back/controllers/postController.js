@@ -257,7 +257,7 @@ const updatePost = (req, res) => {
                 }
     
                 else {
-                    if (results[0]["user_id"] == req.body.userId){
+                    if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
                         connection.query(
                             `UPDATE posts SET title = '${newTitle}', content = '${newContent}' WHERE posts.ID = ${postId}`,
                             function(err, results, fields) {

@@ -70,7 +70,7 @@
 
         <button v-on:click="like"><i class="fa-solid fa-thumbs-up"></i> {{ likes.length }}</button>
         <button v-on:click="viewCommentFromContent"><i class="fa-solid fa-comment"></i>{{ comment.length }}</button>
-        <button v-on:click="viewUpdateFromContent" v-if="$store.state.id == userIdCreated"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button v-on:click="viewUpdateFromContent" v-if="$store.state.id == userIdCreated || $store.state.admin == 1"><i class="fa-solid fa-pen-to-square"></i></button>
 
       </div>
 
