@@ -3,7 +3,7 @@
 
     <form class="form__filter">
       <label class="form__filter__label" for="filtre">Filtre</label>
-      <input class="form__filter__input" v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" type="search" name="filtre" id="filtre">
+      <input placeholder="search" class="form__filter__input" v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" type="search" name="filtre" id="filtre">
     </form>
 
     <div v-on:click="viewForm" class="btn__view__form">
@@ -242,10 +242,8 @@ export default {
     padding: 5px;
     width: 400px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 30px;
     background-color: #ffffff97;
-    outline: none;
-    border: none;
     border-bottom: 3px solid white;
     font-size: 30px;
     color: #FD2D01;

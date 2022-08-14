@@ -17,8 +17,9 @@
 
   nav{
     display: flex;
-    margin: 0px auto;
-    width: 1000px;
+    margin: 50px auto 0px auto;
+    width: 800px;
+    max-width: 90vw;
     background-color: #a9a9a9a5;
     border: 2px solid white;
     font-size: 30px;

@@ -127,11 +127,11 @@ const readFiltersPosts = (req, res) => {
     connection.query(
 
         `SELECT posts.ID FROM posts LEFT JOIN users ON posts.user_id = users.ID 
-        WHERE UPPER(posts.title) LIKE %?% OR 
-        UPPER(posts.content) LIKE %?% OR 
-        UPPER(users.name) LIKE %?% OR
-        UPPER(users.firstname) LIKE %?%`,
-        [filterMaj, filterMaj, filterMaj, filterMaj],
+        WHERE UPPER(posts.title) LIKE ? OR 
+        UPPER(posts.content) LIKE ? OR 
+        UPPER(users.name) LIKE ? OR
+        UPPER(users.firstname) LIKE ?`,
+        ["%" + filterMaj + "%", "%" + filterMaj + "%", "%" + filterMaj + "%", "%" + filterMaj + "%"],
         function(err, results, fields) {
 
             if (err){

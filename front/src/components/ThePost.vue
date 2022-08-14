@@ -275,7 +275,7 @@ export default {
 
     selectComment($event, commentaire, id, userId){
       
-      if (this.$store.state.id == userId) {
+      if (this.$store.state.id == userId || this.$store.state.admin == 1) {
         // deselect
         if (this.selectedComment == id) {
           $event.target.className = "comment__child"

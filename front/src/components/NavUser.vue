@@ -2,9 +2,9 @@
 
     <nav>
       
-      <router-link to="/home"><i class="fa-solid fa-comments"> <span> Forum </span></i></router-link>
-      <router-link to="/profil"><i class="fa-solid fa-user"><span> Profile </span></i></router-link>
-      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"><span> Logout </span></i></router-link>
+      <router-link to="/home"><i class="fa-solid fa-comments"> </i></router-link>
+      <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
+      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
       <!-- <button v-on:click="test()">test</button> -->
     </nav>
 
@@ -40,12 +40,11 @@ export default {
 
   nav{
     display: flex;
-    margin: 0px auto;
-    width: 100vw;
-    background-color: #a9a9a9a5;
+    margin: 50px auto 0px auto;
+    width: 800px;
+    max-width: 90vw;
     border-bottom: 2px solid white;
     font-size: 50px;
-    color: white;
     justify-content: space-around;
     min-height: 100px;
     align-items: center;
@@ -59,7 +58,8 @@ export default {
   }
 
   nav a {
-    color: white;
+    color: #ff5b3b;
+    text-shadow: 0px 0px 10px white;
     text-decoration: none;
     height: 100%;
     line-height: 100px;
