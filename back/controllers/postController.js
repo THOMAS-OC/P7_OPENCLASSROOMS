@@ -10,7 +10,8 @@ const createPost = (req, res) => {
         let title = req.body.title
         let content = req.body.content
         connection.query(
-            `INSERT INTO posts (date, title, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '${content}', NULL, ${userId})`,
+            "INSERT INTO posts (date, title, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, ?, ?, NULL, ?)",
+            [title, content, userId],
             function(err, results, fields) {
                 console.log(results); // results contains rows returned by server
                 console.log(err);
@@ -27,7 +28,8 @@ const createPost = (req, res) => {
         let content = req.body.content
 
         connection.query(
-            `INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, '${title}', '${fullPath}', '${content}', NULL, ${userId})`,
+            "INSERT INTO posts (date, title, picture, content, ID, user_id) VALUES (CURRENT_TIMESTAMP, ?, ?, ?, NULL, ?)",
+            [title, fullPath, content, userId],
             function(err, results, fields) {
                 console.log(results); // results contains rows returned by server
                 console.log(err);
@@ -47,14 +49,16 @@ const like = (req, res) => {
     
     connection.query(
 
-        `SELECT * FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+        `SELECT * FROM likes WHERE likes.post_id = ? AND likes.user_id = ?`,
+        [postId, userId],
         function(err, results, fields) {
 
             // SI LE LIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
             if (results[0]){
                 connection.query(
                     // Suppression du like
-                    `DELETE FROM likes WHERE likes.post_id = ${postId} AND likes.user_id = ${userId}`,
+                    "DELETE FROM likes WHERE likes.post_id = ? AND likes.user_id = ?",
+                    [postId, userId],
                     function(err, results, fields) {
                         if(err){
                             res.status(500).json(err)
@@ -68,7 +72,8 @@ const like = (req, res) => {
             else if(!results[0]){
                 connection.query(
         
-                    `INSERT INTO likes (post_id, user_id) VALUES (${postId}, ${userId})`,
+                    `INSERT INTO likes (post_id, user_id) VALUES (?, ?)`,
+                    [postId, userId],
                     function(err, results, fields) {
                         if(err){
                             res.status(500).json(err)
@@ -94,7 +99,11 @@ const readAllPosts = (req, res) => {
         `SELECT posts.ID FROM posts ORDER BY date DESC`,
         function(err, results, fields) {
 
-            if (!results[0]){
+            if (err) {
+                res.status(500).json(err)
+            }
+
+            else if (!results[0]){
                 res.status(404).json({message: "BDD VIDE"})
             }
 
@@ -118,10 +127,11 @@ const readFiltersPosts = (req, res) => {
     connection.query(
 
         `SELECT posts.ID FROM posts LEFT JOIN users ON posts.user_id = users.ID 
-        WHERE UPPER(posts.title) LIKE '%${filterMaj}%' OR 
-        UPPER(posts.content) LIKE '%${filterMaj}%' OR 
-        UPPER(users.name) LIKE '%${filterMaj}%' OR
-        UPPER(users.firstname) LIKE '%${filterMaj}%'`,
+        WHERE UPPER(posts.title) LIKE %?% OR 
+        UPPER(posts.content) LIKE %?% OR 
+        UPPER(users.name) LIKE %?% OR
+        UPPER(users.firstname) LIKE %?%`,
+        [filterMaj, filterMaj, filterMaj, filterMaj],
         function(err, results, fields) {
 
             if (err){
@@ -172,7 +182,8 @@ const readOnePost = (req, res) => {
                 `SELECT users.name, users.admin, users.firstname, users.pictureprofil, posts.ID as postId, likes.user_id as like_user_id, title, date, picture, content, comment, posts.user_id, commentaires.user_id as comment_user_id, commentaires.ID as comment_id FROM posts 
                 LEFT JOIN commentaires ON posts.ID = commentaires.post_id 
                 LEFT JOIN likes ON posts.ID = likes.post_id 
-                LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ${postId}`,
+                LEFT JOIN users ON posts.user_id = users.ID WHERE posts.ID = ?`,
+                [postId],
         
                 function(err, results, fields) {
 
@@ -241,7 +252,8 @@ const readOnePost = (req, res) => {
 
                 connection.query(
     
-                    `SELECT name, firstname, pictureprofil FROM users WHERE ID=${resultat.userId}`,
+                    "SELECT name, firstname, pictureprofil FROM users WHERE ID=?",
+                    [resultat.userId],
                     function(err, results, fields) {
                         if (err){
                             console.log(err);
@@ -283,7 +295,8 @@ const updatePost = (req, res) => {
     // UPDATE WITHOUT PICTURE
     if(req.headers['content-type'] == "application/json"){
         connection.query(
-            `SELECT * FROM posts WHERE ID= ${postId}`,
+            "SELECT * FROM posts WHERE ID= ?",
+            [postId],
             function(err, results, fields) {
     
                 if (!results[0]){
@@ -293,7 +306,8 @@ const updatePost = (req, res) => {
                 else {
                     if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
                         connection.query(
-                            `UPDATE posts SET title = '${newTitle}', content = '${newContent}' WHERE posts.ID = ${postId}`,
+                            "UPDATE posts SET title = ?, content = ? WHERE posts.ID = ?",
+                            [newTitle, newContent, postId],
                             function(err, results, fields) {
                                 console.log(results);
                                 res.json(results)
@@ -314,7 +328,8 @@ const updatePost = (req, res) => {
         let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
         console.log('update avec image');
         connection.query(
-            `UPDATE posts SET title = '${newTitle}', content = '${newContent}', picture = '${fullPath}' WHERE posts.ID = ${postId}`,
+            `UPDATE posts SET title = ?, content = ?, picture = ? WHERE posts.ID = ?`,
+            [newTitle, newContent, fullPath, postId],
             function(err, results, fields) {
                 console.log(results);
                 res.json(results)
@@ -329,7 +344,8 @@ const deleteImage = (req, res) => {
     let postId = req.params.postId
 
     connection.query(
-        `SELECT * FROM posts WHERE ID= ${postId}`,
+        "SELECT * FROM posts WHERE ID= ?",
+        [postId],
         function(err, results, fields) {
 
             if (err) res.status(500).json(err)
@@ -341,7 +357,8 @@ const deleteImage = (req, res) => {
             else {
                 if (results[0]["user_id"] == req.body.userId){
                     connection.query(
-                        `UPDATE posts SET picture = NULL WHERE posts.ID = ${postId}`,
+                        "UPDATE posts SET picture = NULL WHERE posts.ID = ?",
+                        [postId],
                         function(err, results, fields) {
                             console.log(results);
                             res.json(results)
@@ -363,7 +380,8 @@ const deletePost = (req, res) => {
     let postId = req.params.postId
 
     connection.query(
-        `SELECT * FROM posts WHERE ID= ${postId}`,
+        "SELECT * FROM posts WHERE ID= ?",
+        [postId],
         function(err, results, fields) {
 
             if (!results[0]){
@@ -375,7 +393,8 @@ const deletePost = (req, res) => {
 
                     // DELETE IMAGE
                     connection.query(
-                        `DELETE FROM posts WHERE ID = ${postId}`,
+                        "DELETE FROM posts WHERE ID = ?",
+                        [postId],
                         function(err, results, fields) {
                             res.json(results)
                         }

@@ -19,7 +19,8 @@ const updateUser = (req, res) => {
         bcrypt.hash(newPassword, 5)
         .then(hash => {
             connection.query(
-                `UPDATE users SET email = "${emailCrypt}", password = "${hash}" WHERE users.ID = ${userId}`,
+                "UPDATE users SET email = ?, password = ? WHERE users.ID = ?",
+                [emailCrypt, hash, userId],
                 function(err, results, fields) {
                     if (err) {
                         res.status(500).json(err)
@@ -38,7 +39,8 @@ const updateUser = (req, res) => {
     // update email
     else if (newEmail) {
         connection.query(
-            `UPDATE users SET email = "${emailCrypt}" WHERE users.ID = ${userId}`,
+            "UPDATE users SET email = ? WHERE users.ID = ?",
+            [emailCrypt, userId],
             function(err, results, fields) {
                 if (err) {
                     res.status(500).json(err)
@@ -56,7 +58,8 @@ const updateUser = (req, res) => {
         bcrypt.hash(newPassword, 5)
         .then(hash => {
             connection.query(
-                `UPDATE users SET password = "${hash}" WHERE users.ID = ${userId}`,
+                "UPDATE users SET password = ? WHERE users.ID = ?",
+                [hash, userId],
                 function(err, results, fields) {
                     if (err) {
                         res.status(500).json(err)
@@ -80,7 +83,8 @@ const deleteUser = (req, res) => {
 
     else {
         connection.query(
-            `SELECT pictureprofil FROM users WHERE ID = ${userId}`,
+            "SELECT pictureprofil FROM users WHERE ID = ?",
+            [userId],
             function(err, results, fields) {
                 if (err){
                     res.status(500).json("err")
@@ -98,7 +102,8 @@ const deleteUser = (req, res) => {
                     }
                     // DELETE IN BDD
                     connection.query(
-                        `DELETE FROM users WHERE ID = ${userId}`,
+                        `DELETE FROM users WHERE ID = ?`,
+                        [userId],
                         function(err, results, fields) {
                             if (err){
                                 res.status(500).json("err")
@@ -132,8 +137,8 @@ const addProfilPicture = (req, res) => {
         console.log(req.body.extensionFile);
     
         connection.query(
-    
-            `UPDATE users SET pictureprofil = "${fullPath}" WHERE users.ID = ${req.body.userId}`,
+            `UPDATE users SET pictureprofil = ? WHERE users.ID = ?`,
+            [fullPath, req.body.userId],
             function(err, results, fields) {
     
                 if (err){

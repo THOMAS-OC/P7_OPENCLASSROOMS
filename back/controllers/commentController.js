@@ -21,7 +21,8 @@ const createComment = (req, res) => {
 
             else {
                 connection.query(
-                    `INSERT INTO commentaires (ID, comment, post_id, user_id) VALUES (NULL, "${comment}", ${postId}, ${userId})`,
+                    "INSERT INTO commentaires (comment, post_id, user_id) VALUES (?, ?, ?)",
+                    [comment, postId, userId],
                     function(err, results, fields) {
             
                         console.log(err);
@@ -66,7 +67,8 @@ const updateComment = (req, res) => {
             else {
                 if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
                     connection.query(
-                        `UPDATE commentaires SET comment = "${newComment}" WHERE commentaires.ID = ${commentId}`,
+                        "UPDATE commentaires SET comment = ? WHERE commentaires.ID = ?",
+                        [newComment, commentId],
                         function(err, results, fields) {
                             if (err){
                                 res.status(500).json(err)

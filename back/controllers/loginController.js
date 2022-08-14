@@ -16,7 +16,8 @@ const createUser = (req, res) =>{
     let userExist = false
 
     connection.query(
-        `SELECT ID FROM users WHERE email = '${emailCrypt}' OR ( name = '${name}' AND firstname = '${firstname}' )`,
+        "SELECT ID FROM users WHERE email = ? OR ( name = ? AND firstname = ? )",
+        [emailCrypt, name, firstname],
         function(err, results, fields) {
             console.log(err);
             if (results[0]){
@@ -27,7 +28,8 @@ const createUser = (req, res) =>{
                 .then(hash => {
                     console.log(hash);
                     connection.query(
-                        `INSERT INTO users (name, firstname, email, password, ID) VALUES ('${name}', '${firstname}', '${emailCrypt}', '${hash}', NULL)`,
+                        "INSERT INTO users (name, firstname, email, password) VALUES (?, ?, ?, ?)",
+                        [name, firstname, emailCrypt, hash],
                         function(err, results, fields) {
                             if (err){
                                 res.status(400).json(err);
@@ -49,7 +51,8 @@ const createUser = (req, res) =>{
 const loginUser = (req, res) => {
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     connection.query(
-        `SELECT * FROM users WHERE email = "${emailCrypt}"`,
+        "SELECT * FROM users WHERE email = ?",
+        [emailCrypt],
         function(err, results, fields) {
 
             if(results[0]) {
@@ -98,7 +101,9 @@ const checkEmail = (req, res) => {
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
 
     connection.query(
-        `SELECT * FROM users WHERE email = "${emailCrypt}"`,
+        "SELECT * FROM users WHERE email = ?",
+        [emailCrypt],
+        
         function(err, results, fields) {
 
             if (err) {
@@ -130,8 +135,6 @@ const checkConnected = (req, res) => {
         if (err) {
             res.status(401).json({ message: 'Error. Bad token' })
         } else {
-            // req.body.userId = decodedToken.id
-            // req.body.admin = decodedToken.admin
             res.status(200).json({ userConnected: true })
         }
     })

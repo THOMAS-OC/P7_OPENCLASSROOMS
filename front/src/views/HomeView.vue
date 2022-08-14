@@ -1,8 +1,10 @@
 <template>
   <section class="home">
 
-    <label for="filtre">Filtrer posts</label>
-    <input v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" placeholder="filtre" type="search" name="filtre" id="filtre">
+    <form class="form__filter">
+      <label class="form__filter__label" for="filtre">Filtre</label>
+      <input class="form__filter__input" v-model="filter" v-on:keyup="filterPost" v-on:input="filterPost" type="search" name="filtre" id="filtre">
+    </form>
 
     <div v-on:click="viewForm" class="btn__view__form">
       <div></div>
@@ -218,6 +220,36 @@ export default {
 </script>
 
 <style scoped>
+
+  .form__filter {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .form__filter__label{
+    color: white;
+    font-size: 25px;
+    font-style: italic;
+    text-decoration: underline;
+    font-weight: bold;
+    letter-spacing: 8px;
+  }
+
+  .form__filter__input{
+    padding: 5px;
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #ffffff97;
+    outline: none;
+    border: none;
+    border-bottom: 3px solid white;
+    font-size: 30px;
+    color: #FD2D01;
+  }
 
   .post__list {
     height: auto;

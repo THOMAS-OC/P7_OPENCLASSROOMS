@@ -424,7 +424,7 @@ export default {
     height: 600px;
     max-width: 90vw;
     width: 800px;
-    border: 2px solid black;
+    border: 2px solid #FD2D01;
     border-radius: 5px;
     background-color: rgba(240, 248, 255, 0.768);
     overflow: hidden;
