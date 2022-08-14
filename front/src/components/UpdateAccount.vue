@@ -1,17 +1,23 @@
 <template>
 
     <form class="form__update" v-on:submit.prevent="updateUser">
+
+        <div class="form__update__info">
+            <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
+            <h3> {{ $store.state.email }} </h3>
+        </div>
         
         <div>
             <label for="email">Email</label>
             <input v-on:input="watchEmail" v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
         </div>
+
         <div>
-            <label for="password">Mot de passe : <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
+            <label for="password">Mot de passe <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
             <input v-on:input="watchPassword" v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
         </div>
 
-        <input type="submit" v-bind:value="action">
+        <input class="form__update__submit" type="submit" v-bind:value="action">
 
     </form>
     
@@ -36,14 +42,14 @@ methods:{
     actionType(){
 
         if (this.email.trim() && this.password.trim()){
-            this.action = "Modifier mon email et mon mot de passe"
+            this.action = "Modifier mon email et mot de passe"
             document.querySelector("input[type='submit'").className = "submit-on"
             this.authorization = true
 
         }
 
         else if (this.password.trim()){
-            this.action = "Modifier mon mot de passe"
+            this.action = "Modifier mot de passe"
             document.querySelector("input[type='submit'").className = "submit-on"
             this.authorization = true
         }
@@ -152,13 +158,26 @@ methods:{
         margin: 100px auto;
         background-color: rgba(255, 255, 255, 0.83);
         width: 700px;
-        height: 400px;
+        height: 600px;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-radius: 15px;
-        justify-content: space-around;
+        justify-content: center;
         max-width: 90vw;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .form__update__info{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background-color:#4E5166;
+        color: white;
+        letter-spacing: 7px;
     }
 
     .form__update div {
@@ -181,10 +200,31 @@ methods:{
         border-radius: 5px;
     }
 
-    input[type="submit"]{
+    .form__update__submit{
         font-weight: bold;
         font-style: italic;
         font-size: 20px;
+        cursor: pointer;
+        background: rgb(253,45,1);
+        background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
+        transition-duration: 1s;
+        transform: translateX(-50%);
+        border: none;
+        width: 80%;
+        height: 60px;
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        color: white;
+        text-shadow: 0px 0px 3px white;
+        font-size: 25px;
+        letter-spacing: 10px;
+        box-shadow: 0px -3px 3px rgb(123, 123, 123);
+    }
+
+    .form__update__submit:hover{
+        background: rgb(253,45,1);
+        background: linear-gradient(-90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
     }
 
     span{

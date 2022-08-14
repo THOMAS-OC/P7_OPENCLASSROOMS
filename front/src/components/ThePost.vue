@@ -304,6 +304,7 @@ export default {
     },
 
     deleteComment($event, id){
+      this.selectedComment = null
 
       this.$http.delete("http://localhost:3000/api/comment/" + id)
         // eslint-disable-next-line
@@ -471,7 +472,7 @@ export default {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .header__post__title{
@@ -547,7 +548,7 @@ export default {
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    background-color: transparent;
+    background: none;
     border: none;
     outline: none;
     text-align: center;
@@ -555,11 +556,13 @@ export default {
 
   .footer__comment button:hover{
     color: #FD2D01;
+    background: none;
   }
 
   .footer__comment textarea{
     width: 70%;
     height: 80%;
+    padding: 5px;
     border-radius: 15px;
     outline: none;
     border: none;
@@ -691,10 +694,11 @@ export default {
   .comment__child img {
     height: 50px;
     width: 50px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 50%;
     margin-right: 10px;
     margin-bottom: 5px;
+    transform: translateY(5%);
   }
 
   .comment__child__text {

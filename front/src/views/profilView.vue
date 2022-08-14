@@ -3,8 +3,6 @@
 
     <picture-profil></picture-profil>
 
-    <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
-
     <update-account></update-account>
 
     <delete-account></delete-account>
