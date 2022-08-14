@@ -42,6 +42,7 @@ router.post('/like', auth, controller.like)
 
 // READ A POST
 router.get('/', auth, controller.readAllPosts)
+router.get('/filter/:filter', auth, controller.readFiltersPosts)
 router.get('/:postId', auth, controller.readOnePost)
 
 // UPDATE A POST

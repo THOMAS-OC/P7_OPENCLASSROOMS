@@ -7,7 +7,8 @@ const createComment = (req, res) => {
     let comment = req.body.comment
 
     connection.query(
-        `SELECT * FROM posts WHERE ID= ${postId}`,
+        "SELECT * FROM posts WHERE ID = ?",
+        [postId],
         function(err, results, fields) {
 
             if (err) {
@@ -50,7 +51,8 @@ const updateComment = (req, res) => {
     let newComment = req.body.comment
 
     connection.query(
-        `SELECT * FROM commentaires WHERE ID= ${commentId}`,
+        "SELECT * FROM commentaires WHERE ID= ?",
+        [commentId],
         function(err, results, fields) {
 
             if (err) {
@@ -79,10 +81,8 @@ const updateComment = (req, res) => {
                     res.status(401).json({message: "Modification non autorisée"})
                 }
             }
-
         }
     );
-
 }
 
 // DELETE COMMENT
@@ -91,7 +91,8 @@ const deleteComment = (req, res) => {
     let commentId = req.params.commentId
 
     connection.query(
-        `SELECT * FROM commentaires WHERE ID= ${commentId}`,
+        "SELECT * FROM commentaires WHERE ID = ?",
+        [commentId],
         function(err, results, fields) {
 
             if (err) {
@@ -105,7 +106,8 @@ const deleteComment = (req, res) => {
             else {
                 if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
                     connection.query(
-                        `DELETE FROM commentaires WHERE commentaires.ID = ${commentId}`,
+                        "DELETE FROM commentaires WHERE commentaires.ID = ?",
+                        [commentId],
                         function(err, results, fields) {
                             if (err) {
                                 res.status(500).json(err)

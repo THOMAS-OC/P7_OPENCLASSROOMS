@@ -2,9 +2,9 @@
 
     <nav>
       
-      <router-link to="/home"><i class="fa-solid fa-comments"></i></router-link>
-      <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
-      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
+      <router-link to="/home"><i class="fa-solid fa-comments"> <span> Forum </span></i></router-link>
+      <router-link to="/profil"><i class="fa-solid fa-user"><span> Profile </span></i></router-link>
+      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"><span> Logout </span></i></router-link>
       <!-- <button v-on:click="test()">test</button> -->
     </nav>
 
@@ -49,6 +49,13 @@ export default {
     justify-content: space-around;
     min-height: 100px;
     align-items: center;
+    letter-spacing: 15px;
+  }
+
+  span{
+    background-color: transparent !important;
+    border: none !important;
+    text-shadow: none;
   }
 
   nav a {
@@ -72,8 +79,8 @@ export default {
     width: 100%;
     height: 100%;
     line-height: 100px;
-      color: white;
-      text-shadow: 0px 0px 10px #FFD7D7;
+    color: white;
+    text-shadow: 0px 0px 10px #FFD7D7;
   }
   
 /* FIN nav user */

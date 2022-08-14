@@ -29,7 +29,9 @@
 
       <section v-bind:class="contentView">
 
-        <p>{{ content }}</p>
+        <p class="content__view__text">{{ content }}</p>
+
+        <hr>
 
         <img v-if="picture" class="content__picture" :src="picture" alt="Image du post">
 
@@ -423,6 +425,7 @@ export default {
     max-width: 90vw;
     width: 800px;
     border: 2px solid black;
+    border-radius: 5px;
     background-color: rgba(240, 248, 255, 0.768);
     overflow: hidden;
     display: flex;
@@ -619,9 +622,22 @@ export default {
     transition-duration: 0.5s;
   }
 
+  .content__view__text{
+    margin: 20px auto 10px auto;
+  }
+
+  hr{
+    margin: 0px auto;
+    width: 80%;
+    border-top : 1.5px solid black
+  }
+
   .content__picture{
+    margin-top: 10px;
     width: 50%;
     height: auto;
+    border-radius: 15px;
+    border: 2px solid white;
   }
 
   .to-left{

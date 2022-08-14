@@ -108,6 +108,36 @@ const readAllPosts = (req, res) => {
 
         }
     );
+}
+
+// READ ALL POSTS : GET ALL ID's
+const readFiltersPosts = (req, res) => {
+    let filterMaj = req.params.filter
+    filterMaj = filterMaj.toUpperCase()
+    let listIds = []
+    connection.query(
+
+        `SELECT posts.ID FROM posts WHERE UPPER(posts.title) LIKE '%${filterMaj}%' OR UPPER(posts.content) LIKE '%${filterMaj}%'`,
+        function(err, results, fields) {
+
+            if (err){
+                res.status(500).json(err)
+            }
+
+            else if (!results[0]){
+                res.status(404).json({message: "Aucune correspondance liée à ces filtres ! "})
+            }
+
+            else {
+                for (let id of results){
+                    listIds.push(id.ID)
+                }
+                console.log(listIds);
+                res.json(listIds)
+            }
+
+        }
+    );
 
 }
 
@@ -360,6 +390,7 @@ const deletePost = (req, res) => {
 module.exports = { 
     createPost,
     readAllPosts,
+    readFiltersPosts,
     readOnePost,
     updatePost,
     deletePost,
