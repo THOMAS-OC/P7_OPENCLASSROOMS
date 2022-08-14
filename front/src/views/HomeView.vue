@@ -371,7 +371,8 @@ export default {
   }
 
   .form__post__submit:hover{
-    letter-spacing: 15px;
+    background: rgb(253,45,1);
+    background: linear-gradient(-90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
   }
 
   .form__post__content{
