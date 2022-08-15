@@ -7,7 +7,7 @@ back/images
 front/node_modules
 front/.env
 routes.xlsx
-
+*.xlsx
 identifiants_admin.txt
 routes.xlsx
-secure_route.txt
+*.txt

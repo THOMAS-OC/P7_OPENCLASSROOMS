@@ -13,7 +13,6 @@
             <input v-on:input="watchEmail" v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
         </div>
 
-        <input v-on:click="updateUser" v-if="this.emailValid && !this.passwordValid" :class="clsSubmitBtn" type="submit" value="update Email">
 
         <div>
             <label v-if="passwordValid" for="password">Password : OK </label>
@@ -21,9 +20,16 @@
             <input v-on:input="watchPassword" v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
         </div>
 
-        <input v-on:click="updateUser" v-if="this.passwordValid && !this.emailValid" :class="clsSubmitBtn" type="submit" value="update Password">
 
-        <input v-on:click="updateUser" v-if="this.passwordValid && this.emailValid" :class="clsSubmitBtn" type="submit" value="update Password and email">
+        <div :class="clsSubmitBtn">
+
+            <input v-on:click="updateUser" v-if="this.emailValid && !this.passwordValid" class="form__update__box__item" type="submit" value="update Email">
+            <input v-on:click="updateUser" v-if="this.passwordValid && !this.emailValid" class="form__update__box__item" type="submit" value="update Password">
+            <input v-on:click="updateUser" v-if="this.passwordValid && this.emailValid" class="form__update__box__item" type="submit" value="update Password and email">
+
+        </div>
+
+
     </form>
     
 </template>
@@ -40,7 +46,7 @@ export default {
         authorization : false,
         emailValid : false,
         passwordValid : false,
-        clsSubmitBtn : "form__update__submit form__update__submit--off", 
+        clsSubmitBtn : "form__update__box__button form__update__box__button--off", 
     }
   },
 
@@ -49,22 +55,22 @@ methods:{
     actionType(){
 
         if (this.emailValid && this.passwordValid){
-            this.clsSubmitBtn = "form__update__submit"
+            this.clsSubmitBtn = "form__update__box__button"
             this.authorization = true
         }
 
         else if (this.passwordValid){
-            this.clsSubmitBtn = "form__update__submit"
+            this.clsSubmitBtn = "form__update__box__button"
             this.authorization = true
         }
 
         else if (this.emailValid){
-            this.clsSubmitBtn = "form__update__submit"
+            this.clsSubmitBtn = "form__update__box__button"
             this.authorization = true
         }
 
         else if (!this.emailValid && !this.passwordValid){
-            this.clsSubmitBtn = "form__update__submit form__update__submit--off"
+            this.clsSubmitBtn = "form__update__box__button form__update__box__button--off"
             this.authorization = false
         }
 
@@ -146,6 +152,7 @@ methods:{
 <style scoped>
 
     .form__update{
+        border: 2px solid white;
         margin: 100px auto;
         background-color: rgba(255, 255, 255, 0.83);
         width: 700px;
@@ -192,7 +199,10 @@ methods:{
         border-radius: 5px;
     }
 
-    .form__update__submit{
+    .form__update__box__button{
+        position: absolute;
+        bottom: 0;
+        left: 0;
         font-weight: bold;
         font-style: italic;
         cursor: pointer;
@@ -200,14 +210,26 @@ methods:{
         background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
         transition-duration: 1s;
         border: none;
-        width: 70%;
+        width: 105%;
         height: 60px;
         margin-top: 30px;
+
+        box-shadow: 0px -3px 3px rgb(123, 123, 123);
+    }
+
+    .form__update__box__item{
+        font-size: 25px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         color: white;
         text-shadow: 0px 0px 3px white;
-        font-size: 25px;
         letter-spacing: 7px;
-        box-shadow: 0px -3px 3px rgb(123, 123, 123);
     }
 
     .form__update__submit:hover{
@@ -220,21 +242,8 @@ methods:{
         color: rgb(255, 118, 118);
     }
 
-    /* Champs valides */
-    .valid{
-        border-color: green;
-    }
-    /* champs non valide */
-    .invalid{
-        border-color: red;
-    }
-    /* submit valid */
-    .submit-on{
-        cursor: pointer;
-        background-color: rgb(93, 255, 93);
-    }
     /* submit no valid */
-    .form__update__submit--off {
+    .form__update__box__button--off {
         cursor: not-allowed;
         opacity: 0.5;
     }
