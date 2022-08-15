@@ -310,6 +310,7 @@ export default {
         // eslint-disable-next-line
       .then( () => {
         this.refreshPost()
+        
       })
       .catch(error => {
         // User not connected
@@ -331,8 +332,9 @@ export default {
         formData.append('content', `${this.content}`)
         this.$http.put(`https://localhost:3001/api/post/${this.ID}`, formData, {})
         .then(() => {
-          this.refreshPosts()
+          this.refreshPost()
           this.picturePost = null
+          this.viewContentFromUpdate()
         })
         .catch(err => console.log(err))
       }
@@ -345,7 +347,7 @@ export default {
 
         .then( () => {
           this.refreshPost()
-          this.viewComment()
+          this.viewContentFromUpdate()
         })
         .catch(error => {
           // User not connected
@@ -353,6 +355,9 @@ export default {
           if (error.response.data.userConnected == 'false') {
               alert("Veuillez vous connecter svp")
               this.$router.push("connect")
+          }
+          else {
+            alert("Erreur lors de l'envoi")
           }
           // ! User not connected
         })
