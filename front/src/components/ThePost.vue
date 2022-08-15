@@ -373,7 +373,7 @@ export default {
     deletePost($event){
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
       .then(() => {
-        $event.target.parentNode.parentNode.parentNode.style.display = "none"
+        $event.target.parentNode.parentNode.style.display = "none"
       })
       .catch(error => {
         // User not connected
@@ -474,8 +474,8 @@ export default {
 
   .header__post__author img {
     border: 1px solid #FD2D01;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
   }

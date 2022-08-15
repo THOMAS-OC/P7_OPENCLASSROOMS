@@ -40,7 +40,6 @@ module.exports = (req, res, next) => {
                             urlImage = urlImage.slice(indexSlash,);
                             let pathImage = path.join(process.cwd(), 'images/post', urlImage)
                             try {
-                                console.log("suppression de l'image");
                                 fs.unlinkSync(pathImage)
                             } catch (error) {
                                 console.log("image introuvable sur le disque");

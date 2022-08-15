@@ -22,12 +22,12 @@
     flex-direction: column;
     justify-content: space-around;
     clip-path: polygon(0 0, 100% 25%, 100% 100%, 0% 100%);
-    box-shadow: 0px 0px 5px black;
+
 }
 
 .footer__img{
     width: 50%;
-    min-width: 90vw
+    width: 500px;
 }
 
 </style>
