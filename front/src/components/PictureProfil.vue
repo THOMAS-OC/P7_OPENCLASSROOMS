@@ -1,5 +1,7 @@
 <template>
 
+
+
     <form class="picture__profil">
 
         <img :src="$store.state.pictureprofil" alt="Photo de profil">
@@ -11,6 +13,7 @@
         <i v-else class="picture__profil__icon fa-solid fa-circle-minus"></i>
 
     </form>
+
     
 </template>
 
@@ -85,6 +88,7 @@ export default {
 
     .picture__profil img {
         object-fit: cover;
+        border-radius: 50%;
         height: 100%;
         width: 100%;
     }
@@ -107,7 +111,7 @@ export default {
         height: 100%;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) scale(0.1);
+        transform: translate(-50%, -50%) scale(1);
         z-index: 1;
         border-radius: 50%;
         font-size: 50px;
@@ -127,6 +131,12 @@ export default {
     .picture__profil:hover img{
         filter:brightness(0.7)
     }
+
+    @media only screen and (max-width : 1000px) {
+        .picture__profil__icon{
+        opacity: 0.5;
+        }
+    } 
 
 </style>
 

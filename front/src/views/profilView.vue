@@ -1,5 +1,5 @@
 <template>
-  <div class="profil">
+  <section class="profil">
 
     <picture-profil></picture-profil>
 
@@ -8,7 +8,7 @@
     <delete-account></delete-account>
 
 
-  </div>
+  </section>
 </template>
 
 <script>
