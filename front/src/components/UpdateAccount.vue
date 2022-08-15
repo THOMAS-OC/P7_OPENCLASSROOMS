@@ -17,7 +17,7 @@
             <input v-on:input="watchPassword" v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
         </div>
 
-        <input class="form__update__submit" type="submit" v-bind:value="action">
+        <input :class="clsSubmitBtn" type="submit" v-bind:value="action">
 
     </form>
     
@@ -34,6 +34,7 @@ export default {
         password : "",
         action : "Modifier mon email",
         authorization : false,
+        clsSubmitBtn : "form__update__submit", 
     }
   },
 
@@ -43,26 +44,22 @@ methods:{
 
         if (this.email.trim() && this.password.trim()){
             this.action = "Modifier mon email et mot de passe"
-            document.querySelector("input[type='submit'").className = "submit-on"
             this.authorization = true
 
         }
 
         else if (this.password.trim()){
             this.action = "Modifier mot de passe"
-            document.querySelector("input[type='submit'").className = "submit-on"
             this.authorization = true
         }
 
         else if (this.email.trim()){
             this.action = "Modifier mon email"
-            document.querySelector("input[type='submit'").className = "submit-on"
             this.authorization = true
         }
 
         else if (!this.email && !this.password){
             this.action = "Modification impossible"
-            document.querySelector("input[type='submit'").className = "submit-off"
             this.authorization = false
         }
 
@@ -73,8 +70,6 @@ methods:{
         if (this.password.match(passwordRegex)){
             this.actionType()
             this.authorization = true
-            document.querySelector("input[type='password'").className = "valid"
-            document.querySelector("input[type='submit'").removeAttribute("disabled")
         }
         else if (!this.password){
             this.actionType()
@@ -83,9 +78,6 @@ methods:{
             this.actionType()
             this.action = "Modification impossible"
             this.authorization = false
-            document.querySelector("input[type='password'").className = "invalid"
-            document.querySelector("input[type='submit'").className = "submit-off"
-            document.querySelector("input[type='submit'").setAttribute("disabled", "")
         }
 
     },
@@ -95,15 +87,11 @@ methods:{
 
         if (this.email.match(emailRegex)){
             if (this.email == this.$store.state.email){
-                document.querySelector("input[type='submit'").className = "submit-off"
-                document.querySelector("input[type='email'").className = "invalid"
                 this.authorization = false
             }
             else {
                 this.actionType()
                 this.authorization = true
-                document.querySelector("input[type='email'").className = "valid"
-                document.querySelector("input[type='submit'").removeAttribute("disabled")
             }
         }
 
@@ -114,9 +102,6 @@ methods:{
             this.actionType()
             this.authorization = false
             this.action = "Modification impossible"
-            document.querySelector("input[type='email'").className = "invalid"
-            document.querySelector("input[type='submit'").className = "submit-off"
-            document.querySelector("input[type='submit'").setAttribute("disabled", "")
         }
     },
 

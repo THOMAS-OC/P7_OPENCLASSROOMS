@@ -74,6 +74,7 @@ export default {
 
   created: function () {
     document.title = "Forum / GROUPOMANIA"
+    document.querySelector('meta[name="description"]').setAttribute("content", "Discuter, partager et échanger de votre vie au sein de Groupomania")
   },
 
   methods:{
@@ -104,6 +105,7 @@ export default {
       this.$http.get("http://localhost:3000/api/post")
       .then(response => {
           this.posts = response.data
+          this.$store.commit('setNbPosts', response.data.length)
       })
       .catch(error => {
         // User not connected
@@ -123,6 +125,7 @@ export default {
         this.$http.get(`http://localhost:3000/api/post/filter/${this.filter}`)
         .then(response => {
             this.posts = response.data
+            this.$store.commit('setNbPosts', response.data.length)
         })
         .catch(error => {
           // User not connected

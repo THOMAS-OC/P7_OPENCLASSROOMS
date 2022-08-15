@@ -12,7 +12,8 @@ export default new Vuex.Store({
     name: "",
     firstName: "",
     email : "",
-    pictureprofil: ''
+    pictureprofil: '',
+    nbPosts : 0
   },
   getters: {
   },
@@ -35,6 +36,9 @@ export default new Vuex.Store({
       state.firstName = "",
       state.email = "",
       state.pictureprofil = ''
+    },
+    setNbPosts(state, nbPosts){
+      state.nbPosts = nbPosts
     }
   },
   actions: {

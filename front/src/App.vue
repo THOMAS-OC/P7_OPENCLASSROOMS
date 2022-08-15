@@ -18,7 +18,7 @@
       <transition name="title">
           <h1 key="connect" v-if="this.$router.history.current.name == 'connect'" >Connexion</h1>
           <h1 key="register" v-else-if="this.$router.history.current.name == 'register'" >Inscription</h1>
-          <h1 key="home" v-else-if="this.$router.history.current.name == 'home'" >Forum</h1>
+          <h1 key="home" v-else-if="this.$router.history.current.name == 'home'" >Forum : <span> {{ $store.state.nbPosts }} publications </span> </h1>
           <h1 key="profil" v-else >Mon profil</h1>
       </transition>
     </section>
@@ -89,6 +89,11 @@ export default ({
   border: 2px solid white;
   border-left: none;
   min-width: 350px;
+}
+
+.title__page__nbposts{
+  font-size: 14px;
+  font-style: italic;
 }
 
 .title__page h1 {
