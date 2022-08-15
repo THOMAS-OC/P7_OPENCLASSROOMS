@@ -28,7 +28,7 @@ export default {
   // Modification de balise title  
   mounted: function () {
     document.title = "Mon profil / GROUPOMANIA"
-    this.$http.get("https://localhost:3001/api/auth/checkconnect")
+    this.$http.get("http://localhost:3000/api/auth/checkconnect")
     .catch(err => {
         console.log(err);
         alert('Veuillez vous connecter svp.')

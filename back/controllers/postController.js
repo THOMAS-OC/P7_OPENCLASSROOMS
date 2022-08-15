@@ -21,7 +21,7 @@ const createPost = (req, res) => {
     }
 
     else{
-        let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
+        let fullPath = "http://localhost:3000/images/post/" + req.body.pathImage
         let userId = req.body.userId
         let title = req.body.title
         let content = req.body.content
@@ -315,7 +315,7 @@ const updatePost = (req, res) => {
 
     // UPDATE WITH PICTURE
     else {
-        let fullPath = "https://localhost:3001/images/post/" + req.body.pathImage
+        let fullPath = "http://localhost:3000/images/post/" + req.body.pathImage
         connection.query(
             `UPDATE posts SET title = ?, content = ?, picture = ? WHERE posts.ID = ?`,
             [newTitle, newContent, fullPath, postId],

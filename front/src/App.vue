@@ -29,7 +29,7 @@
 
     <the-footer></the-footer>
 
-    <button v-on:click="scrollToTop" class="scrollToTop">
+    <button aria-label="Bouton de remontage" v-on:click="scrollToTop" class="scrollToTop">
       <i class="fa-solid fa-arrow-up"></i>
     </button>
   </div>
@@ -81,7 +81,7 @@ export default ({
 .title__page{
   width: 40vw;
   height: 70px;
-  background-color: #4e5166bb;
+  background-color: #ff431dbb;
   color: white;
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   margin: 50px auto;
@@ -183,8 +183,6 @@ textarea{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   overflow-x: hidden;
-
 }
-
 
 </style>

@@ -122,7 +122,7 @@ methods:{
 
     updateUser(){
         if (this.authorization){
-            this.$http.put("https://localhost:3001/api/user", {
+            this.$http.put("http://localhost:3000/api/user", {
                 newEmail : this.email,
                 newPassword : this.password,
             })

@@ -330,7 +330,7 @@ export default {
         formData.append('picturePost', this.picturePost)
         formData.append('title', `${this.title}`)
         formData.append('content', `${this.content}`)
-        this.$http.put(`https://localhost:3001/api/post/${this.ID}`, formData, {})
+        this.$http.put(`http://localhost:3000/api/post/${this.ID}`, formData, {})
         .then(() => {
           this.refreshPost()
           this.picturePost = null
@@ -424,8 +424,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
   .ThePost{
+    border: 5px solid white;
     opacity: 1;
     transition-duration: 0.5s;
     position: relative;

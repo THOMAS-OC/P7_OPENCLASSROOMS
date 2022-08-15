@@ -2,9 +2,9 @@
 
     <nav>
       
-      <router-link to="/home"><i class="fa-solid fa-comments"> </i></router-link>
-      <router-link to="/profil"><i class="fa-solid fa-user"></i></router-link>
-      <router-link @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
+      <router-link aria-label="Lien forum" to="/home"><i class="fa-solid fa-comments"> </i></router-link>
+      <router-link aria-label="Lien vers mon profil" to="/profil"><i class="fa-solid fa-user"></i></router-link>
+      <router-link aria-label="Deconnexion" @click.native.capture="disconnect()" to=""><i class="fa-solid fa-right-from-bracket"></i></router-link>
       <!-- <button v-on:click="test()">test</button> -->
     </nav>
 
@@ -18,7 +18,7 @@ export default {
   methods:{
 
     disconnect(){
-      this.$http.get("https://localhost:3001/api/auth/logout") // Suppression du cookie d'authentification
+      this.$http.get("http://localhost:3000/api/auth/logout") // Suppression du cookie d'authentification
       .then(res => {
         console.log(res);
         window.localStorage.clear() // Vidage de vueX
@@ -39,10 +39,9 @@ export default {
 /* nav user */
 
   nav{
+    background-color: #ff441fcd;
     display: flex;
-    margin: 50px auto 0px auto;
-    width: 1400px;
-    max-width: 95vw;
+    width: 100vw;
     border-bottom: 2px solid white;
     font-size: 50px;
     justify-content: space-around;
@@ -58,7 +57,7 @@ export default {
   }
 
   nav a {
-    color: #ff5b3b;
+    color: white;
     text-shadow: 0px 0px 10px white;
     text-decoration: none;
     height: 100%;
@@ -66,9 +65,11 @@ export default {
     width: 50%;
     text-align: center;
     cursor: pointer;
+    transition-duration: 0.5s;
   }
 
   nav a:hover{
+    font-size: 60px;
     color: white;
   }
 
@@ -78,7 +79,7 @@ export default {
     line-height: 100px;
     color: white;
     text-shadow: 0px 0px 10px #FFD7D7;
-    border-bottom: 2px solid rgb(255, 255, 255);
+    border-bottom: 5px solid #ffffff;
   }
   
 /* FIN nav user */

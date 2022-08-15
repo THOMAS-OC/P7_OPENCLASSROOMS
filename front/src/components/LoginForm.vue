@@ -10,7 +10,7 @@
           </div>
 
           <div class="form__connect__box">
-            <label class="form__connect__label" for="password">Mot de passe</label>
+            <label class="form__connect__label" for="password">password</label>
             <input class="form__connect__password" v-on:input="checkPassword" v-on:keyup="checkPassword" placeholder="Password" type="password" name="" id="password" v-model="password">
           </div>
 
@@ -44,7 +44,7 @@ export default {
 
       if (this.email.match(emailRegex)){
 
-        this.$http.post("https://localhost:3001/api/auth/checkemail", {
+        this.$http.post("http://localhost:3000/api/auth/checkemail", {
           email : this.email
         })
         .then(res => {
@@ -94,7 +94,7 @@ export default {
     connect(){
 
       if (this.email && this.password){
-            this.$http.post("https://localhost:3001/api/auth/login", {
+            this.$http.post("http://localhost:3000/api/auth/login", {
               password : this.password,
               email : this.email
       })

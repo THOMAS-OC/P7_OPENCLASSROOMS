@@ -62,7 +62,7 @@ export default {
   },
 
   mounted(){
-    this.$http.get("https://localhost:3001/api/auth/checkconnect")
+    this.$http.get("http://localhost:3000/api/auth/checkconnect")
     .then(()=>this.refreshPosts())
     .catch(err => {
         console.log(err);
@@ -101,7 +101,7 @@ export default {
 
     refreshPosts(){
       // this.posts = []
-      this.$http.get("https://localhost:3001/api/post")
+      this.$http.get("http://localhost:3000/api/post")
       .then(response => {
           this.posts = response.data
       })
@@ -120,7 +120,7 @@ export default {
       if (this.filter) {
         this.posts = []
         // this.posts = []
-        this.$http.get(`https://localhost:3001/api/post/filter/${this.filter}`)
+        this.$http.get(`http://localhost:3000/api/post/filter/${this.filter}`)
         .then(response => {
             this.posts = response.data
         })
@@ -153,7 +153,7 @@ export default {
             formData.append('picturePost', this.picturePost)
             formData.append('title', `${this.title.trim()}`)
             formData.append('content', `${this.content.trim()}`)
-            this.$http.post(`https://localhost:3001/api/post/`, formData, {})
+            this.$http.post(`http://localhost:3000/api/post/`, formData, {})
             .then(() => {
               this.refreshPosts()
               this.picturePost = null
@@ -165,7 +165,7 @@ export default {
 
         // REQUETE POST WITHOUT PICTURE
         else {
-          this.$http.post("https://localhost:3001/api/post/", {
+          this.$http.post("http://localhost:3000/api/post/", {
             title : this.title,
             content : this.content,
           })

@@ -17,7 +17,7 @@ export default {
 
   created: function () {
     document.title = "Inscription / GROUPOMANIA";
-    this.$http.get("https://localhost:3001/api/auth/checkconnect")
+    this.$http.get("http://localhost:3000/api/auth/checkconnect")
     .then(() => {
       this.$router.push("home")
     })

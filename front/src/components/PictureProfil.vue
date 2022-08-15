@@ -25,7 +25,7 @@ export default {
   data(){
     return {
         pictureProfil: null,
-        currentPictureProfil : this.$store.state.pictureprofil.slice(30,)
+        currentPictureProfil : this.$store.state.pictureprofil.slice(29,)
     }
   },
 
@@ -47,7 +47,7 @@ export default {
     updatePictureProfil(){
         const formData = new FormData()
         formData.append('ProfilPicture', this.pictureProfil)
-        this.$http.post(`https://localhost:3001/api/user/${this.$store.state.id}`, formData, {})
+        this.$http.post(`http://localhost:3000/api/user/${this.$store.state.id}`, formData, {})
         .then((response) => {
             this.$store.commit('setPictureProfil', {pictureprofil:response.data.pictureProfil})
             this.currentPictureProfil = response.data.pictureProfil
@@ -57,9 +57,9 @@ export default {
     },
 
     deletePictureProfil(){
-        this.$http.delete(`https://localhost:3001/api/user/pictureprofil`)
+        this.$http.delete(`http://localhost:3000/api/user/pictureprofil`)
         .then(() => {
-            this.$store.commit('setPictureProfil', {pictureprofil:"https://localhost:3001/images/profil_vierge.jpg"})
+            this.$store.commit('setPictureProfil', {pictureprofil:"http://localhost:3000/images/profil_vierge.jpg"})
             this.currentPictureProfil = "profil_vierge.jpg"
             this.pictureProfil = null
             window.location.reload()

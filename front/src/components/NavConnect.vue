@@ -17,9 +17,7 @@
 
   nav{
     display: flex;
-    margin: 50px auto 0px auto;
-    width: 800px;
-    max-width: 90vw;
+    width: 100vw;
     background-color: #a9a9a9a5;
     border: 2px solid white;
     font-size: 30px;
@@ -28,7 +26,6 @@
     justify-content: space-around;
     height: 100px;
     align-items: center;
-    max-width: 95vw;
     overflow: hidden;
   }
 

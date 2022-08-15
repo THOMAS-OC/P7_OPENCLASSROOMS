@@ -108,7 +108,7 @@ data(){
 
         if (this.email.match(emailRegex)){
             console.log("on test dans la bdd");
-            this.$http.post("https://localhost:3001/api/auth/checkemail", {
+            this.$http.post("http://localhost:3000/api/auth/checkemail", {
               email : this.email
             })
             .then(res => {
@@ -147,7 +147,7 @@ data(){
     register(){
 
       if (this.nameValid && this.firstNameValid && this.emailValid && this.passwordValid){
-        this.$http.post("https://localhost:3001/api/auth/signup", {
+        this.$http.post("http://localhost:3000/api/auth/signup", {
             email : this.email,
             password : this.password,
             name: this.name,
@@ -161,7 +161,7 @@ data(){
           // Connexion automatique
           else {
 
-              this.$http.post("https://localhost:3001/api/auth/login", {
+              this.$http.post("http://localhost:3000/api/auth/login", {
                 password : this.password,
                 email : this.email
               })

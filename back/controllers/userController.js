@@ -127,7 +127,7 @@ const addProfilPicture = (req, res) => {
 
     if (authorizationFile.includes(req.body.extensionFile)){
 
-        let fullPath = "https://localhost:3001/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
+        let fullPath = "http://localhost:3000/images/" + req.body.nameImage + req.body.userId + "." + req.body.extensionFile
     
         connection.query(
             `UPDATE users SET pictureprofil = ? WHERE users.ID = ?`,
@@ -154,7 +154,7 @@ const addProfilPicture = (req, res) => {
 
 const delProfilPicture = (req, res) => {
 
-    let fullPath = "https://localhost:3001/images/profil_vierge.jpg"
+    let fullPath = "http://localhost:3000/images/profil_vierge.jpg"
     
     connection.query(
         `UPDATE users SET pictureprofil = ? WHERE users.ID = ?`,
