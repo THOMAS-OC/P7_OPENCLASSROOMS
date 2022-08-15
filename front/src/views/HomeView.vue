@@ -239,6 +239,7 @@ export default {
   .form__filter__input{
     padding: 5px;
     width: 400px;
+    max-width: 95vw;
     height: 50px;
     border-radius: 30px;
     background-color: #ffffff97;
@@ -301,6 +302,7 @@ export default {
   .form__post{
     width: 500px;
     height: 600px;
+    max-width: 95vw;
     background-color: #fff;
     margin: 50px auto;
     border-radius: 15px;
@@ -376,7 +378,7 @@ export default {
   }
 
   .form__post__content{
-    height: 70%;
+    height: 60%;
     width: 100%;
     resize: none;
   }

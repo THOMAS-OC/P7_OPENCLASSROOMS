@@ -42,7 +42,7 @@ export default {
     display: flex;
     margin: 50px auto 0px auto;
     width: 1400px;
-    max-width: 90vw;
+    max-width: 95vw;
     border-bottom: 2px solid white;
     font-size: 50px;
     justify-content: space-around;

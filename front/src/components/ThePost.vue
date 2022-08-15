@@ -431,7 +431,7 @@ export default {
     position: relative;
     margin: 50px auto;
     height: 700px;
-    max-width: 90vw;
+    max-width: 95vw;
     width: 900px;
     border-radius: 15px;
     background-color: rgba(240, 248, 255, 0.768);
@@ -790,5 +790,11 @@ export default {
     display: none;
     transform: translateY(-100px);
   }
+
+  @media only screen and (max-width : 1000px) {
+    .ThePost{
+      height: 600px;
+    }
+  } 
 
 </style>

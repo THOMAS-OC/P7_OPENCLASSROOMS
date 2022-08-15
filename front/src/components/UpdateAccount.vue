@@ -164,7 +164,7 @@ methods:{
         align-items: center;
         border-radius: 15px;
         justify-content: center;
-        max-width: 90vw;
+        max-width: 95vw;
         position: relative;
         overflow: hidden;
     }
@@ -204,7 +204,6 @@ methods:{
     .form__update__submit{
         font-weight: bold;
         font-style: italic;
-        font-size: 20px;
         cursor: pointer;
         background: rgb(253,45,1);
         background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
@@ -251,6 +250,13 @@ methods:{
         cursor: not-allowed;
         background-color: rgb(255, 141, 141);
     }
+
+    @media only screen and (max-width : 500px) {
+    .form__update__submit{
+        font-size: 13px;
+        width: 90%;
+     }
+  } 
 
 </style>
 
