@@ -39,7 +39,10 @@ export default new Vuex.Store({
     },
     setNbPosts(state, nbPosts){
       state.nbPosts = nbPosts
-    }
+    },
+    decrementNbposts(state){
+      state.nbPosts = state.nbPosts - 1
+    },
   },
   actions: {
   },

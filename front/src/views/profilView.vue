@@ -28,7 +28,7 @@ export default {
   // Modification de balise title  
   mounted: function () {
     document.title = "Mon profil / GROUPOMANIA"
-    document.querySelector('meta[name="description"]').setAttribute("Personnalisez votre profil et vos identifiants de connexion Groupomania.")
+    document.querySelector('meta[name="description"]').setAttribute("content", "Personnalisez votre profil et vos identifiants de connexion Groupomania.")
 
     this.$http.get("http://localhost:3000/api/auth/checkconnect")
     .catch(err => {

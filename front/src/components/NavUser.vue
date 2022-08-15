@@ -39,7 +39,7 @@ export default {
 /* nav user */
 
   nav{
-    background-color: #ff441fcd;
+    background-color: #4E5166;
     display: flex;
     width: 100vw;
     border-bottom: 2px solid white;

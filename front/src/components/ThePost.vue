@@ -374,6 +374,7 @@ export default {
       this.$http.delete("http://localhost:3000/api/post/" + this.postId)
       .then(() => {
         $event.target.parentNode.parentNode.style.display = "none"
+        this.$store.commit('decrementNbposts')
       })
       .catch(error => {
         // User not connected
@@ -773,6 +774,10 @@ export default {
     font-size: 30px;
     background: rgb(255,215,215);
     background: linear-gradient(4deg, rgba(255,215,215,1) 0%, rgba(255,255,255,1) 100%); 
+  }
+
+  article footer button:last-child{
+    border: none;
   }
 
   article footer button:hover{

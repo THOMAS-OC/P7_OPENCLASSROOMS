@@ -1,6 +1,6 @@
 <template>
 
-    <form class="form__update" v-on:submit.prevent="updateUser">
+    <form class="form__update" v-on:submit.prevent>
 
         <div class="form__update__info">
             <h2>{{ $store.state.firstName }} {{ $store.state.name }}</h2>
@@ -8,17 +8,22 @@
         </div>
         
         <div>
-            <label for="email">Email</label>
+            <label v-if="emailValid" for="email">Email : OK </label>
+            <label v-else for="email">Email</label>
             <input v-on:input="watchEmail" v-on:keyup="watchEmail" v-bind:placeholder="$store.state.email" type="email" name="email" id="email" v-model="email">
         </div>
 
+        <input v-on:click="updateUser" v-if="this.emailValid && !this.passwordValid" :class="clsSubmitBtn" type="submit" value="update Email">
+
         <div>
-            <label for="password">Mot de passe <br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
+            <label v-if="passwordValid" for="password">Password : OK </label>
+            <label v-else for="password">Password<br> <span> 8 caractères minimum, une majuscule, et un chiffre sont requis pour ce champs </span> </label>
             <input v-on:input="watchPassword" v-on:keyup="watchPassword" type="password" name="password" id="password" v-model="password">
         </div>
 
-        <input :class="clsSubmitBtn" type="submit" v-bind:value="action">
+        <input v-on:click="updateUser" v-if="this.passwordValid && !this.emailValid" :class="clsSubmitBtn" type="submit" value="update Password">
 
+        <input v-on:click="updateUser" v-if="this.passwordValid && this.emailValid" :class="clsSubmitBtn" type="submit" value="update Password and email">
     </form>
     
 </template>
@@ -32,9 +37,10 @@ export default {
     return {
         email : "",
         password : "",
-        action : "Modifier mon email",
         authorization : false,
-        clsSubmitBtn : "form__update__submit", 
+        emailValid : false,
+        passwordValid : false,
+        clsSubmitBtn : "form__update__submit form__update__submit--off", 
     }
   },
 
@@ -42,24 +48,23 @@ methods:{
 
     actionType(){
 
-        if (this.email.trim() && this.password.trim()){
-            this.action = "Modifier mon email et mot de passe"
-            this.authorization = true
-
-        }
-
-        else if (this.password.trim()){
-            this.action = "Modifier mot de passe"
+        if (this.emailValid && this.passwordValid){
+            this.clsSubmitBtn = "form__update__submit"
             this.authorization = true
         }
 
-        else if (this.email.trim()){
-            this.action = "Modifier mon email"
+        else if (this.passwordValid){
+            this.clsSubmitBtn = "form__update__submit"
             this.authorization = true
         }
 
-        else if (!this.email && !this.password){
-            this.action = "Modification impossible"
+        else if (this.emailValid){
+            this.clsSubmitBtn = "form__update__submit"
+            this.authorization = true
+        }
+
+        else if (!this.emailValid && !this.passwordValid){
+            this.clsSubmitBtn = "form__update__submit form__update__submit--off"
             this.authorization = false
         }
 
@@ -68,17 +73,14 @@ methods:{
     watchPassword(){
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
         if (this.password.match(passwordRegex)){
-            this.actionType()
-            this.authorization = true
-        }
-        else if (!this.password){
+            this.passwordValid = true
             this.actionType()
         }
         else {
+            this.passwordValid = false
             this.actionType()
-            this.action = "Modification impossible"
-            this.authorization = false
         }
+
 
     },
 
@@ -87,40 +89,44 @@ methods:{
 
         if (this.email.match(emailRegex)){
             if (this.email == this.$store.state.email){
-                this.authorization = false
+                this.emailValid = false
+                this.actionType()
             }
             else {
+                this.emailValid = true
                 this.actionType()
-                this.authorization = true
             }
         }
 
-        else if (!this.email){
+        else{
+            this.emailValid = false
             this.actionType()
         }
-        else {
-            this.actionType()
-            this.authorization = false
-            this.action = "Modification impossible"
-        }
+
     },
 
     updateUser(){
         if (this.authorization){
             this.$http.put("http://localhost:3000/api/user", {
-                newEmail : this.email,
-                newPassword : this.password,
+                newEmail : this.emailValid ? this.email : "",
+                newPassword : this.passwordValid ? this.password : "",
             })
             .then(response => {
                 alert(response.data.message);
                 this.$store.commit('setUser', {email:this.email})
-
+                this.email = ""
+                this.password = ""
+                this.emailValid = false
+                this.passwordValid = false
             })
             .catch(error => {
                 // User not connected
                  if (error.response.data.userConnected == 'false') {
                     alert("Veuillez vous connecter svp")
                     this.$router.push("connect")
+                }
+                else {
+                    console.log(error);
                 }
                 // ! User not connected
             })
@@ -193,17 +199,14 @@ methods:{
         background: rgb(253,45,1);
         background: linear-gradient(90deg, rgba(253,45,1,1) 0%, rgba(253,82,1,1) 100%); 
         transition-duration: 1s;
-        transform: translateX(-50%);
         border: none;
-        width: 80%;
+        width: 70%;
         height: 60px;
-        position: absolute;
-        bottom: 5%;
-        left: 50%;
+        margin-top: 30px;
         color: white;
         text-shadow: 0px 0px 3px white;
         font-size: 25px;
-        letter-spacing: 10px;
+        letter-spacing: 7px;
         box-shadow: 0px -3px 3px rgb(123, 123, 123);
     }
 
@@ -231,9 +234,9 @@ methods:{
         background-color: rgb(93, 255, 93);
     }
     /* submit no valid */
-    .submit-off {
+    .form__update__submit--off {
         cursor: not-allowed;
-        background-color: rgb(255, 141, 141);
+        opacity: 0.5;
     }
 
     @media only screen and (max-width : 500px) {

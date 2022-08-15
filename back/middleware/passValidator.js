@@ -15,8 +15,6 @@ passwordSchema
 
 module.exports = (req, res, next) => {
 
-    console.log(req.method);
-
     let password = req.body.password || req.body.newPassword
 
     if (passwordSchema.validate(password)){

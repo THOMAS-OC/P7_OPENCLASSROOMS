@@ -198,7 +198,7 @@ export default {
   },
 
 
-    viewForm(){
+  viewForm(){
       // HIDE
       if (this.classForm == "form__post formVisible"){
         this.hideForm()
@@ -208,12 +208,12 @@ export default {
         this.classForm = "form__post formVisible"
         this.postList = "post__list post__list--replace"
       }
-    },
+  },
 
-    hideForm(){
+  hideForm(){
       this.classForm = "form__post form__post--hide"
       this.postList = "post__list"
-    }
+  }
 
   }
 
