@@ -67,19 +67,21 @@ const loginUser = (req, res) => {
                     pictureprofil: results[0]["pictureprofil"],
                 };
 
-                const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '5400s'})
                 
-                const userInDb = results[0]
-                bcrypt.compare(req.body.password, userInDb.password)
+                bcrypt.compare(req.body.password, results[0]["password"])
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({message: 'Paire login/mot de passe incorrecte'});
                     }
-                    res.cookie("auth", authToken, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === "production",
-                    })
-                    res.status(200).json({user:user});
+                    
+                    else {
+                        const authToken = jwt.sign(user, process.env.KEYJWT, {expiresIn: '5400s'})
+                        res.cookie("auth", authToken, {
+                            httpOnly: true,
+                            secure: process.env.NODE_ENV === "production",
+                        })
+                        res.status(200).json({user:user});
+                    }
                 })
 
             }

@@ -1,11 +1,10 @@
-.env
-.zip
+
+*.zip
 back/node_modules
-back/.env
+
 back/images
 
 front/node_modules
-front/.env
 routes.xlsx
 *.xlsx
 identifiants_admin.txt

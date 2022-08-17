@@ -55,8 +55,12 @@ const like = (req, res) => {
         [postId, userId],
         function(err, results, fields) {
 
+            if (err){
+                res.status(500).json(err)
+            }
+
             // SI LE LIKE EXISTE ET EST DEJA PRESENT ON LE SUPPRIME SIMPLEMENT
-            if (results[0]){
+            else if (results[0]){
                 connection.query(
                     // Suppression du like
                     "DELETE FROM likes WHERE likes.post_id = ? AND likes.user_id = ?",
@@ -65,7 +69,9 @@ const like = (req, res) => {
                         if(err){
                             res.status(500).json(err)
                         }
-                        res.status(201).json(results)
+                        else {
+                            res.status(201).json(results)
+                        }
                     }
                 );
             }
@@ -80,7 +86,9 @@ const like = (req, res) => {
                         if(err){
                             res.status(500).json(err)
                         }
-                        res.status(201).json(results)
+                        else {
+                            res.status(201).json(results)
+                        }
                     }
                 );
             }
@@ -289,8 +297,12 @@ const updatePost = (req, res) => {
             "SELECT * FROM posts WHERE ID= ?",
             [postId],
             function(err, results, fields) {
+
+                if (err){
+                    res.status(500).json(err)
+                }
     
-                if (!results[0]){
+                else if (!results[0]){
                     res.status(404).json({message: "Post introuvable"})
                 }
     
@@ -317,12 +329,35 @@ const updatePost = (req, res) => {
     else {
         let fullPath = "http://localhost:3000/images/post/" + req.body.pathImage
         connection.query(
-            `UPDATE posts SET title = ?, content = ?, picture = ? WHERE posts.ID = ?`,
-            [newTitle, newContent, fullPath, postId],
+            "SELECT * FROM posts WHERE ID= ?",
+            [postId],
             function(err, results, fields) {
-                res.json(results)
+
+                if (err){
+                    res.status(500).json(err)
+                }
+    
+                else if (!results[0]){
+                    res.status(404).json({message: "Post introuvable"})
+                }
+    
+                else {
+                    if (results[0]["user_id"] == req.body.userId || req.body.admin == 1){
+                        connection.query(
+                            `UPDATE posts SET title = ?, content = ?, picture = ? WHERE posts.ID = ?`,
+                            [newTitle, newContent, fullPath, postId],
+                            function(err, results, fields) {
+                                res.json(results)
+                            }
+                        );
+                    }
+                    else {
+                        res.status(401).json({message: "Modification non autorisée"})
+                    }
+                }
             }
         );
+
     }
    
 }

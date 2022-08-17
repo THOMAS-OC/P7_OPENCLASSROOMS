@@ -35,7 +35,8 @@ const upload = multer(
 );
 
 // CREATE A POST
-router.post('/', upload.single('picturePost'), auth, createPostLimiter, postValidator, controller.createPost)
+// router.post('/', upload.single('picturePost'), auth, createPostLimiter, postValidator, controller.createPost)
+router.post('/', upload.single('picturePost'), auth, postValidator, controller.createPost)
 
 // LIKE SYSTEM
 router.post('/like', auth, controller.like)

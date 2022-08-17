@@ -22,13 +22,10 @@
 
 
         <div :class="clsSubmitBtn">
-
             <input v-on:click="updateUser" v-if="this.emailValid && !this.passwordValid" class="form__update__box__item" type="submit" value="update Email">
             <input v-on:click="updateUser" v-if="this.passwordValid && !this.emailValid" class="form__update__box__item" type="submit" value="update Password">
             <input v-on:click="updateUser" v-if="this.passwordValid && this.emailValid" class="form__update__box__item" type="submit" value="update Password and email">
-
         </div>
-
 
     </form>
     

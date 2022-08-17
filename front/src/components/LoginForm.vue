@@ -90,7 +90,6 @@ export default {
       }
     },
 
-
     connect(){
 
       if (this.email && this.password){
@@ -100,6 +99,7 @@ export default {
       })
 
       .then(response => {
+        
             this.$store.commit('setUser', {id: response.data.user.id, admin: response.data.user.admin, name:response.data.user.name, firstName:response.data.user.firstname, email:this.email, pictureprofil:response.data.user.pictureprofil})
             this.$router.push("home")
       })

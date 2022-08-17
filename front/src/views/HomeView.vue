@@ -63,13 +63,11 @@ export default {
 
   mounted(){
     this.$http.get("http://localhost:3000/api/auth/checkconnect")
-    .then(()=>this.refreshPosts())
-    .catch(err => {
-        console.log(err);
+    .then( () => this.refreshPosts() )
+    .catch(() => {
         alert('Veuillez vous connecter svp.')
         this.$router.push('connect')
     })
-    
   },
 
   created: function () {

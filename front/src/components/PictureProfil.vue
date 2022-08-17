@@ -1,7 +1,5 @@
 <template>
 
-
-
     <form class="picture__profil">
 
         <img :src="$store.state.pictureprofil" alt="Photo de profil">
@@ -13,7 +11,6 @@
         <i v-else class="picture__profil__icon fa-solid fa-circle-minus"></i>
 
     </form>
-
     
 </template>
 

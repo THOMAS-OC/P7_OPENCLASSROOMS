@@ -392,21 +392,14 @@ export default {
       this.$http.post("http://localhost:3000/api/post/like", {
           postId : this.ID,
       })
-      .then( () => {
-        this.refreshPost()
-      })
+      .then( () => this.refreshPost() )
       .catch(error => {
         // User not connected
           if (error.response.data.userConnected == 'false') {
               alert("Veuillez vous connecter svp")
               this.$router.push("connect")
           }
-          else {
-            console.log(error);
-          }
-          // ! User not connected
         })
-
     },
 
     onChange(event) {
@@ -571,7 +564,7 @@ export default {
     padding: 5px;
     border-radius: 15px;
     outline: none;
-    border: none;
+    border: 2px solid #4E5166;
   }
 
   /* END FOOTER POST */

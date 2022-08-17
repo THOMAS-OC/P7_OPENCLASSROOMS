@@ -18,12 +18,11 @@ const AccountLimiter = rateLimit({
 
 // CREATE ACCOUNT
 
-// router.post('/signup', passValidator, AccountLimiter, controller.createUser)
-
 router.post('/signup', passValidator, registerValidator, controller.createUser)
 
 // CONNECT *
-router.post('/login', AccountLimiter, mailValidator, controller.loginUser)
+// router.post('/login', AccountLimiter passValidator, mailValidator, controller.loginUser)
+router.post('/login', passValidator, mailValidator, controller.loginUser)
 
 // READ
 router.post('/checkemail', controller.checkEmail)

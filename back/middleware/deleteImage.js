@@ -48,7 +48,7 @@ module.exports = (req, res, next) => {
                         next()
                     }
                     else {
-                        res.status(401).json({message: "Suppression non autorisée"})
+                        res.status(401).json({message: "Suppression/modification non autorisée"})
                     }
                 }
     
